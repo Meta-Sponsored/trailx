@@ -10,10 +10,12 @@ import {
     Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid
 } from './pages';
 
-import './App.css'
+import { useStateContext } from './contexts/ContextProvider';
+
+import './App.css';
 
 const App = () => {
-    const activeMenu = true;
+    const { activeMenu } = useStateContext();
     return (
         <div>
             <BrowserRouter>

@@ -1,13 +1,30 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+
+// Import icons.
 import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
+// Import the content on the sidebar, 
+// including titles and components' or pages' names and icons.
 import { links } from '../data/dummy';
 
+// Import the current states.
+import { useStateContext } from '../contexts/ContextProvider';
+
 const Sidebar = () => {
-    const activeMenu = true;
+    const { activeMenu, setActiveMenu, screenSize } = useStateContext();
+
+    // Imagine you are on a small screen and have just opened the sidebar. 
+    // This function allows you to close the sidebar when you click on the logo or 
+    // item on the sidebar (such as the employee button).
+    const handleCloseSideBar = () => {
+        if (activeMenu && screenSize <= 900) {
+            setActiveMenu(false);
+        }
+    }
+
     const activeLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 m-2 \
     rounded-lg text-white text-md';
     const normalLink = 'flex items-center gap-5 pl-4 pt-3 pb-2.5 m-2 \
@@ -22,7 +39,7 @@ const Sidebar = () => {
                 {/* To implement the logo and cancel button. */}
                 <div className='flex justify-between items-center'>
                     {/* Logo & Brand Name */}
-                    <Link to='/' onClick={() => { }}
+                    <Link to='/' onClick={handleCloseSideBar}
                         className='flex items-center gap-3 ml-3 mt-4 
                     text-xl font-extrabold tracking-tight
                     dark:text-white text-slate-900'>
@@ -30,7 +47,12 @@ const Sidebar = () => {
                     </Link>
                     {/* Cancel Button */}
                     <TooltipComponent content="Menu" position="BottomCenter">
-                        <button type='button' onClick={() => { }}
+                        <button type='button'
+                            onClick={() => {
+                                setActiveMenu(
+                                    (prevActiveMenu) =>
+                                        (!prevActiveMenu))
+                            }}
                             className='text-xl rounded-full p-3 mt-4 
                         hover:bg-light-gray block md:hidden'>
                             <MdOutlineCancel />
@@ -51,7 +73,7 @@ const Sidebar = () => {
                                 <NavLink
                                     to={`/${link.name}`}
                                     key={link.name}
-                                    onClick={() => { }}
+                                    onClick={handleCloseSideBar}
                                     className={({ isActive }) =>
                                         isActive ? activeLink : normalLink}
                                 >
