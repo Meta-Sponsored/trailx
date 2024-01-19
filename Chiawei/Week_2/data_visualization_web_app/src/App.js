@@ -28,7 +28,7 @@ const App = () => {
                                 className='text-3xl p-3 hover:drop-shadow-xl
                             hover:bg-light-gray text-white'
                                 style={{
-                                    background: 'blue',
+                                    background: '#30CEDB',
                                     borderRadius: '50%'
                                 }}>
                                 <FiSettings />

@@ -7,7 +7,7 @@ import { BsChatLeft } from 'react-icons/bs';
 import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
-import avatar from '../data/avatar.jpg';
+import avatar from '../data/chiawei.png';
 
 // Import components.
 import { Cart, Chat, Notification, UserProfile } from '.';
@@ -59,28 +59,28 @@ const Navbar = () => {
             {/* To render a menu button. */}
             <NavButton title='Menu'
                 customFunc={() => setActiveMenu((prevActiveMenu) => !prevActiveMenu)}
-                color='blue'
+                color='#30CEDB'
                 icon={<AiOutlineMenu />}
             />
             <div className='flex'>
                 {/* To render a cart button. */}
                 <NavButton title='Cart'
                     customFunc={() => handleClick('cart')}
-                    color='blue'
+                    color='#30CEDB'
                     icon={<FiShoppingCart />}
                 />
                 {/* To render a chat button. */}
                 <NavButton title='Chat'
                     dotColor="#03C9D7"
                     customFunc={() => handleClick('chat')}
-                    color='blue'
+                    color='#30CEDB'
                     icon={<BsChatLeft />}
                 />
                 {/* To render a notification button. */}
                 <NavButton title='Notifications'
                     dotColor="#03C9D7"
                     customFunc={() => handleClick('notification')}
-                    color='blue'
+                    color='#30CEDB'
                     icon={<RiNotification3Line />}
                 />
                 {/* To render a profile button. */}
@@ -94,10 +94,10 @@ const Navbar = () => {
                             src={avatar}
                         />
                         <p>
-                            <span className='text-gray-400 text-14'>Hi, </span> {' '}
-                            <span className='ml-1 text-gray-400 font-bold text-14'>Michael</span>
+                            <span className='text-gray-500 text-14'>Hi, </span> {' '}
+                            <span className='ml-1 text-gray-500 font-bold text-14'>Chia-Wei</span>
                         </p>
-                        <MdKeyboardArrowDown className='text-gray-400 text-14' />
+                        <MdKeyboardArrowDown className='text-gray-500 text-14' />
                     </div>
                 </TooltipComponent>
                 {/* To render the corresponding component when the user clicks the button. */}
