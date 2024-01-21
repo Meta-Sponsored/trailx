@@ -78,7 +78,7 @@ With this program, we use Nvidia Jetson as an edge device. It will determine the
 
   `pip3 install numpy==1.19.4`
 
-### Executing program
+### 3. Executing program
 
 1. Don’t forget to plug in the USB camera before executing the procedure.
 
@@ -86,13 +86,13 @@ With this program, we use Nvidia Jetson as an edge device. It will determine the
 
     `python3 trailx.py` or `sudo python3 trailx.py`
 
-### Screen recording on Jetson Nano
+### 4. Screen recording on Jetson Nano
 
 Please enter the script in the terminal if you need to screen record. Note that you need to change FILE_LOCATION to the path where the file you want to be stored:
 
 `gst-launch-1.0 ximagesrc use-damage=0 ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM),format=NV12' ! nvv4l2h264enc ! h264parse ! matroskamux ! filesink location="FILE_LOCATION"`
 
-### A collection of other tutorials worth learning
+### 5. A collection of other tutorials worth learning
 
 - Object Detection & Tracking
 
