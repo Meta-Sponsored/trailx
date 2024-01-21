@@ -8,10 +8,8 @@ In a collaborative effort to enhance the [Eastrail](https://eastrail.org/) exper
 
 - Real-Time Object/User Detection: Successfully implemented on Nvidia Jetson, our system features advanced motion trackers and counters, capable of identifying and counting different trail users such as dog walkers, cyclists, and pedestrians. We've also developed robust speed detection algorithms to enhance safety and user experience.
 - Research-Driven Approach: Our development strategy is informed by comprehensive research, including 19 user interviews, the analysis of 1145 survey responses, and consultations with 2 experts. This thorough approach ensures that our solutions are well-aligned with user needs and expectations. To learn more, please view my work on the First Milestone [Presentation](https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65a5b8027eb7ced1f2106267_Milestone%201%20-%20Presentation.pdf) or [Full Secondary Research Report](https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65a5b77d459da80d6e6dc68e_Milestone%201%20-%20Secondary%20Research%20Report.pdf) and the Second Milestone [Presentation](https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65a5b77ce9fb3f850b9ac781_Milestone%202%20-%20Presentation%20Deck.pdf) or [Full User Primary Research Report](https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65a5b8025f707e960711ef35_Milestone%202%20-%20Primary%20Research%20Result.pdf) 👈
-
-‍<kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792af169cee1/65a5ba5aac43d179f211db50_mmexport1702090525144%20(1).jpg"/></kbd>
-
-In addition to Meta’s sponsorship, we traveled to T-Mobile to demo the solution prototype and were provided with a 5G/4G SIM and its support for future deployments.
+- In addition to Meta’s sponsorship, we traveled to T-Mobile to demo the solution prototype and were provided with a 5G/4G SIM and its support for future deployments. 
+  ‍<kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792af169cee1/65a5ba5aac43d179f211db50_mmexport1702090525144%20(1).jpg"/></kbd>
 
 ### 3. Upcoming Developments
 
