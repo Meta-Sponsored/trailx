@@ -4,7 +4,7 @@
 
 TrailX is a meta-sponsored and mentored capstone project designed to optimize the management and experience of a 42-mile trail system near Lake Washington. This page shows the main code and all dependencies and provides instructions for executing the code on a Jetson Nano/Orni device.
 
-With this program, we use Nvidia Jetson as an edge device. It will determine the category of users on the trail (pedestrians, cyclists, dog walkers) and then upload the anonymized data to the cloud as the data source for the web dashboard.
+With this program, we use Nvidia Jetson as an edge device. It will identify user categories on a path (pedestrians, cyclists, dog walkers) via a low-cost USB external camera and then upload the anonymized data to the cloud as a data source for the web dashboard.
 
 ## Getting Started
 
@@ -110,7 +110,7 @@ Please enter the script in the terminal if you need to screen record. Note that 
 
   7. [Object tracking with YOLOv8 using Jetson Nano](https://www.youtube.com/watch?v=joAZEUbZZy8)
 
-- Object Detection & Tracking
+- Jetson Nano GPIO and Connection to Arduino Devices
 
   1. [Push Button Switch on the GPIO Pins With Pull Up Resistors](https://www.youtube.com/watch?v=ehzrPl5cNCc)
 
