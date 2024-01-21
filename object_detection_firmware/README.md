@@ -97,27 +97,17 @@ Please enter the script in the terminal if you need to screen record. Note that 
 - Object Detection & Tracking
 
   1. [Good] [Real-Time Vehicle Detection, Tracking and Counting in Python](https://thepythoncode.com/article/real-time-vehicle-tracking-and-counting-with-yolov8-opencv)
-
   2. [Good] [Object Detection 101 Course - Including 4xProjects](https://www.youtube.com/watch?v=WgPbbWmnXJ8)
-
   3. [Speed detection using python and yolo v8](https://devpost.com/software/speed-detection-using-python-and-yolo-v8)
-
   4. [OpenCV Vehicle Detection, Tracking, and Speed Estimation](https://pyimagesearch.com/2019/12/02/opencv-vehicle-detection-tracking-and-speed-estimation/)
-
   5. [Vehicle Speed Detection Using OpenCV and Python](https://www.youtube.com/watch?v=8FW-OB4eFC0)
-
   6. [Yolo v8 vehicle speed detection](https://www.youtube.com/watch?v=fHf9aPkpuoY)
-
   7. [Object tracking with YOLOv8 using Jetson Nano](https://www.youtube.com/watch?v=joAZEUbZZy8)
 
 - Jetson Nano GPIO and Connection to Arduino Devices
 
   1. [Push Button Switch on the GPIO Pins With Pull Up Resistors](https://www.youtube.com/watch?v=ehzrPl5cNCc)
-
   2. [Install Arduino IDE on Jetson Dev Kit - JetsonHacks](https://jetsonhacks.com/2019/10/04/install-arduino-ide-on-jetson-dev-kit/)
-
   3. [Jetson Nano to Arduino](https://www.youtube.com/watch?v=pE0uHqLqDj8)
-
   4. [Jetson Nano and Arduino serial communication using Python](https://www.youtube.com/watch?v=405mZ5o4K-w)
-
   5. You may encounter "/dev/ttyUSB0: Permission denied" on the Jetson Nano when doing serial communication with an Arduino device. Try `sudo chmod a+rw /dev/ttyUSB0` or check [this page](https://github.com/esp8266/source-code-examples/issues/26).
