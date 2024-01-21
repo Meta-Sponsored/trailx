@@ -4,6 +4,8 @@
 
 TrailX is a meta-sponsored and mentored capstone project designed to optimize the management and experience of a 42-mile trail system near Lake Washington. This page shows the main code and all dependencies and provides instructions for executing the code on a Jetson Nano/Orni device.
 
+With this program, we use Nvidia Jetson as an edge device. It will determine the category of users on the trail (pedestrians, cyclists, dog walkers) and then upload the anonymized data to the cloud as the data source for the web dashboard.
+
 ## Getting Started
 
 ### 1. Install an operating system, jetson-inference, and jetson-utils on Jetson
@@ -30,16 +32,16 @@ TrailX is a meta-sponsored and mentored capstone project designed to optimize th
 
 - If we encounter the following when doing sudo apt upgrade:
   > Setting up nvidia-l4t-bootloader (32.7.1-20220219090432) ...  
-  3448-300---1--jetson-nano-qspi-sd-mmcblk0p1  
-  Starting bootloader post-install procedure.  
-  ERROR. Procedure for bootloader update FAILED.  
-  Cannot install package. Exiting...  
-  dpkg: error processing package nvidia-l4t-bootloader (--configure):  
-   installed nvidia-l4t-bootloader package post-installation script subprocess returned error exit status 1  
-  Processing triggers for libc-bin (2.27-3ubuntu1.3) ...  
-  Errors were encountered while processing:  
+    3448-300---1--jetson-nano-qspi-sd-mmcblk0p1  
+    Starting bootloader post-install procedure.  
+    ERROR. Procedure for bootloader update FAILED.  
+    Cannot install package. Exiting...  
+    dpkg: error processing package nvidia-l4t-bootloader (--configure):  
+    installed nvidia-l4t-bootloader package post-installation script subprocess returned error exit status 1  
+    Processing triggers for libc-bin (2.27-3ubuntu1.3) ...  
+    Errors were encountered while processing:  
    nvidia-l4t-bootloader  
-  E: Sub-process /usr/bin/dpkg returned an error code (1)  
+    E: Sub-process /usr/bin/dpkg returned an error code (1)  
 
   It is related to the information that dpkg saves, and it conflicts with the installation, so we need to move /var/lib/info/ and create a new /var/lib/dpkg/info:
 
@@ -72,71 +74,50 @@ TrailX is a meta-sponsored and mentored capstone project designed to optimize th
   `sudo apt install package_name`  
   `sudo apt remove package_name`  
 
+- Sometimes, when you want to run your code using a command like "import cv2", you may encounter an "illegal instruction" error. This is a known issue in NumPy v1.19.5. Please downgrade your NumPy to version 1.19.4. Check: [Solve Illegal instruction](https://forums.developer.nvidia.com/t/sudo-python-illegal-instruction/198978/4)
+
+  `pip3 install numpy==1.19.4`
 
 ### Executing program
 
-```
-sudo chmod a+rw /dev/ttyUSB0 && sudo python3 trailx.py
-```
+1. Don’t forget to plug in the USB camera before executing the procedure.
+
+2. To execute the program, type the following script in the terminal.
+
+    `python3 trailx.py` or `sudo python3 trailx.py`
 
 ### Screen recording on Jetson Nano
 
-```gst-launch-1.0 ximagesrc use-damage=0 ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM),format=NV12' ! nvv4l2h264enc ! h264parse ! matroskamux ! filesink location="Chiawei/Week 10 (1127~1201)/videos/output.mp4"
-```
+Please enter the script in the terminal if you need to screen record. Note that you need to change FILE_LOCATION to the path where the file you want to be stored:
 
-### Install Arduino IDE
+`gst-launch-1.0 ximagesrc use-damage=0 ! video/x-raw ! nvvidconv ! 'video/x-raw(memory:NVMM),format=NV12' ! nvv4l2h264enc ! h264parse ! matroskamux ! filesink location="FILE_LOCATION"`
 
-* Tutorial: <https://jetsonhacks.com/2019/10/04/install-arduino-ide-on-jetson-dev-kit/>
-https://github.com/esp8266/source-code-examples/issues/26
+### A collection of other tutorials worth learning
 
+- Object Detection & Tracking
 
-Real-Time Vehicle Detection, Tracking and Counting in Python
-https://thepythoncode.com/article/real-time-vehicle-tracking-and-counting-with-yolov8-opencv
+  1. [Good] [Real-Time Vehicle Detection, Tracking and Counting in Python](https://thepythoncode.com/article/real-time-vehicle-tracking-and-counting-with-yolov8-opencv)
 
-Speed detection using python and yolo v8 | Devpost
-https://devpost.com/software/speed-detection-using-python-and-yolo-v8
+  2. [Good] [Object Detection 101 Course - Including 4xProjects](https://www.youtube.com/watch?v=WgPbbWmnXJ8)
 
-OpenCV Vehicle Detection, Tracking, and Speed Estimation
-https://pyimagesearch.com/2019/12/02/opencv-vehicle-detection-tracking-and-speed-estimation/
+  3. [Speed detection using python and yolo v8](https://devpost.com/software/speed-detection-using-python-and-yolo-v8)
 
-Vehicle Speed Detection Using OpenCV and Python
-https://www.youtube.com/watch?v=8FW-OB4eFC0
+  4. [OpenCV Vehicle Detection, Tracking, and Speed Estimation](https://pyimagesearch.com/2019/12/02/opencv-vehicle-detection-tracking-and-speed-estimation/)
 
-Yolo v8 vehicle speed detection
-https://www.youtube.com/watch?v=fHf9aPkpuoY
+  5. [Vehicle Speed Detection Using OpenCV and Python](https://www.youtube.com/watch?v=8FW-OB4eFC0)
 
-Object Detection 101 Course - Including 4xProjects
-https://www.youtube.com/watch?v=WgPbbWmnXJ8
+  6. [Yolo v8 vehicle speed detection](https://www.youtube.com/watch?v=fHf9aPkpuoY)
 
-Object tracking with YOLOv8 using Jetson Nano
-https://www.youtube.com/watch?v=joAZEUbZZy8
+  7. [Object tracking with YOLOv8 using Jetson Nano](https://www.youtube.com/watch?v=joAZEUbZZy8)
 
-CircuitPython drivers for neopixels
-https://github.com/adafruit/Adafruit_CircuitPython_NeoPixel
+- Object Detection & Tracking
 
-Adafruit NeoPixel
-https://learn.adafruit.com/adafruit-neopixel-uberguide/python-circuitpython
+  1. [Push Button Switch on the GPIO Pins With Pull Up Resistors](https://www.youtube.com/watch?v=ehzrPl5cNCc)
 
-Install Arduino IDE on Jetson Dev Kit - JetsonHacks
-https://jetsonhacks.com/2019/10/04/install-arduino-ide-on-jetson-dev-kit/
+  2. [Install Arduino IDE on Jetson Dev Kit - JetsonHacks](https://jetsonhacks.com/2019/10/04/install-arduino-ide-on-jetson-dev-kit/)
 
-Jetson Nano to Arduino
-https://www.youtube.com/watch?v=pE0uHqLqDj8
+  3. [Jetson Nano to Arduino](https://www.youtube.com/watch?v=pE0uHqLqDj8)
 
-Jetson Nano and Arduino serial communication using Python
-https://www.youtube.com/watch?v=405mZ5o4K-w
+  4. [Jetson Nano and Arduino serial communication using Python](https://www.youtube.com/watch?v=405mZ5o4K-w)
 
-How to Control ARGB WS2812B Led Strip with ESP32 and Arduino IDE
-https://www.youtube.com/watch?v=bfgHP_lhTm4
-
-adafruit/Adafruit_NeoPixel: Arduino library for controlling single-wire LED pixels (NeoPixel, WS2812, etc.)
-https://github.com/adafruit/Adafruit_NeoPixel
-
-kitesurfer1404/WS2812FX: WS2812 FX Library for Arduino and ESP8266
-https://github.com/kitesurfer1404/WS2812FX#effects
-
-Sudo python Illegal instruction - Jetson & Embedded Systems / Jetson Nano - NVIDIA Developer Forums
-https://forums.developer.nvidia.com/t/sudo-python-illegal-instruction/198978/4
-
-AI on the Jetson Nano LESSON 57: Push Button Switch on the GPIO Pins With Pull Up Resistors
-https://www.youtube.com/watch?v=ehzrPl5cNCc
+  5. You may encounter "/dev/ttyUSB0: Permission denied" on the Jetson Nano when doing serial communication with an Arduino device. Try `sudo chmod a+rw /dev/ttyUSB0` or check [this page](https://github.com/esp8266/source-code-examples/issues/26).
