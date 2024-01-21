@@ -72,7 +72,6 @@ TrailX is a meta-sponsored and mentored capstone project designed to optimize th
   `sudo apt install package_name`  
   `sudo apt remove package_name`  
 
-### 3. Connect ESP32 to Jetson and upload the led controller program
 
 ### Executing program
 
