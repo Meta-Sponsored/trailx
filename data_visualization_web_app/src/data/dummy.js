@@ -879,9 +879,29 @@ export const themeColors = [
     color: '#1E4DB7',
   },
   {
-    color: '#FB9678',
     name: 'orange-theme',
+    color: '#FB9678',
   },
+  {
+    name: 'pastel-green',
+    color: '#C2FFC1',
+  },
+  {
+    name: 'bright-green',
+    color: '#3EFE82',
+  },
+  {
+    name: 'dark-green-1',
+    color: '#005E2F',
+  },
+  {
+    name: 'dark-green-2',
+    color: '#141C14',
+  },
+  {
+    name: 'tiffany-green',
+    color: '#01BDAE'
+  }
 ];
 
 export const userProfileData = [

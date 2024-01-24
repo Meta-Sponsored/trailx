@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Import icons.
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
+// Import the components and pages created by ourselves. 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
 import {
     TrailX, Orders, Employees, Customers,
@@ -10,14 +13,16 @@ import {
     Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid
 } from './pages';
 
+// Import the current states.
 import { useStateContext } from './contexts/ContextProvider';
 
+// Import an extra CSS file for the page.
 import './App.css';
 
 const App = () => {
-    const { activeMenu } = useStateContext();
+    const { activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
     return (
-        <div>
+        <div className={currentMode === 'Dark' ? 'dark' : ''}>
             <BrowserRouter>
                 <div className='flex relative dark:bg-main-dark-bg'>
 
@@ -28,9 +33,11 @@ const App = () => {
                                 className='text-3xl p-3 hover:drop-shadow-xl
                             hover:bg-light-gray text-white'
                                 style={{
-                                    background: '#30CEDB',
+                                    background: currentColor,
                                     borderRadius: '50%'
-                                }}>
+                                }}
+                                onClick={() => setThemeSettings(true)}
+                            >
                                 <FiSettings />
                             </button>
                         </TooltipComponent>
@@ -51,8 +58,9 @@ const App = () => {
                     )}
 
                     <div className={
-                        `dark:bg-main-bg bg-main-bg min-h-screen w-full 
-                        ${activeMenu ? 'md:ml-72' : 'flex-2'}`
+                        `dark:bg-main-dark-bg bg-main-bg min-h-screen w-full 
+                        ${activeMenu ?
+                            'md:ml-72' : 'flex-2'}`
                     }>
                         {/* To place the navigation bar. */}
                         <div className='fixed md:static
@@ -61,8 +69,11 @@ const App = () => {
                             <Navbar />
                         </div>
 
-                        {/* To set up React routers. */}
+                        {/* To place the theme setting component and set up React routers. */}
                         <div>
+                            {/* Theme Settings */}
+                            {themeSettings && <ThemeSettings />}
+
                             <Routes>
                                 {/* Main Dashboard */}
                                 <Route path="/" element={<TrailX />} />
@@ -85,7 +96,7 @@ const App = () => {
                                 <Route path="/bar" element={<Bar />} />
                                 <Route path="/pie" element={<Pie />} />
                                 <Route path="/financial" element={<Financial />} />
-                                <Route path="/color-mapping" element={<Area />} />
+                                <Route path="/color-mapping" element={<ColorMapping />} />
                                 <Route path="/pyramid" element={<Pyramid />} />
                                 <Route path="/stacked" element={<Stacked />} />
                             </Routes>
