@@ -1,8 +1,8 @@
 # Getting Started
 
-1. Please watch the tutorial first to understand the file structure and how React and Tailwind.css work.
+1. Please watch the tutorial first to understand the file structure and how React and Tailwind.css work together.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jx5hdo50a2M?si=FuqbDvDQEIoy1QZG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jx5hdo50a2M/0.jpg)](https://www.youtube.com/watch?v=jx5hdo50a2M)
 
 2. In the project directory, you can run:
 
