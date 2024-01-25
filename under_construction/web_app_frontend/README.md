@@ -4,15 +4,16 @@
 
     [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/jx5hdo50a2M/0.jpg)](https://www.youtube.com/watch?v=jx5hdo50a2M)
 
-2. In the project directory, you can run:
+2. In the project directory, please run: `npm install --legacy-peer-deps` to install all important packages.
 
-`npm install --legacy-peer-deps`
+   - `--legacy-peer-deps`: ignore all peerDependencies when installing, in the style of npm version 4 through version 6.
+   - `--strict-peer-deps`: fail and abort the install process for any conflicting peerDependencies when encountered. By default, npm will only crash for peerDependencies conflicts caused by the direct dependencies of the root project.
+   - `--force`: will force npm to fetch remote resources even if a local copy exists on disk.
 
-- `--legacy-peer-deps`: ignore all peerDependencies when installing, in the style of npm version 4 through version 6.
+3. Type `npm start` to run the web app.
 
-- `--strict-peer-deps`: fail and abort the install process for any conflicting peerDependencies when encountered. By default, npm will only crash for peerDependencies conflicts caused by the direct dependencies of the root project.
-
-- `--force`: will force npm to fetch remote resources even if a local copy exists on disk.
+   - Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   - The page will reload when you make changes. You may also see any lint errors in the console.
 
 ## Your Tasks
 
@@ -21,14 +22,6 @@
 3. In the file path "src/data/", how to implement the js code so that when the numbers in "user_counter_output.json" are updated, let "realtime-analysis.js", "monthly-analysis.js" and "monthly" -analysis.js" can be changed simultaneously?
 
 ## Available Scripts
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
 ### `npm test`
 
