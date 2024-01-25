@@ -6,11 +6,11 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 // Import the components and pages created by ourselves. 
-import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
+import { Navbar, Footer, Sidebar, ThemeSettings,Trailx_NavHeader } from './components';
 import {
     TrailX, Orders, Employees, Customers,
     Calendar, Kanban, Editor, ColorPicker,
-    Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid
+    Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid, NewsMap
 } from './pages';
 
 // Import the current states.
@@ -99,6 +99,9 @@ const App = () => {
                                 <Route path="/color-mapping" element={<ColorMapping />} />
                                 <Route path="/pyramid" element={<Pyramid />} />
                                 <Route path="/stacked" element={<Stacked />} />
+
+                                {/* Trailx */}
+                                <Route path="/NewsMap" element={<NewsMap />} />
                             </Routes>
                         </div>
                     </div>
