@@ -6,6 +6,8 @@ import {
     from '@syncfusion/ej2-react-charts';
 import { stackedCustomSeries, stackedPrimaryXAxis, stackedPrimaryYAxis }
     from '../../data/dummy';
+import { monthlyStackedCustomSeries, monthlyStackedPrimaryXAxis, monthlyStackedPrimaryYAxis }
+    from '../../data/monthly-analysis';
 import { useStateContext } from '../../contexts/ContextProvider';
 
 const Stacked = ({ width, height }) => {
@@ -16,8 +18,8 @@ const Stacked = ({ width, height }) => {
             width={width}
             height={height}
             id='charts'
-            primaryXAxis={stackedPrimaryXAxis}
-            primaryYAxis={stackedPrimaryYAxis}
+            primaryXAxis={monthlyStackedPrimaryXAxis}
+            primaryYAxis={monthlyStackedPrimaryYAxis}
             chartArea={{ border: { width: 0 } }}
             tooltip={{ enable: true }}
             legendSettings={{ background: currentMode === 'Dark' ? '#33373E' : '#FFFFFF' }}
@@ -25,7 +27,7 @@ const Stacked = ({ width, height }) => {
         >
             <Inject services={[Legend, Category, StackingColumnSeries, Tooltip]} />
             <SeriesCollectionDirective>
-                {stackedCustomSeries.map((item, index) =>
+                {monthlyStackedCustomSeries.map((item, index) =>
                     <SeriesDirective key={index} {...item} />)}
             </SeriesCollectionDirective>
         </ChartComponent>

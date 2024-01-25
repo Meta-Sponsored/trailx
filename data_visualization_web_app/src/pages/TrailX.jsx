@@ -12,6 +12,8 @@ import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 
 // Import the data for the main page.
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
+import { realtimeData } from '../data/real-time-analysis'
+import { weeklySparklineAreaData } from '../data/weekly-analysis'
 
 // Import the current states.
 import { useStateContext } from '../contexts/ContextProvider';
@@ -37,10 +39,10 @@ const TrailX = () => {
                     <div className='flex justify-between items-center'>
                         <div>
                             <p className='font-bold text-gray-400'>
-                                Earnings
+                                Today
                             </p>
                             <p className='text-2xl'>
-                                $150,678.99
+                                347 users
                             </p>
                         </div>
                     </div>
@@ -57,7 +59,7 @@ const TrailX = () => {
                 </div>
                 {/* To render the card layout of the main page. */}
                 <div className='flex flex-wrap m-3 gap-3 justify-center items-center'>
-                    {earningData.map((item) => (
+                    {realtimeData.map((item) => (
                         <div
                             key={item.title}
                             className='p-4 pt-9 md:w-56
@@ -91,24 +93,24 @@ const TrailX = () => {
                 </div>
             </div>
             {/* To render a big card layout for the syncfusion data visualization component. */}
-            <div className='flex gap-10 flex-wrap justify-center'>
+            <div className='flex gap-3 flex-wrap justify-center'>
                 <div className='m-3 p-4 md:w-780 
                     rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'>
                     {/* Title & Dots */}
                     <div className='flex justify-between'>
                         {/* Title */}
-                        <p className='text-xl font-semibold'>Revenue Updates</p>
+                        <p className='text-xl font-semibold'>Trend Summary</p>
                         {/* Dots */}
                         <div className='flex gap-4 items-center'>
                             <p className='flex gap-2 
                                 items-center text-gray-600 hover:drop-shadow-xl'>
                                 <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
-                                <span>Expense</span>
+                                <span>Pedestrians</span>
                             </p>
                             <p className='flex gap-2 
                                 items-center text-[#01BDAE] hover:drop-shadow-xl'>
                                 <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
-                                <span>Budget</span>
+                                <span>Cyclists</span>
                             </p>
                         </div>
                     </div>
@@ -118,22 +120,26 @@ const TrailX = () => {
                             border-color'>
                             <div>
                                 <p>
-                                    <span className='text-3xl font-semibold'>$99.999</span>
+                                    <span className='text-3xl font-semibold'>5946</span>
                                     <span className='p-1.5 ml-3
                                         hover:drop-shadow-xl cursor-pointer rounded-full
                                         text-white bg-[#01BDAE] text-xs'>66%
                                     </span>
                                 </p>
                                 <p className='mt-1 text-gray-500'>
-                                    Budget
+                                    Past 4 Weeks
                                 </p>
                             </div>
                             <div className='mt-8'>
                                 <p>
-                                    <span className='text-3xl font-semibold'>$128.999</span>
+                                    <span className='text-3xl font-semibold'>2501</span>
+                                    <span className='p-1.5 ml-3
+                                        hover:drop-shadow-xl cursor-pointer rounded-full
+                                        text-white bg-[#01BDAE] text-xs'>75%
+                                    </span>
                                 </p>
                                 <p className='mt-1 text-gray-500'>
-                                    Expense
+                                    This Week
                                 </p>
                             </div>
                             {/* Sparkline Component */}
@@ -144,7 +150,7 @@ const TrailX = () => {
                                     type='Line'
                                     height='80px'
                                     width='250px'
-                                    data={SparklineAreaData}
+                                    data={weeklySparklineAreaData}
                                     color={currentColor}
                                 />
                             </div>
@@ -166,135 +172,15 @@ const TrailX = () => {
                 </div>
 
                 {/* other components */}
-                <div>
-                    <div
-                        className=" rounded-2xl md:w-400 p-4 m-3"
-                        style={{ backgroundColor: currentColor }}
-                    >
-                        <div className="flex justify-between items-center ">
-                            <p className="font-semibold text-white text-2xl">Earnings</p>
-
-                            <div>
-                                <p className="text-2xl text-white font-semibold mt-8">$63,448.78</p>
-                                <p className="text-gray-200">Monthly revenue</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-4">
-                            <SparkLine currentColor={currentColor} id="column-sparkLine" height="100px" type="Column" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
-                        </div>
-                    </div>
-
-                    <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
-                        <div>
-                            <p className="text-2xl font-semibold ">$43,246</p>
-                            <p className="text-gray-400">Yearly sales</p>
-                        </div>
-
-                        <div className="w-40">
-                            <Pie id="pie-chart" data={ecomPieChartData} legendVisiblity={false} height="160px" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex gap-10 m-4 flex-wrap justify-center">
-                <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
-                    <div className="flex justify-between items-center gap-2">
-                        <p className="text-xl font-semibold">Recent Transactions</p>
-                        <DropDown currentMode={currentMode} />
-                    </div>
-                    <div className="mt-10 w-72 md:w-400">
-                        {recentTransactions.map((item) => (
-                            <div key={item.title} className="flex justify-between mt-4">
-                                <div className="flex gap-4">
-                                    <button
-                                        type="button"
-                                        style={{
-                                            color: item.iconColor,
-                                            backgroundColor: item.iconBg,
-                                        }}
-                                        className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                                    >
-                                        {item.icon}
-                                    </button>
-                                    <div>
-                                        <p className="text-md font-semibold">{item.title}</p>
-                                        <p className="text-sm text-gray-400">{item.desc}</p>
-                                    </div>
-                                </div>
-                                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-                        <div className="mt-3">
-                            <Button
-                                color="white"
-                                bgColor={currentColor}
-                                text="Add"
-                                borderRadius="10px"
-                            />
-                        </div>
-
-                        <p className="text-gray-400 text-sm">36 Recent Transactions</p>
-                    </div>
-                </div>
-                <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
-                    <div className="flex justify-between items-center gap-2 mb-10">
-                        <p className="text-xl font-semibold">Sales Overview</p>
-                        <DropDown currentMode={currentMode} />
-                    </div>
-                    <div className="md:w-full overflow-auto">
-                        <LineChart />
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex flex-wrap justify-center">
-                <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-                    <div className="flex justify-between">
-                        <p className="text-xl font-semibold">Weekly Stats</p>
-                        <button type="button" className="text-xl font-semibold text-gray-500">
-                            <IoIosMore />
-                        </button>
-                    </div>
-
-                    <div className="mt-10 ">
-                        {weeklyStats.map((item) => (
-                            <div key={item.title} className="flex justify-between mt-4 w-full">
-                                <div className="flex gap-4">
-                                    <button
-                                        type="button"
-                                        style={{ background: item.iconBg }}
-                                        className="text-2xl hover:drop-shadow-xl text-white rounded-full p-3"
-                                    >
-                                        {item.icon}
-                                    </button>
-                                    <div>
-                                        <p className="text-md font-semibold">{item.title}</p>
-                                        <p className="text-sm text-gray-400">{item.desc}</p>
-                                    </div>
-                                </div>
-
-                                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-                            </div>
-                        ))}
-                        <div className="mt-4">
-                            <SparkLine currentColor={currentColor} id="area-sparkLine" height="160px" type="Area" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
-                        </div>
-                    </div>
-
-                </div>
                 <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
                     <div className="flex justify-between">
-                        <p className="text-xl font-semibold">MedicalPro Branding</p>
+                        <p className="text-xl font-semibold">Northup Connector Opening 🎉</p>
                         <button type="button" className="text-xl font-semibold text-gray-400">
                             <IoIosMore />
                         </button>
                     </div>
                     <p className="text-xs cursor-pointer hover:drop-shadow-xl font-semibold rounded-lg w-24 bg-orange-400 py-0.5 px-2 text-gray-200 mt-10">
-                        16 APR, 2021
+                        16 DEC, 2023
                     </p>
 
                     <div className="flex gap-4 border-b-1 border-color mt-6">
@@ -338,38 +224,7 @@ const TrailX = () => {
                             />
                         </div>
 
-                        <p className="text-gray-400 text-sm">36 Recent Transactions</p>
-                    </div>
-                </div>
-                <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-                    <div className="flex justify-between">
-                        <p className="text-xl font-semibold">Daily Activities</p>
-                        <button type="button" className="text-xl font-semibold text-gray-500">
-                            <IoIosMore />
-                        </button>
-                    </div>
-                    <div className="mt-10">
-                        <img
-                            className="md:w-96 h-50 "
-                            src={product9}
-                            alt=""
-                        />
-                        <div className="mt-8">
-                            <p className="font-semibold text-lg">React 18 coming soon!</p>
-                            <p className="text-gray-400 ">By Johnathan Doe</p>
-                            <p className="mt-8 text-sm text-gray-400">
-                                This will be the small description for the news you have shown
-                                here. There could be some great info.
-                            </p>
-                            <div className="mt-3">
-                                <Button
-                                    color="white"
-                                    bgColor={currentColor}
-                                    text="Read More"
-                                    borderRadius="10px"
-                                />
-                            </div>
-                        </div>
+                        <p className="text-gray-400 text-sm">30 Participants</p>
                     </div>
                 </div>
             </div>
