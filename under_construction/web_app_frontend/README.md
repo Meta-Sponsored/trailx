@@ -19,7 +19,7 @@
 
 1. Implement a new page called "News & Map" and put this page in "Pages" of the sidebar.
 2. In the "News and Maps" page, try to implement an image carousel and a map that displays the Eastrail route.
-3. In the file path "src/data/", how to implement the js code so that when the numbers in "user_counter_output.json" are updated, let "realtime-analysis.js", "monthly-analysis.js" and "monthly" -analysis.js" can be changed simultaneously?
+3. In the file path "src/data/", how to implement the js code so that when the numbers in "user_counter_output.json" are updated, let "realtime-analysis.js", "monthly-analysis.js" and "monthly-analysis.js" can be changed simultaneously?
 
 ## Available Scripts
 
