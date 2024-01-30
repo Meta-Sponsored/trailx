@@ -1,4 +1,16 @@
+# TrailX —— A Meta-Sponsored & Mentored Capstone Project | IoT Automation (Trail Installation), Computer Vision, Web Dashboard
+
+<kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65b7a3f0739008eff756858b_Dashboard%20Front-End%20Design%20(compressed).png"/></kbd>
+
+## Description
+
+TrailX is a meta-sponsored and mentored capstone project designed to optimize the management and experience of a 42-mile trail system near Lake Washington. This page displays the web application front-end portion of the current project. We use React as the front-end core for the dashboard, paired with the Tailwind CSS framework and Syncfusion UI components.
+
+Coming Soon: Build a MERN (MongoDB, Express, React, Node.js) Full-Stack web application with complete CRUD (Create, Read, Update, Delete) functions.
+
 # Getting Started
+
+To rebuild the application on your local device, follow these simple steps.
 
 1. Please watch the tutorial first to understand the file structure and how React and Tailwind.css work together.
 
