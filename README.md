@@ -4,8 +4,8 @@
 
 In a collaborative effort to enhance the [Eastrail](https://eastrail.org/) experience, our team, sponsored and mentored by [Meta](https://gix.uw.edu/consortium/), has embarked on an ambitious project. We're addressing key challenges in user experience, safety, and community engagement along the 42-mile trail system near Lake Washington. Our solution involves a harmonious blend of interactive installations and a web app, aiming to transform the trail into a safer, more engaging, and community-focused space. This initiative is not just about technological innovation; it's about improving the day-to-day interactions of trail users and fostering a more vigorous community connection.
 
-<kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65b7a3ef4be8b819e06a06db_Installation%20Rendering.jpg"/></kbd>
-<p style="text-align: center">TrailX Installation Rendering:</p>
+- TrailX Installation Rendering: 
+  <kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65b7a3ef4be8b819e06a06db_Installation%20Rendering.jpg"/></kbd>
 
 ## 2. Current Progress Highlights
 
@@ -15,6 +15,8 @@ In a collaborative effort to enhance the [Eastrail](https://eastrail.org/) exper
 ## 3. Upcoming Developments
 
 - Management Web Dashboard: Currently under development is a sophisticated web dashboard. This tool is designed to effectively manage the trail system, providing real-time data and insights for better oversight and decision-making.
+  - Current Front-End of the Web Dashboard ([trailx.chiawei.one](trailx.chiawei.one)): 
+    <kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65b7a3f0739008eff756858b_Dashboard%20Front-End%20Design%20(compressed).png"/></kbd>
 - Solar-Powered IoT Installations: We are in the planning stages to deploy solar-powered IoT interactive installations. These installations will autonomously adjust to varying weather and light conditions, ensuring energy-efficient and sustainable operation.
 - Optimization with Full-Stack: Our goal is to leverage full-stack development and data visualization techniques to optimize both the management and the user experience of the trail system. This approach aims to create a seamless integration of technology and nature, enhancing the trail's usability and appeal.
 
