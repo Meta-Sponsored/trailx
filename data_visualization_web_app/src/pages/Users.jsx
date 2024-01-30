@@ -12,7 +12,7 @@ import { customersData, customersGrid } from '../data/dummy';
 // Import the header component created by ourselves. 
 import { Header } from '../components';
 
-const Customers = () => {
+const Users = () => {
     return (
         <div className='m-2 md:m-10 p-2 md:p-10 
         bg-white rounded-3xl'>
@@ -33,4 +33,4 @@ const Customers = () => {
         </div>
     )
 }
-export default Customers
+export default Users

@@ -8,7 +8,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 // Import the components and pages created by ourselves. 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
 import {
-    TrailX, Orders, Employees, Customers,
+    TrailX, Orders, Employees, Users,
     Calendar, Kanban, Editor, ColorPicker,
     Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid
 } from './pages';
@@ -82,7 +82,7 @@ const App = () => {
                                 {/* Pages */}
                                 <Route path="/orders" element={<Orders />} />
                                 <Route path="/employees" element={<Employees />} />
-                                <Route path="/customers" element={<Customers />} />
+                                <Route path="/users" element={<Users />} />
 
                                 {/* Apps */}
                                 <Route path="/kanban" element={<Kanban />} />

@@ -67,11 +67,11 @@ const Navbar = () => {
             />
             <div className='flex'>
                 {/* To render a cart button. */}
-                <NavButton title='Cart'
+                {/* <NavButton title='Cart'
                     customFunc={() => handleClick('cart')}
                     color={currentColor}
                     icon={<FiShoppingCart />}
-                />
+                /> */}
                 {/* To render a chat button. */}
                 <NavButton title='Chat'
                     dotColor={currentColor}
