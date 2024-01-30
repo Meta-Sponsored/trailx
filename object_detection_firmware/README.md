@@ -1,4 +1,4 @@
-# TrailX —— A Meta-Sponsored & Mentored Capstone Project | IoT Automation (Trail Installation), Computer Vision, Web Dashboard
+# TrailX — Meta-Sponsored & Mentored Capstone Project | Web Dashboard, IoT Automation (Trail Installation), Computer Vision
 
 ## Description
 
