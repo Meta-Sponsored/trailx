@@ -1,29 +1,26 @@
 import React from 'react';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
+import { Carousel } from "@material-tailwind/react";
 
 const MyCarousel = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-  };
-
   return (
-    <div style={{ margin: '32px 0' }}>
-      <Slider {...settings}>
-        <div>
-          <img src="News & Updates 1.png" alt="News_Updates" />
-        </div>
-        <div>
-          <img src="path_to_image2.jpg" alt="Image 2" />
-        </div>
-      </Slider>
+    <div className="m-8">
+      <Carousel>
+        <img
+          src="News & Updates 1.png"
+          alt="News_Updates"
+          className="w-full h-auto object-cover rounded-lg"
+        />
+        <img
+          src="News & Updates 2.png"
+          alt="Image 2"
+          className="w-full h-auto object-cover rounded-lg"
+        />
+        <img
+          src="News & Updates 3.png"
+          alt="Image 3"
+          className="w-full h-auto object-cover rounded-lg"
+        />
+      </Carousel>
     </div>
   );
 };
