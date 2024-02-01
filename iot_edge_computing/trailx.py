@@ -207,6 +207,7 @@ def main(api_key, city_name, time_zone):
                 total_bike_counted,
                 total_dog_counted,
             )
+            time.sleep(60)
 
 
 if __name__ == "__main__":
