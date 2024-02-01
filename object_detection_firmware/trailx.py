@@ -14,6 +14,7 @@ import requests
 import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
+from data_analysis import update_user_counter
 
 
 # Function to get weather data including cloud coverage, sunrise, and sunset times, and city name
@@ -26,7 +27,7 @@ def get_weather_data(api_key, city_name, time_zone):
     )
 
     try:
-        response = requests.get(base_url)
+        response = requests.get(base_url, timeout=100)
         data = response.json()
 
         if "clouds" in data:
@@ -67,9 +68,14 @@ def get_weather_data(api_key, city_name, time_zone):
         print("Current Time:", current_time.strftime("%Y-%m-%d %H:%M:%S %Z"))
 
         return cloud_coverage, sunrise_time_utc, sunset_time_utc, current_time_utc
+    except requests.RequestException as e:
+        print("HTTP request error:", e)
+    except ValueError as e:
+        print("JSON decoding error:", e)
     except Exception as e:
-        print("Error fetching weather data:", e)
-        return None, None, None, None
+        print("An unexpected error occurred:", e)
+
+    return None, None, None, None
 
 
 # Function to check if the device should enter idle state
@@ -113,9 +119,8 @@ def run_main_program(
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
     camera = videoSource("/dev/video0")
-    display = videoOutput("display://0")
 
-    while display.IsStreaming():
+    while True:
         img = camera.Capture()
         if img is None:
             continue
@@ -131,14 +136,42 @@ def run_main_program(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
 
-        display.Render(img)
-        display.SetStatus(f"Object Detection | Network {net.GetNetworkFPS():.0f} FPS")
+        print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
         if (
             state_change_event.is_set()
         ):  # Check if the event flag is set (indicating a state change)
             print("Exiting main program...")
             break
+
+    # For debugging purposes:
+    #
+    # display = videoOutput("display://0")
+    #
+    # while display.IsStreaming():
+    #     img = camera.Capture()
+    #     if img is None:
+    #         continue
+    #
+    #     detections = net.Detect(img)
+    #
+    #     for detection in detections:
+    #         (
+    #             total_user_counted,
+    #             total_bike_counted,
+    #             total_dog_counted,
+    #         ) = update_user_counter(
+    #             detection, total_user_counted, total_bike_counted, total_dog_counted
+    #         )
+    #
+    #     display.Render(img)
+    #     display.SetStatus(f"Object Detection | Network {net.GetNetworkFPS():.0f} FPS")
+    #
+    #     if (
+    #         state_change_event.is_set()
+    #     ):  # Check if the event flag is set (indicating a state change)
+    #         print("Exiting main program...")
+    #         break
     return total_user_counted, total_bike_counted, total_dog_counted
 
 
@@ -177,10 +210,10 @@ def main(api_key, city_name, time_zone):
 
 
 if __name__ == "__main__":
-    API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
+    OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
     CITY_NAME = "kirkland"
     TIME_ZONE = "America/Los_Angeles"
-    main(API_KEY, CITY_NAME, TIME_ZONE)
+    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
 
     # Los Angeles, California, USA (Pacific Time Zone):
     # IANA Identifier: 'America/Los_Angeles'
