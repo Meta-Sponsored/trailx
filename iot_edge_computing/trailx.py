@@ -194,6 +194,8 @@ def main(api_key, city_name, time_zone):
             state_change_event.is_set()
         ):  # Check if the event flag is set (indicating a state change)
             print("Device is in standby mode.")
+            # We don't need to check that fast because
+            # the weather and time of day don't change quickly.
             time.sleep(1800)
         else:
             print("Entering operating state ...")
@@ -207,6 +209,8 @@ def main(api_key, city_name, time_zone):
                 total_bike_counted,
                 total_dog_counted,
             )
+            # Add a 60-second wait to prevent crashes caused by
+            # multiple rapid entries and exits into run_main_program.
             time.sleep(60)
 
 
