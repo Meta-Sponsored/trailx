@@ -3,20 +3,15 @@
 # Developer(s): Chia-Wei Chang
 
 import json
-import time
 from object_class import object_class
 
 OBJECT_TRACKER_OUTPUT_PATH = "output_files/object_tracker_output.json"
 USER_COUNTER_OUTPUT_PATH = "output_files/user_counter_output.json"
 SPEED_OUTPUT_PATH = "output_files/speed_output.json"
 
-# Variables to track the total number of users, bikes, and dogs counted.
-TOTAL_USER_COUNTED = 0
-TOTAL_BIKE_COUNTED = 0
-TOTAL_DOG_COUNTED = 0
-
 # Define a counter dictionary to keep track of different users.
 object_tracker = {}
+
 
 def update_user_counter(
     detection, total_user_counted, total_bike_counted, total_dog_counted
