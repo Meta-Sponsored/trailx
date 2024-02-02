@@ -71,7 +71,7 @@ def update_bird_position(x, y):
     bird_frame_index = (bird_frame_index + 1) % len(bird_frames)
 
     pygame.display.flip()
-    clock.tick(10)  # Adjust for desired animation speed
+    clock.tick(100)  # Adjust for desired animation speed
 
     return True  # Continue updating
 

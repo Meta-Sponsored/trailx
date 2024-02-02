@@ -42,7 +42,7 @@ def get_weather_data(api_key, city_name, time_zone):
             sunrise_time_utc = None
             sunset_time_utc = None
 
-        current_time_utc = time.time()
+        current_time_utc = data["dt"]
 
         # Get the city name
         if "name" in data:
