@@ -237,7 +237,7 @@ if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
     # CITY_NAME = "kirkland"
     # TIME_ZONE = "America/Los_Angeles"
-    CITY_NAME = "kirkland"
+    CITY_NAME = "tainan"
     TIME_ZONE = "America/Los_Angeles"
     SCREEN_WIDTH = 2048
     SCREEN_HEIGHT = 1152
