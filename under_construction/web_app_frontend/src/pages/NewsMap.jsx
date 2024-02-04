@@ -1,5 +1,4 @@
 import {Trailx_NavHeader, MyCarousel} from '../components'; 
-import { CarouselComponent, CarouselItemsDirective, CarouselItemDirective } from "@syncfusion/ej2-react-navigations";
 import React from 'react';
 
 
@@ -59,7 +58,9 @@ const NewsMap = () => {
           <img style={styles.vector} alt="Vector" src="vector 18.svg" />
         </div>
       </div>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       <MyCarousel />
+    </div>
     </div>
   );
 };
