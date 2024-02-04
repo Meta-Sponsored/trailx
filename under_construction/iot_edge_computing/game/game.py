@@ -1,26 +1,29 @@
-# animation_module.py
-
 import pygame
 import os
 import random
 
-# Global variables to hold the animation state
+# Initialize pygame globally to avoid reinitialization
+pygame.init()
+
+# Define global variables for screen settings and loaded frames
 screen = None
 background_frames = []
 bird_frames = []
 background_frame_index = 0
 bird_frame_index = 0
-clock = None
-screen_width = 0
-screen_height = 0
+clock = pygame.time.Clock()
+screen_width = 2048  # Updated to match the provided screen size
+screen_height = 1152
 
 
-def load_frames(path, frame_count):
-    """Load frames from a given path and return them as a list."""
+def load_frames(path, frame_count, scale_to_screen=False):
+    """Load frames from a given path and optionally scale them to the screen size."""
     frames = []
     for i in range(1, frame_count + 1):
         frame_path = os.path.join(path, f"{i}.gif")
         frame = pygame.image.load(frame_path).convert_alpha()
+        if scale_to_screen:
+            frame = pygame.transform.scale(frame, (screen_width, screen_height))
         frames.append(frame)
     return frames
 
@@ -28,52 +31,42 @@ def load_frames(path, frame_count):
 def start_animation(
     background_frames_path, bird_frames_path, background_frame_count, bird_frame_count
 ):
-    global screen, background_frames, bird_frames, clock, screen_width, screen_height
+    global screen, background_frames, bird_frames
 
-    pygame.init()
-
-    # Obtain screen resolution for full-screen mode and set full-screen mode
-    infoObject = pygame.display.Info()
-    screen_width, screen_height = infoObject.current_w, infoObject.current_h
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
     pygame.display.set_caption("Animated Art with Custom Images")
 
-    # Load animation frames
-    background_frames = load_frames(background_frames_path, background_frame_count)
-    bird_frames = load_frames(bird_frames_path, bird_frame_count)
-
-    # Ensure images fit the full screen
-    background_frames = [
-        pygame.transform.scale(frame, (screen_width, screen_height))
-        for frame in background_frames
-    ]
-
-    clock = pygame.time.Clock()
+    # Load and optionally scale frames to fit the screen for the background
+    background_frames = load_frames(
+        background_frames_path, background_frame_count, True
+    )
+    bird_frames = load_frames(
+        bird_frames_path, bird_frame_count
+    )  # Birds may not need scaling depending on their usage
 
 
 def update_bird_position(x, y):
     global background_frame_index, bird_frame_index
 
+    # Event handling streamlined for efficiency
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (
             event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
         ):
-            pygame.quit()
-            return False  # Signal to stop updating
+            return False  # Signal to exit without stopping the entire pygame module
 
-    # Draw the background animation
+    # Update the screen with the background and bird frames
     screen.blit(background_frames[background_frame_index], (0, 0))
     background_frame_index = (background_frame_index + 1) % len(background_frames)
-
-    # Draw the bird animation at the new position, centered
     bird_rect = bird_frames[bird_frame_index].get_rect(center=(x, y))
     screen.blit(bird_frames[bird_frame_index], bird_rect)
     bird_frame_index = (bird_frame_index + 1) % len(bird_frames)
 
     pygame.display.flip()
-    clock.tick(10)  # Adjust for desired animation speed
+    # Adjusting clock.tick to manage updates more efficiently
+    clock.tick(5)  # This limits the animation update rate, reducing CPU/GPU load
 
-    return True  # Continue updating
+    return True
 
 
 def quit_game():

@@ -15,7 +15,7 @@ import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
 from data_analysis import update_user_counter
-from game.game import start_animation, update_bird_position, quit_game
+from game.game import start_animation, update_bird_position
 from object_class import object_class
 
 
@@ -98,7 +98,7 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             if (
                 current_time >= sunrise_time
                 and current_time <= sunset_time
-                and cloud_coverage < 50
+                and cloud_coverage <= 100
             ):
                 state_change_event.clear()  # Clear the event flag to continue running
                 time.sleep(900)
@@ -112,7 +112,8 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
 
 # Function to run the main program
 def run_main_program(
-    state_change_event, total_user_counted, total_bike_counted, total_dog_counted
+    state_change_event, total_user_counted, total_bike_counted,
+    total_dog_counted, screen_width, screen_height
 ):
     """Function to run the main program."""
 
@@ -144,9 +145,12 @@ def run_main_program(
                 and (object_class[detection.ClassID] == "person")
                 and detection.TrackID >= 0
             ):
-                x = (detection.Left + detection.Right) / 2
-                y = detection.Bottom
-                update_bird_position(x, y)
+                x = screen_width - (detection.Left + detection.Right) // 2
+                y = (detection.Bottom + detection.Top) // 2
+                if not update_bird_position(x, y):
+                    state_change_event.set()
+        if not detections and not state_change_event.is_set():
+            update_bird_position(screen_width // 2, screen_height // 2)
 
         print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
@@ -154,7 +158,6 @@ def run_main_program(
             state_change_event.is_set()
         ):  # Check if the event flag is set (indicating a state change)
             print("Exiting main program...")
-            quit_game()
             break
 
     # For debugging purposes:
@@ -189,16 +192,17 @@ def run_main_program(
 
 
 # Main function to control device states
-def main(api_key, city_name, time_zone):
+def main(api_key, city_name, time_zone, screen_width, screen_height):
     """Main function to control device states."""
 
     state_change_event = threading.Event()  # Event flag to signal state change
+    state_change_event.set()
     weather_checking_threading = threading.Thread(
         target=check_idle_state,
         args=(api_key, city_name, state_change_event, time_zone),
     )
     weather_checking_threading.start()
-    time.sleep(20)
+    time.sleep(30)
 
     total_user_counted, total_bike_counted, total_dog_counted = 0, 0, 0
 
@@ -221,6 +225,8 @@ def main(api_key, city_name, time_zone):
                 total_user_counted,
                 total_bike_counted,
                 total_dog_counted,
+                screen_width,
+                screen_height,
             )
             # Add a 60-second wait to prevent crashes caused by
             # multiple rapid entries and exits into run_main_program.
@@ -229,9 +235,13 @@ def main(api_key, city_name, time_zone):
 
 if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
-    CITY_NAME = "kirkland"
+    # CITY_NAME = "kirkland"
+    # TIME_ZONE = "America/Los_Angeles"
+    CITY_NAME = "tainan"
     TIME_ZONE = "America/Los_Angeles"
-    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
+    SCREEN_WIDTH = 2048
+    SCREEN_HEIGHT = 1152
+    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     # Los Angeles, California, USA (Pacific Time Zone):
     # IANA Identifier: 'America/Los_Angeles'
