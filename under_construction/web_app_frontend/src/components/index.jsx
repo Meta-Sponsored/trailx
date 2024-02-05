@@ -1,4 +1,3 @@
-import MyCarousel from './carousel';
 
 { /*This file is to help us import all components in one line. */ }
 export { default as Button } from './Button';
@@ -19,4 +18,5 @@ export { default as Header } from './Header';
 export { default as Trailx_NavHeader } from './trailx_navbar';
 export {default as MyCarousel} from './carousel';
 export {default as TrailMap} from './Map';  
+export {default as UploadWindow} from './UploadWindow';
 

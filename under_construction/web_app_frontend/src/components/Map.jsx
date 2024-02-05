@@ -5,8 +5,10 @@ const TrailMap = ({ trailData }) => {
   // Initialize viewport state using useState hook
   const [viewport, setViewport] = useState({
     container: 'map',
-    center: [47.621014, -122.206668], // Default longitude, adjust as necessary
-    zoom: 10,
+    //center: [47.621014, -122.206668],
+    latitude: 47.6101, // Bellevue's latitude
+    longitude: -122.2015, // Bellevue's longitude // Default longitude, adjust as necessary
+    zoom: 11,
     width: '100%',
     height: '100%',
   });
