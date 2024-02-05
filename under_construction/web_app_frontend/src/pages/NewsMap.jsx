@@ -1,6 +1,23 @@
-import {Trailx_NavHeader, MyCarousel} from '../components'; 
+import {Trailx_NavHeader, MyCarousel, TrailMap} from '../components'; 
 import React from 'react';
 
+const yourTrailData = {
+  id: 'trail-001',
+  name: 'Lake View Trail',
+  description: 'A scenic route offering stunning views of the lake and surrounding mountains.',
+  difficulty: 'Moderate',
+  length: '5 miles',
+  startLat: 47.6062, // Starting latitude of the trail
+  startLong: -122.3321, // Starting longitude of the trail
+  endLat: 47.6097, // Ending latitude of the trail (if applicable)
+  endLong: -122.3355, // Ending longitude of the trail (if applicable)
+  path: [ // An array of coordinates representing the trail's path; optional depending on your implementation
+    [47.6062, -122.3321],
+    [47.6070, -122.3335],
+    [47.6080, -122.3340],
+    [47.6097, -122.3355]
+  ]
+};
 
 
 const NewsMap = () => {
@@ -61,7 +78,18 @@ const NewsMap = () => {
     <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       <MyCarousel />
     </div>
+    <div style={styles.newsUpdatesSection}>
+        <div style={styles.newsUpdates} id="NEWS_UPDATES">
+          <img style={styles.vector} alt="Vector" src="vector 17.svg" />
+          <div style={styles.title}>INTERACTIVE MAP</div>
+          <img style={styles.vector} alt="Vector" src="vector 18.svg" />
+        </div>
+      </div>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <TrailMap trailData={yourTrailData}/>
     </div>
+    </div>
+
   );
 };
 

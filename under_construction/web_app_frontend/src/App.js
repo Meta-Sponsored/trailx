@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 // Import icons.
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
@@ -18,6 +19,9 @@ import { useStateContext } from './contexts/ContextProvider';
 
 // Import an extra CSS file for the page.
 import './App.css';
+
+import mapboxgl from 'mapbox-gl';
+mapboxgl.accessToken = 'pk.eyJ1IjoibGV1bmdob24iLCJhIjoiY2xzODc5emV3MHV2aTJzbmwxM3RyaXcxdCJ9.ycMiuaM_PLXNZ34w2rXpug';
 
 const App = () => {
     const { activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();

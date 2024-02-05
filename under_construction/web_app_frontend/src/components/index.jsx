@@ -18,4 +18,5 @@ export { default as ChartsHeader } from './ChartsHeader';
 export { default as Header } from './Header';
 export { default as Trailx_NavHeader } from './trailx_navbar';
 export {default as MyCarousel} from './carousel';
+export {default as TrailMap} from './Map';  
 
