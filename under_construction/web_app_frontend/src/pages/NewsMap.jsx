@@ -107,7 +107,7 @@ const NewsMap = () => {
       </div>
       <div style={styles.addPhotoButton}>
         <img src='Add Photos.svg' alt="Add Photos" style={styles.addPhotoIcon} onClick={() => setIsUploadWindowVisible(true)} />
-        {isUploadWindowVisible && <UploadWindow />}
+        {isUploadWindowVisible && <UploadWindow onClose={() => setIsUploadWindowVisible(false)} />}
       </div>
     </div>
 

@@ -1,97 +1,129 @@
-import React from "react";
+import { db } from '../firebase-config';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import React, { useState } from "react";
 
-const UploadWindow = () => {
+const UploadWindow = ({ onClose }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [currentSelection, setCurrentSelection] = useState('Report the issues');
+    const handleClose = () => setIsOpen(false);
+    const [email, setEmail] = useState('');
+    const [location, setLocation] = useState('');
+    const [issueDescription, setIssueDescription] = useState('');
+    const handleFileChange = (event) => {
+        const files = event.target.files;
+        // Process or store the files as needed
+        console.log(files);
+    };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log({ email, location, issueDescription });
+      
+        try {
+          await addDoc(collection(db, 'feedbacks'), {
+            email,
+            location,
+            issueDescription,
+            createdAt: serverTimestamp(),
+          });
+      
+          console.log('Feedback submitted successfully');
+          onClose();
+          // Close the modal or reset form as needed
+        } catch (error) {
+          console.error('Error writing document: ', error);
+        }
+      };
+
 
     return (
-        <div className="w-[416px] h-[943px] px-3 py-6 bg-gradient-to-b from-black to-white rounded-3xl border border-black backdrop-blur-xl flex-col justify-end items-center gap-5 inline-flex">
-            <div className="w-4 px-3 py-1 rounded-[41px] border border-black backdrop-blur-sm justify-center items-center gap-2.5 inline-flex" />
-            <div className="h-[38px] flex-col justify-end items-center gap-2 flex">
-                <div className="h-[38px] flex-col justify-end items-center gap-2 flex">
-                    <div className="h-[38px] px-[57px] bg-white bg-opacity-60 rounded-3xl border border-black flex-col justify-end items-center gap-2.5 flex">
-                        <div className="py-1 justify-start items-center gap-2 inline-flex">
-                            <div className="justify-start items-center gap-2.5 flex">
-                                <div className="w-7 h-[30px] justify-end items-center gap-2.5 flex" />
-                                <div className="text-zinc-800 text-base font-semibold font-['Poppins']">Report the issues</div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-6">
+            <form onSubmit={handleSubmit} className="w-[416px] h-auto px-3 py-6 bg-white bg-opacity-10 rounded-3xl border border-black backdrop-blur-xl flex flex-col justify-start items-center overflow-hidden">
+                <div className="absolute top-3.5 right-3.5 w-3 h-3">
+                    <button onClick={onClose} className="w-full h-full flex justify-center items-center p-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-3 h-3">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div className="p-6 overflow-y-auto overflow-x-hidden">
+                    <div className="relative inline-flex w-[354px]">
+                        <button
+                            className="px-3 py-1 w-full bg-white bg-opacity-60 rounded-3xl border border-black flex justify-center items-center"
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            <span className="text-zinc-800 text-base font-semibold font-poppins ">{currentSelection}</span> {/* Display the current selection */}
+                            {/* Optional: Include an icon or element here to indicate dropdown functionality */}
+                        </button>
+                        {isOpen && (
+                            <div className="absolute w-full px-[57px] mt-2 flex flex-col items-start bg-white bg-opacity-60 rounded-3xl border border-black">
+                                {/* Example of changing the selection. Duplicate and modify for other options. */}
+                                <div
+                                    className="w-full py-1 flex items-center gap-2.5 cursor-pointer hover:bg-gray-100 rounded-lg justify-center"
+                                    onClick={() => {
+                                        setCurrentSelection('Report the issues'); // Update the current selection
+                                        setIsOpen(false); // Close the dropdown
+                                    }}
+                                >
+                                    <div className="text-zinc-800 text-base font-semibold font-poppins ">Report the issues</div>
+                                </div>
+                                {/* Add more dropdown items here as needed, each with their own onClick to set the currentSelection */}
+                                {/* Additional selections can be duplicated with different content as needed */}
                             </div>
+                        )}
+                    </div>
+
+                    <div className="mt-[20px] h-[114px] flex flex-col justify-end items-center gap-2 flex">
+                        <div className="w-[354px] text-black text-sm font-medium font-['Poppins']">Please describe the issue in detail:</div>
+                        <textarea className="w-[354px] h-[85px] px-4 py-3 bg-white bg-opacity-60 rounded-3xl border border-black text-zinc-400 text-sm font-normal placeholder-zinc-400 align-top resize-none" placeholder="I found the water machine was broken..." 
+                            value={issueDescription}
+                            onChange={(e) => setIssueDescription(e.target.value)} />
+                    </div>
+                    <div className="mt-[20px] h-[282px] flex flex-col justify-start items-center gap-2">
+                        <div className="w-[354px] text-black text-sm font-medium font-poppins">Upload the images or other files:</div>
+                        <div className="w-[354px] h-[253px] bg-white bg-opacity-60 rounded-[26px] border border-black flex flex-col justify-center items-center gap-2.5">
+                            <label className="h-[219px] w-full px-4 py-5 flex flex-col justify-center items-center gap-6 cursor-pointer">
+                                <input type="file" className="w-0 h-0" accept="image/jpeg,image/png,application/pdf,video/mp4" multiple onChange={handleFileChange} />
+
+                                <div className="w-[421px] h-[118px] flex flex-col justify-start items-center gap-3">
+                                    <div className="text-center text-zinc-800 text-base font-semibold font-poppins">Choose a file or drag & drop it here</div>
+                                    <div className="text-center text-gray-400 text-sm font-medium font-poppins">JPEG, PNG, PDF, and MP4 formats, up to 50MB</div>
+                                </div>
+                                <div className="w-[164px] h-[37px] px-3 py-1 bg-white bg-opacity-60 rounded-3xl border border-black flex justify-center items-center gap-2.5">
+                                    <span className="text-center text-black text-base font-medium font-poppins">Browse File</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="h-[114px] flex-col justify-end items-center gap-2 flex">
-                <div className="w-[354px] text-black text-sm font-medium font-['Poppins']">Please describe the issue in detail:</div>
-                <div className="w-[354px] h-[85px] px-[18px] py-3 bg-white bg-opacity-60 rounded-3xl border border-black justify-start items-start gap-2.5 inline-flex">
-                    <div className="text-zinc-400 text-sm font-normal font-['Poppins']">I found the water machine was broken...</div>
-                </div>
-            </div>
-            <div className="h-[414px] flex-col justify-end items-center gap-2 flex">
-                <div className="w-[354px] text-black text-sm font-medium font-['Poppins']">Upload the images or other files:</div>
-                <div className="w-[354px] h-[253px] bg-white bg-opacity-60 rounded-[26px] border border-black flex-col justify-center items-center gap-2.5 flex">
-                    <div className="h-[219px] px-4 py-5 flex-col justify-center items-center gap-6 flex">
-                        <div className="w-[421px] h-[118px] flex-col justify-start items-center gap-3 flex">
-                            <div className="w-[46px] h-[46px] relative flex-col justify-start items-start inline-flex">
-                                <div className="w-[46px] h-[46px] relative">
-                                </div>
-                            </div>
-                            <div className="flex-col justify-start items-center gap-[15px] flex">
-                                <div className="text-center text-zinc-800 text-base font-semibold font-['Poppins']">Choose a file or drag & drop it here</div>
-                                <div className="text-center text-gray-400 text-sm font-medium font-['Poppins']">JPEG, PNG, PDG, and MP4 formats, up to 50MB</div>
-                            </div>
-                        </div>
-                        <div className="w-[164px] h-[37px] px-3 py-1 bg-white bg-opacity-60 rounded-3xl border border-black justify-center items-center gap-2.5 inline-flex">
-                            <div className="text-center text-black text-base font-medium font-['Poppins']">Browse File</div>
-                        </div>
+
+                    <div className=" mt-[20px] w-[357.35px] h-[74px] relative">
+                        <label className="absolute w-[354px] left-[3.35px] top-0 text-black text-sm font-medium font-poppins">Leave your email to receive updates:</label>
+                        <input
+                            type="email"
+                            className="w-[354px] h-[45px] px-4 py-3 absolute left-0 top-[29px] bg-white bg-opacity-60 rounded-3xl border border-black text-zinc-400 text-sm font-normal font-poppins"
+                            placeholder="12345@gmail.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)} 
+                        />
                     </div>
-                </div>
-                <div className="w-[354px] h-[124px] bg-white rounded-[26px] border border-black flex-col justify-center items-center gap-2.5 flex">
-                    <div className="h-[82.77px] flex-col justify-center items-center gap-5 flex">
-                        <div className="justify-end items-start gap-1 inline-flex">
-                            <div className="justify-start items-center gap-3 flex">
-                                <div className="w-[62.09px] h-[60px] relative">
-                                    <div className="w-[62.09px] h-[60px] left-0 top-0 absolute">
-                                        <div className="w-[41.86px] h-[24.42px] left-0 top-[26.51px] absolute bg-rose-600 rounded-[7px]" />
-                                    </div>
-                                </div>
-                                <div className="flex-col justify-start items-start gap-4 inline-flex">
-                                    <div className="text-zinc-800 text-sm font-medium font-['Poppins']">Water Pump.pdf</div>
-                                    <div className="justify-start items-start gap-2.5 inline-flex">
-                                        <div className="text-gray-400 text-sm font-normal font-['Inter']">60 KB of 12O KB •</div>
-                                        <div className="justify-center items-start gap-0.5 flex">
-                                            <div className="w-6 h-6 relative flex-col justify-start items-start inline-flex" />
-                                            <div className="text-zinc-800 text-sm font-normal font-['Inter']">Uploading</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-4 h-4 relative flex-col justify-start items-start inline-flex">
-                                <div className="w-4 h-4 relative">
-                                </div>
-                            </div>
-                        </div>
-                        <div className="w-[299px] h-[0.93px] relative">
-                        </div>
+                    <div className="mt-[20px] w-[357.35px] h-[74px] relative">
+                        <label className="absolute w-[354px] left-[3.35px] top-0 text-black text-sm font-medium font-poppins">The location of your discovery:</label>
+                        <input
+                            type="text"
+                            className="w-[354px] h-[45px] px-4 py-3 absolute left-0 top-[29px] bg-white bg-opacity-60 rounded-3xl border border-black text-zinc-400 text-sm font-normal font-poppins"
+                            placeholder="EasTrail, Woodinville, WA, 98004"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)} 
+                        />
                     </div>
+                    <button
+                        type="submit"
+                        className="mt-[20px] w-[354px] h-10 px-2.5 py-2 bg-black rounded-3xl flex justify-center items-center gap-2.5 text-white text-lg font-semibold font-poppins"
+                    >
+                        UPLOAD
+                    </button>
+
                 </div>
-            </div>
-            <div className="w-[357.35px] h-[74px] relative">
-                <div className="w-[354px] left-[3.35px] top-0 absolute text-black text-sm font-medium font-['Poppins']">Leave your email to receive updates:</div>
-                <div className="w-[354px] h-[45px] px-[18px] py-3 left-0 top-[29px] absolute bg-white bg-opacity-60 rounded-3xl border border-black justify-start items-end gap-2.5 inline-flex">
-                    <div className="text-zinc-400 text-sm font-normal font-['Poppins']">12345@gmail.com</div>
-                </div>
-            </div>
-            <div className="w-[357.35px] h-[74px] relative">
-                <div className="w-[354px] left-[3.35px] top-0 absolute text-black text-sm font-medium font-['Poppins']">The location of your discovery:</div>
-                <div className="w-[354px] h-[45px] px-[18px] py-3 left-0 top-[29px] absolute bg-white bg-opacity-60 rounded-3xl border border-black justify-start items-end gap-2.5 inline-flex">
-                    <div className="w-5 h-5 relative" />
-                    <div className="text-zinc-400 text-sm font-normal font-['Poppins']">EasTrail , Woodinville, WA, 98004</div>
-                </div>
-            </div>
-            <div className="h-[13px] rounded-md justify-center items-center gap-1 inline-flex">
-                <div className="w-3.5 h-3.5 relative" />
-                <div className="text-center text-zinc-900 text-opacity-50 text-xs font-medium font-['Poppins'] leading-snug">Help Centre</div>
-            </div>
-            <div className="w-[354px] h-12 px-2.5 py-10 bg-black rounded-3xl justify-center items-center gap-2.5 inline-flex">
-                <div className="text-white text-lg font-semibold font-['Poppins']">UPLOAD</div>
-            </div>
+            </form>
         </div>
     );
 };
