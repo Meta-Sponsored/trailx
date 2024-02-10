@@ -1,11 +1,13 @@
 import { GitHubBanner, Refine, WelcomePage } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
 import { useNotificationProvider } from "@refinedev/antd";
 import "@refinedev/antd/dist/reset.css";
 
+// Import the providers we made ourselves for project needs.
 import { dataProvider, liveProvider, authProvider } from "./providers";
+import { Home, ForgotPassword, Login, Register } from "./pages";
+
 import routerBindings, {
   DocumentTitleHandler,
   UnsavedChangesNotifier,
@@ -37,7 +39,10 @@ function App() {
             >
               <Routes>
                 <Route index element={<WelcomePage />} />
-                <Route />
+                <Route index element={<Home />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
               </Routes>
               <RefineKbar />
               <UnsavedChangesNotifier />

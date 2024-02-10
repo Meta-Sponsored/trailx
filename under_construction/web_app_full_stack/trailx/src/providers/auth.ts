@@ -2,10 +2,11 @@ import { AuthBindings } from "@refinedev/core";
 
 import { API_URL, dataProvider } from "./data";
 
-// For demo purposes and to make it easier to test the app, you can use the following credentials
+// For demo purposes and to make it easier to test the app, 
+// you can use the following credentials
 export const authCredentials = {
-    email: "michael.scott@dundermifflin.com",
-    password: "demodemo",
+    email: "chiawei1@uw.edu",
+    password: "trailx",
 };
 
 export const authProvider: AuthBindings = {
