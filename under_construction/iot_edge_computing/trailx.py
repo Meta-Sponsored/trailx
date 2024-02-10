@@ -115,7 +115,7 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
 
 
 # Function to run the main program
-def run_main_program(
+def run_object_detection(
     state_change_event, total_user_counted, total_bike_counted, total_dog_counted
 ):
     """Function to run the main program."""
@@ -181,7 +181,7 @@ def run_main_program(
     return total_user_counted, total_bike_counted, total_dog_counted
 
 
-# Main function to control device states
+# Main function to control installation states
 def main(api_key, city_name, time_zone):
     """Main function to control device states."""
 
@@ -191,9 +191,6 @@ def main(api_key, city_name, time_zone):
         args=(api_key, city_name, state_change_event, time_zone),
     )
     weather_checking_threading.start()
-    time.sleep(20)
-    led_screen_thread = threading.Thread(target=run_led_screen)
-    led_screen_thread.start()
     time.sleep(20)
 
     total_user_counted, total_bike_counted, total_dog_counted = 0, 0, 0
@@ -212,14 +209,14 @@ def main(api_key, city_name, time_zone):
                 total_user_counted,
                 total_bike_counted,
                 total_dog_counted,
-            ) = run_main_program(
+            ) = run_object_detection(
                 state_change_event,
                 total_user_counted,
                 total_bike_counted,
                 total_dog_counted,
             )
             # Add a 60-second wait to prevent crashes caused by
-            # multiple rapid entries and exits into run_main_program.
+            # multiple rapid entries and exits into run_object_detection.
             time.sleep(60)
 
 
@@ -227,7 +224,12 @@ if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
     CITY_NAME = "kirkland"
     TIME_ZONE = "America/Los_Angeles"
-    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
+
+    main_function_thread = threading.Thread(
+        target=main, args=(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
+    )
+    main_function_thread.start()
+    run_led_screen()
 
     # Los Angeles, California, USA (Pacific Time Zone):
     # IANA Identifier: 'America/Los_Angeles'

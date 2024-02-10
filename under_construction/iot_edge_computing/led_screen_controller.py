@@ -2,46 +2,48 @@ import threading
 import time
 import pygame
 import imageio
+import sys  # For clean exit
 
 # Specify the path where all GIF files are stored
-ANIMATIONS_PATH = "/animations/"
+ANIMATIONS_PATH = "animations/"
 
 # Global variables for LED screen control
 LED_SCREEN_ENABLED = False
 PLAYBACK_MODE = 0
+screen = None  # Global screen variable
+
+
+def initialize_pygame():
+    global screen
+    pygame.init()
+    screen = pygame.display.set_mode((448, 128))  # Adjust to your preferred size
 
 
 def display_gif_on_screen(filename):
-    pygame.init()
-    if not LED_SCREEN_ENABLED:
-        gif_frames = imageio.mimread("/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/animations/0.gif")
+    gif_frames = imageio.mimread(filename, memtest=False)
     if not gif_frames:
         print(f"Could not load GIF frames from {filename}")
         return
 
-    size = gif_frames[0].shape[1], gif_frames[0].shape[0]
-    screen = pygame.display.set_mode(size)
-
     for frame in gif_frames:
-        event = pygame.event.poll()
-        if event.type == pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return True  # Indicates a quit event
+
+        if not LED_SCREEN_ENABLED:
             break
 
-        # Convert frame to Pygame format
+        # Convert frame to Pygame format and display
         frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
         screen.blit(frame_surface, (0, 0))
         pygame.display.flip()
-        pygame.time.delay(100)  # Delay between frames, adjust as necessary
-
-    pygame.quit()
+        pygame.time.delay(100)  # Delay between frames
+    return False  # Indicates no quit event
 
 
 def play_gif(playback_mode):
     filename = f"{ANIMATIONS_PATH}{playback_mode}.gif"
-    print(filename)
-    while LED_SCREEN_ENABLED and PLAYBACK_MODE == playback_mode:
-        display_gif_on_screen(filename)
-        time.sleep(1)  # Prevents high CPU usage when idle
+    return display_gif_on_screen(filename)
 
 
 def change_led_screen_mode(led_screen_enabled, playback_mode):
@@ -51,31 +53,34 @@ def change_led_screen_mode(led_screen_enabled, playback_mode):
 
 
 def run_led_screen():
-    global PLAYBACK_MODE
-    while True:
-        if LED_SCREEN_ENABLED:
-            play_gif(PLAYBACK_MODE)
-        else:
-            time.sleep(1)  # Sleep when the LED screen is not enabled to save resources
+    initialize_pygame()
+    try:
+        while True:
+            if LED_SCREEN_ENABLED:
+                if play_gif(PLAYBACK_MODE):
+                    break  # Break the loop if a quit event is detected
+            else:
+                # Clear the screen when idle
+                screen.fill((0, 0, 0))
+                pygame.display.flip()
+                time.sleep(1)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    raise SystemExit  # Exit the loop cleanly on quit
+    except SystemExit:
+        pygame.quit()
 
 
 def test_function():
-
-    # Enable LED screen and set to mode 0
     change_led_screen_mode(True, 0)
     time.sleep(5)  # Display 0.gif for 5 seconds
-
-    # Change to mode 1
     change_led_screen_mode(True, 1)
     time.sleep(5)  # Display 1.gif for 5 seconds
-
-    # Disable LED screen
     change_led_screen_mode(False, 0)
 
 
 if __name__ == "__main__":
-
-    led_screen_thread = threading.Thread(target=run_led_screen)
-    led_screen_thread.start()
-
-    test_function()
+    test_thread = threading.Thread(target=test_function)
+    test_thread.start()
+    run_led_screen()
