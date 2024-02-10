@@ -99,9 +99,8 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
                 and current_time <= sunset_time
                 and cloud_coverage <= 100
             ):
-                if cloud_coverage < 50:
+                if cloud_coverage <= 100:
                     change_led_screen_mode(led_screen_enabled=True, playback_mode=0)
-                    # Optionally, set `playback_mode` based on specific conditions
                 else:
                     change_led_screen_mode(led_screen_enabled=False, playback_mode=0)
                 state_change_event.clear()  # Clear the event flag to continue running
@@ -223,13 +222,14 @@ def main(api_key, city_name, time_zone):
 
 if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
-    CITY_NAME = "kirkland"
+    CITY_NAME = "tainan"
     TIME_ZONE = "America/Los_Angeles"
 
     main_function_thread = threading.Thread(
         target=main, args=(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
     )
     main_function_thread.start()
+    time.sleep(200)
     run_led_screen()
 
     # Los Angeles, California, USA (Pacific Time Zone):
