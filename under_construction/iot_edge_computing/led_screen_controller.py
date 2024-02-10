@@ -13,7 +13,8 @@ PLAYBACK_MODE = 0
 
 def display_gif_on_screen(filename):
     pygame.init()
-    gif_frames = imageio.mimread(filename)
+    if not LED_SCREEN_ENABLED:
+        gif_frames = imageio.mimread("/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/animations/0.gif")
     if not gif_frames:
         print(f"Could not load GIF frames from {filename}")
         return
@@ -37,6 +38,7 @@ def display_gif_on_screen(filename):
 
 def play_gif(playback_mode):
     filename = f"{ANIMATIONS_PATH}{playback_mode}.gif"
+    print(filename)
     while LED_SCREEN_ENABLED and PLAYBACK_MODE == playback_mode:
         display_gif_on_screen(filename)
         time.sleep(1)  # Prevents high CPU usage when idle
@@ -58,6 +60,7 @@ def run_led_screen():
 
 
 def test_function():
+
     # Enable LED screen and set to mode 0
     change_led_screen_mode(True, 0)
     time.sleep(5)  # Display 0.gif for 5 seconds
@@ -71,6 +74,7 @@ def test_function():
 
 
 if __name__ == "__main__":
+
     led_screen_thread = threading.Thread(target=run_led_screen)
     led_screen_thread.start()
 
