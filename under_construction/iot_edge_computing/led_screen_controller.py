@@ -3,6 +3,9 @@ import time
 import pygame
 import imageio
 
+# Specify the path where all GIF files are stored
+ANIMATIONS_PATH = "/animations/"
+
 # Global variables for LED screen control
 LED_SCREEN_ENABLED = False
 PLAYBACK_MODE = 0
@@ -11,6 +14,10 @@ PLAYBACK_MODE = 0
 def display_gif_on_screen(filename):
     pygame.init()
     gif_frames = imageio.mimread(filename)
+    if not gif_frames:
+        print(f"Could not load GIF frames from {filename}")
+        return
+
     size = gif_frames[0].shape[1], gif_frames[0].shape[0]
     screen = pygame.display.set_mode(size)
 
@@ -28,8 +35,9 @@ def display_gif_on_screen(filename):
     pygame.quit()
 
 
-def play_gif(filename):
-    while LED_SCREEN_ENABLED and PLAYBACK_MODE == int(filename[0]):
+def play_gif(playback_mode):
+    filename = f"{ANIMATIONS_PATH}{playback_mode}.gif"
+    while LED_SCREEN_ENABLED and PLAYBACK_MODE == playback_mode:
         display_gif_on_screen(filename)
         time.sleep(1)  # Prevents high CPU usage when idle
 
@@ -44,8 +52,7 @@ def run_led_screen():
     global PLAYBACK_MODE
     while True:
         if LED_SCREEN_ENABLED:
-            filename = f"{PLAYBACK_MODE}.gif"
-            play_gif(filename)
+            play_gif(PLAYBACK_MODE)
         else:
             time.sleep(1)  # Sleep when the LED screen is not enabled to save resources
 
