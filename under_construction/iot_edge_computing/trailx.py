@@ -125,6 +125,7 @@ def run_object_detection(
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
     camera = videoSource("/dev/video0")
+    # display = videoOutput("display://0")
 
     while True:
         img = camera.Capture()
@@ -222,7 +223,7 @@ def main(api_key, city_name, time_zone):
 
 if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
-    CITY_NAME = "tainan"
+    CITY_NAME = "kirkland"
     TIME_ZONE = "America/Los_Angeles"
 
     main_function_thread = threading.Thread(
