@@ -46,7 +46,7 @@ def display_gif_on_screen(filename):
         
         screen.blit(frame_surface, (0, 0))  # Display the resized surface
         pygame.display.flip()
-        pygame.time.delay(100)  # Delay between frames
+        pygame.time.delay(200)  # Delay between frames
 
     return False  # Indicates no quit event
 
@@ -81,7 +81,7 @@ def run_led_screen():
         # sys.exit()  # Ensure clean exit including terminating all threads
 
 def test_function():
-    for i in range(1, 8):
+    for i in range(1, 9):
         change_led_screen_mode(True, i)
         time.sleep(5)  # Display 0.gif for 5 seconds
 
