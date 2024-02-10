@@ -78,14 +78,12 @@ def run_led_screen():
                     raise SystemExit  # Exit the loop cleanly on quit
     except SystemExit:
         pygame.quit()
-        sys.exit()  # Ensure clean exit including terminating all threads
+        # sys.exit()  # Ensure clean exit including terminating all threads
 
 def test_function():
-    change_led_screen_mode(True, 0)
-    time.sleep(5)  # Display 0.gif for 5 seconds
-    change_led_screen_mode(True, 1)
-    time.sleep(5)  # Display 1.gif for 5 seconds
-    change_led_screen_mode(False, 0)
+    for i in range(1, 8):
+        change_led_screen_mode(True, i)
+        time.sleep(5)  # Display 0.gif for 5 seconds
 
 if __name__ == "__main__":
     test_thread = threading.Thread(target=test_function)
