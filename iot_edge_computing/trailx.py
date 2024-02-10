@@ -96,7 +96,7 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             if (
                 current_time >= sunrise_time
                 and current_time <= sunset_time
-                and cloud_coverage < 50
+                and cloud_coverage < 80
             ):
                 state_change_event.clear()  # Clear the event flag to continue running
                 time.sleep(900)

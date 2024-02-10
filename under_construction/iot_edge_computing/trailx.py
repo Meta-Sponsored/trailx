@@ -15,8 +15,7 @@ import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
 from data_analysis import update_user_counter
-from game.game import start_animation, update_bird_position
-from object_class import object_class
+from led_screen_controller import change_led_screen_mode, run_led_screen
 
 
 # Function to get weather data including cloud coverage, sunrise, and sunset times, and city name
@@ -44,7 +43,7 @@ def get_weather_data(api_key, city_name, time_zone):
             sunrise_time_utc = None
             sunset_time_utc = None
 
-        current_time_utc = time.time()
+        current_time_utc = data["dt"]
 
         # Get the city name
         if "name" in data:
@@ -98,8 +97,13 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             if (
                 current_time >= sunrise_time
                 and current_time <= sunset_time
-                and cloud_coverage <= 100
+                and cloud_coverage < 80
             ):
+                if cloud_coverage < 50:
+                    change_led_screen_mode(led_screen_enabled=True, playback_mode=0)
+                    # Optionally, set `playback_mode` based on specific conditions
+                else:
+                    change_led_screen_mode(led_screen_enabled=False, playback_mode=0)
                 state_change_event.clear()  # Clear the event flag to continue running
                 time.sleep(900)
             else:
@@ -112,8 +116,7 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
 
 # Function to run the main program
 def run_main_program(
-    state_change_event, total_user_counted, total_bike_counted,
-    total_dog_counted, screen_width, screen_height
+    state_change_event, total_user_counted, total_bike_counted, total_dog_counted
 ):
     """Function to run the main program."""
 
@@ -122,7 +125,6 @@ def run_main_program(
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
     camera = videoSource("/dev/video0")
-    start_animation("./game/background/frames", "./game/bird/frames", 11, 9)
 
     while True:
         img = camera.Capture()
@@ -139,18 +141,6 @@ def run_main_program(
             ) = update_user_counter(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
-
-            if (
-                detection.TrackStatus >= 0
-                and (object_class[detection.ClassID] == "person")
-                and detection.TrackID >= 0
-            ):
-                x = screen_width - (detection.Left + detection.Right) // 2
-                y = (detection.Bottom + detection.Top) // 2
-                if not update_bird_position(x, y):
-                    state_change_event.set()
-        if not detections and not state_change_event.is_set():
-            update_bird_position(screen_width // 2, screen_height // 2)
 
         print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
@@ -192,17 +182,19 @@ def run_main_program(
 
 
 # Main function to control device states
-def main(api_key, city_name, time_zone, screen_width, screen_height):
+def main(api_key, city_name, time_zone):
     """Main function to control device states."""
 
     state_change_event = threading.Event()  # Event flag to signal state change
-    state_change_event.set()
     weather_checking_threading = threading.Thread(
         target=check_idle_state,
         args=(api_key, city_name, state_change_event, time_zone),
     )
     weather_checking_threading.start()
-    time.sleep(30)
+    time.sleep(20)
+    led_screen_thread = threading.Thread(target=run_led_screen)
+    led_screen_thread.start()
+    time.sleep(20)
 
     total_user_counted, total_bike_counted, total_dog_counted = 0, 0, 0
 
@@ -225,8 +217,6 @@ def main(api_key, city_name, time_zone, screen_width, screen_height):
                 total_user_counted,
                 total_bike_counted,
                 total_dog_counted,
-                screen_width,
-                screen_height,
             )
             # Add a 60-second wait to prevent crashes caused by
             # multiple rapid entries and exits into run_main_program.
@@ -235,13 +225,9 @@ def main(api_key, city_name, time_zone, screen_width, screen_height):
 
 if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
-    # CITY_NAME = "kirkland"
-    # TIME_ZONE = "America/Los_Angeles"
-    CITY_NAME = "tainan"
+    CITY_NAME = "kirkland"
     TIME_ZONE = "America/Los_Angeles"
-    SCREEN_WIDTH = 2048
-    SCREEN_HEIGHT = 1152
-    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE, SCREEN_WIDTH, SCREEN_HEIGHT)
+    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
 
     # Los Angeles, California, USA (Pacific Time Zone):
     # IANA Identifier: 'America/Los_Angeles'
