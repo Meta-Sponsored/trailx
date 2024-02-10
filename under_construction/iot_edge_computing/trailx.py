@@ -97,7 +97,7 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             if (
                 current_time >= sunrise_time
                 and current_time <= sunset_time
-                and cloud_coverage < 80
+                and cloud_coverage <= 100
             ):
                 if cloud_coverage < 50:
                     change_led_screen_mode(led_screen_enabled=True, playback_mode=0)
@@ -222,7 +222,7 @@ def main(api_key, city_name, time_zone):
 
 if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
-    CITY_NAME = "kirkland"
+    CITY_NAME = "tainan"
     TIME_ZONE = "America/Los_Angeles"
 
     main_function_thread = threading.Thread(
