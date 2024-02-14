@@ -86,6 +86,10 @@ With this program, we use Nvidia Jetson as an edge device. It will identify user
 
     `python3 trailx.py` or `sudo python3 trailx.py`
 
+3. To enable USB ports, type the following script in the terminal.
+
+    `sudo chmod a+rw /dev/ttyUSB0`
+
 ### 4. Screen recording on Jetson Nano
 
 Please enter the script in the terminal if you need to screen record. Note that you need to change FILE_LOCATION to the path where the file you want to be stored:
