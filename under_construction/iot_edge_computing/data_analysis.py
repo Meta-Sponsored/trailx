@@ -13,8 +13,6 @@ OBJECT_TRACKER_OUTPUT_PATH = "output_files/object_tracker_output.json"
 USER_COUNTER_OUTPUT_PATH = "output_files/user_counter_output.json"
 SPEED_OUTPUT_PATH = "output_files/speed_output.json"
 
-WARNING_SPEED = 5  # 5 mph
-SPEED_LIMIM_SPEED = 10  # 10 mph
 
 # Define a counter dictionary to keep track of different users.
 object_tracker = {}
@@ -209,6 +207,7 @@ def update_object_speed():
 
     while True:
         speed = get_serial_port_data()
+        print(f"Object movement detected! Speed: {speed} mph.")
         if WARNING_SPEED <= speed < SPEED_LIMIM_SPEED:
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
