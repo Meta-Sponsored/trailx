@@ -14,7 +14,7 @@ import requests
 import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
-from data_analysis import update_user_counter
+from data_analysis import update_user_counter, update_object_speed
 from led_screen_controller import change_led_screen_mode, run_led_screen
 
 
@@ -186,12 +186,17 @@ def main(api_key, city_name, time_zone):
     """Main function to control device states."""
 
     state_change_event = threading.Event()  # Event flag to signal state change
-    weather_checking_threading = threading.Thread(
+    weather_checking_thread = threading.Thread(
         target=check_idle_state,
         args=(api_key, city_name, state_change_event, time_zone),
     )
-    weather_checking_threading.start()
+    weather_checking_thread.start()
     time.sleep(20)
+    lidar_speed_update_thread = threading.Thread(
+        target=update_object_speed,
+    )
+    lidar_speed_update_thread.start()
+    time.sleep(5)
 
     total_user_counted, total_bike_counted, total_dog_counted = 0, 0, 0
 

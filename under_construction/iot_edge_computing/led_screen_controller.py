@@ -13,10 +13,12 @@ LED_SCREEN_ENABLED = False
 PLAYBACK_MODE = 0
 screen = None  # Global screen variable
 
+
 def initialize_pygame():
     global screen
     pygame.init()
     screen = pygame.display.set_mode((1920, 1080))  # Adjust to your preferred size
+
 
 def display_gif_on_screen(filename):
     gif_frames = imageio.mimread(filename, memtest=False)
@@ -29,7 +31,7 @@ def display_gif_on_screen(filename):
     for frame in gif_frames:
         # Ensure frame is in RGB format
         if frame.ndim == 2:  # Grayscale to RGB
-            frame = np.stack((frame,)*3, axis=-1)
+            frame = np.stack((frame,) * 3, axis=-1)
         elif frame.ndim == 3 and frame.shape[2] == 4:  # RGBA to RGB
             frame = frame[:, :, :3]
 
@@ -42,22 +44,31 @@ def display_gif_on_screen(filename):
 
         # Resize frame to fit the screen
         frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-        frame_surface = pygame.transform.scale(frame_surface, screen_size)  # Resize the surface
-        
+        frame_surface = pygame.transform.scale(
+            frame_surface, screen_size
+        )  # Resize the surface
+
         screen.blit(frame_surface, (0, 0))  # Display the resized surface
         pygame.display.flip()
         pygame.time.delay(200)  # Delay between frames
 
     return False  # Indicates no quit event
 
+
 def play_gif(playback_mode):
     filename = f"{ANIMATIONS_PATH}{playback_mode}.gif"
     return display_gif_on_screen(filename)
+
 
 def change_led_screen_mode(led_screen_enabled, playback_mode):
     global LED_SCREEN_ENABLED, PLAYBACK_MODE
     LED_SCREEN_ENABLED = led_screen_enabled
     PLAYBACK_MODE = playback_mode
+
+
+def get_current_mode():
+    return LED_SCREEN_ENABLED, PLAYBACK_MODE
+
 
 def run_led_screen():
     initialize_pygame()
@@ -80,10 +91,12 @@ def run_led_screen():
         pygame.quit()
         # sys.exit()  # Ensure clean exit including terminating all threads
 
+
 def test_function():
     for i in range(1, 9):
         change_led_screen_mode(True, i)
         time.sleep(5)  # Display 0.gif for 5 seconds
+
 
 if __name__ == "__main__":
     test_thread = threading.Thread(target=test_function)

@@ -3,12 +3,18 @@
 # Developer(s): Chia-Wei Chang
 
 import json
+import time
 from object_class import object_class
 from google.cloud import storage
+from led_screen_controller import get_current_mode, change_led_screen_mode
+from serial_port_communication import get_serial_port_data
 
 OBJECT_TRACKER_OUTPUT_PATH = "output_files/object_tracker_output.json"
 USER_COUNTER_OUTPUT_PATH = "output_files/user_counter_output.json"
 SPEED_OUTPUT_PATH = "output_files/speed_output.json"
+
+WARNING_SPEED = 5  # 5 mph
+SPEED_LIMIM_SPEED = 10  # 10 mph
 
 # Define a counter dictionary to keep track of different users.
 object_tracker = {}
@@ -197,3 +203,18 @@ def update_user_counter(
             )
 
     return total_user_counted, total_bike_counted, total_dog_counted
+
+
+def update_object_speed():
+
+    while True:
+        speed = get_serial_port_data()
+        if WARNING_SPEED <= speed < SPEED_LIMIM_SPEED:
+            led_screen_enabled, _ = get_current_mode()
+            if led_screen_enabled:
+                change_led_screen_mode(led_screen_enabled, playback_mode=1)
+        elif speed >= SPEED_LIMIM_SPEED:
+            led_screen_enabled, _ = get_current_mode()
+            if led_screen_enabled:
+                change_led_screen_mode(led_screen_enabled, playback_mode=2)
+        time.sleep(5)
