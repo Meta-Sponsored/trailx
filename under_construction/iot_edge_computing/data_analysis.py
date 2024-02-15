@@ -14,19 +14,18 @@ SPEED_OUTPUT_PATH = "output_files/speed_output.json"
 object_tracker = {}
 
 
-
 def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
     # The ID of your GCS bucket
     # The path to your file to upload
     # The ID to give your GCS object
 
-    storage_client = storage.Client.from_service_account_json('/home/trailx/2024_TrailX/key/gix-trailx-fc62772be22d.json')
+    storage_client = storage.Client.from_service_account_json(
+        "/home/trailx/2024_TrailX/key/gix-trailx-fc62772be22d.json"
+    )
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
-
     blob.upload_from_filename(source_file_name)
-
     print(f"File {source_file_name} uploaded to {destination_blob_name}.")
 
 
@@ -53,7 +52,11 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs('object_tracker', OBJECT_TRACKER_OUTPUT_PATH, 'object_tracker_output.json')
+            upload_to_gcs(
+                "object_tracker",
+                OBJECT_TRACKER_OUTPUT_PATH,
+                "object_tracker_output.json",
+            )
             # Save the user counter data to user_counter_output.json.
             with open(USER_COUNTER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(
@@ -68,7 +71,9 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
-            upload_to_gcs('user_counter', USER_COUNTER_OUTPUT_PATH, 'user_counter_output.json')
+            upload_to_gcs(
+                "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
+            )
         # print(
         #     f"{object_class[detection.ClassID]} (Tracking ID: {detection.TrackID}) "
         #     + "at ({detection.Center}) has been tracked "
@@ -91,7 +96,11 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs('object_tracker', OBJECT_TRACKER_OUTPUT_PATH, 'object_tracker_output.json')
+            upload_to_gcs(
+                "object_tracker",
+                OBJECT_TRACKER_OUTPUT_PATH,
+                "object_tracker_output.json",
+            )
             # Save the user counter data to user_counter_output.json.
             with open(USER_COUNTER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(
@@ -106,7 +115,9 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
-            upload_to_gcs('user_counter', USER_COUNTER_OUTPUT_PATH, 'user_counter_output.json')
+            upload_to_gcs(
+                "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
+            )
         # print(
         #     f"{object_class[detection.ClassID]} (Tracking ID: {detection.TrackID}) "
         #     + "at ({detection.Center}) has been tracked "
@@ -129,7 +140,11 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs('object_tracker', OBJECT_TRACKER_OUTPUT_PATH, 'object_tracker_output.json')
+            upload_to_gcs(
+                "object_tracker",
+                OBJECT_TRACKER_OUTPUT_PATH,
+                "object_tracker_output.json",
+            )
             # Save the user counter data to user_counter_output.json.
             with open(USER_COUNTER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(
@@ -144,7 +159,9 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
-            upload_to_gcs('user_counter', USER_COUNTER_OUTPUT_PATH, 'user_counter_output.json')
+            upload_to_gcs(
+                "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
+            )
         # print(
         #     f"{object_class[detection.ClassID]} (Tracking ID: {detection.TrackID}) "
         #     + "at ({detection.Center}) has been tracked "
@@ -173,6 +190,10 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs('object_tracker', OBJECT_TRACKER_OUTPUT_PATH, 'object_tracker_output.json')
+            upload_to_gcs(
+                "object_tracker",
+                OBJECT_TRACKER_OUTPUT_PATH,
+                "object_tracker_output.json",
+            )
 
     return total_user_counted, total_bike_counted, total_dog_counted
