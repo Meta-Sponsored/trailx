@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { storage } from '../firebase-config';
+import { ref, getDownloadURL } from 'firebase/storage';
 
 // Import icons.
-import { BsCurrencyDollar } from 'react-icons/bs';
 import { BsFillCircleFill } from "react-icons/bs";
 import { IoIosMore } from 'react-icons/io';
 import product9 from '../data/product9.jpg';
@@ -11,7 +12,7 @@ import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 
 // Import the data for the main page.
-import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
+import { medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { realtimeData } from '../data/real-time-analysis'
 import { weeklySparklineAreaData } from '../data/weekly-analysis'
 
@@ -26,9 +27,45 @@ const DropDown = ({ currentMode }) => (
 
 const TrailX = () => {
     const { currentColor, currentMode } = useStateContext();
+    const [gcsData, setGcsData] = useState(null);
+
+    const fetchDataFromFirebaseStorage = async () => {
+        const storageRef = ref(storage, 'gs://user_counter/user_counter_output.json'); // Adjust the path as needed
+
+        try {
+            const url = await getDownloadURL(storageRef);
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const data = await response.json();
+            setGcsData(data);
+        } catch (error) {
+            console.error("Could not fetch data from Firebase Storage:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataFromFirebaseStorage(); // Fetch data on component mount
+        const intervalId = setInterval(fetchDataFromFirebaseStorage, 5000); // Poll every 5 seconds
+
+        return () => clearInterval(intervalId); // Clean up the interval on component unmount
+    }, []);
+
 
     return (
         <div className='mt-12'>
+            <div className="dashboard">
+                <h2>TrailX User Summary</h2>
+                {gcsData ? (
+                    <div className="stats">
+                        <p><strong>Total User Count:</strong> {gcsData["Total User Count"]}</p>
+                        <p><strong>Pedestrians:</strong> {gcsData["Pedestrians"]}</p>
+                        <p><strong>Cyclists:</strong> {gcsData["Cyclists"]}</p>
+                        <p><strong>Dog Walkers:</strong> {gcsData["Dog Walkers"]}</p>
+                    </div>
+                ) : (
+                    <p>Loading data...</p>
+                )}
+            </div>
             {/* To render the general layout for the hero and the card layouts. */}
             <div className='flex flex-wrap lg:flex-nowrap justify-center'>
                 {/* To render the hero layout of the main page. */}
@@ -42,7 +79,7 @@ const TrailX = () => {
                                 Today
                             </p>
                             <p className='text-2xl'>
-                                347 users
+                                {gcsData ? gcsData["Total User Count"] : "Loading..."} users
                             </p>
                         </div>
                     </div>
@@ -59,38 +96,46 @@ const TrailX = () => {
                 </div>
                 {/* To render the card layout of the main page. */}
                 <div className='flex flex-wrap m-3 gap-3 justify-center items-center'>
-                    {realtimeData.map((item) => (
-                        <div
-                            key={item.title}
-                            className='p-4 pt-9 md:w-56
-                            rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'
-                        >
-                            <button type='button'
-                                style={{
-                                    color: item.iconColor,
-                                    backgroundColor: item.iconBg
-                                }}
-                                className='p-4 
-                                text-2xl opacity-90 rounded-full
-                                hover:drop-shadow-xl'>
-                                {item.icon}
-                            </button>
-                            <p className='mt-3'>
-                                <span className='text-lg font-semibold'>
-                                    {item.amount}
-                                </span>
-                                <span className={`ml-2 
-                                    text-sm text-${item.pcColor}`}>
-                                    {item.percentage}
-                                </span>
-                            </p>
-                            <p className='mt-1 
-                                text-sm text-gray-400'>
-                                {item.title}
-                            </p>
-                        </div>
-                    ))}
+                    {gcsData ? (
+                        <>
+                            <div
+                                className='p-4 pt-9 md:w-56 rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'
+                            >
+                                <p className='text-2xl opacity-90 rounded-full hover:drop-shadow-xl'>
+                                    🚶‍♂️ Pedestrians
+                                </p>
+                                <p className='mt-3 text-lg font-semibold'>
+                                    {gcsData["Pedestrians"]}
+                                </p>
+                            </div>
+
+                            <div
+                                className='p-4 pt-9 md:w-56 rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'
+                            >
+                                <p className='text-2xl opacity-90 rounded-full hover:drop-shadow-xl'>
+                                    🚴 Cyclists
+                                </p>
+                                <p className='mt-3 text-lg font-semibold'>
+                                    {gcsData["Cyclists"]}
+                                </p>
+                            </div>
+
+                            <div
+                                className='p-4 pt-9 md:w-56 rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'
+                            >
+                                <p className='text-2xl opacity-90 rounded-full hover:drop-shadow-xl'>
+                                    🐕 Dog Walkers
+                                </p>
+                                <p className='mt-3 text-lg font-semibold'>
+                                    {gcsData["Dog Walkers"]}
+                                </p>
+                            </div>
+                        </>
+                    ) : (
+                        <p>Loading data...</p>
+                    )}
                 </div>
+
             </div>
             {/* To render a big card layout for the syncfusion data visualization component. */}
             <div className='flex gap-3 flex-wrap justify-center'>
