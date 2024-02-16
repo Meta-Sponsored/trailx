@@ -56,11 +56,14 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs(
-                "object_tracker",
-                OBJECT_TRACKER_OUTPUT_PATH,
-                "object_tracker_output.json",
-            )
+            try:
+                upload_to_gcs(
+                    "object_tracker",
+                    OBJECT_TRACKER_OUTPUT_PATH,
+                    "object_tracker_output.json",
+                )
+            except:
+                print("GCP Error!")
             # Save the user counter data to user_counter_output.json.
             with open(USER_COUNTER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(
@@ -75,9 +78,12 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
-            upload_to_gcs(
-                "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
-            )
+            try:
+                upload_to_gcs(
+                    "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
+                )
+            except:
+                print("GCP Error!")
         # print(
         #     f"{object_class[detection.ClassID]} (Tracking ID: {detection.TrackID}) "
         #     + "at ({detection.Center}) has been tracked "
@@ -100,11 +106,14 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs(
-                "object_tracker",
-                OBJECT_TRACKER_OUTPUT_PATH,
-                "object_tracker_output.json",
-            )
+            try: 
+                upload_to_gcs(
+                    "object_tracker",
+                    OBJECT_TRACKER_OUTPUT_PATH,
+                    "object_tracker_output.json",
+                )
+            except:
+                print("GCP Error!")
             # Save the user counter data to user_counter_output.json.
             with open(USER_COUNTER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(
@@ -119,9 +128,12 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
-            upload_to_gcs(
-                "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
-            )
+            try:
+                upload_to_gcs(
+                    "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
+                )
+            except:
+                print("GCP Error!")
         # print(
         #     f"{object_class[detection.ClassID]} (Tracking ID: {detection.TrackID}) "
         #     + "at ({detection.Center}) has been tracked "
@@ -144,11 +156,14 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs(
-                "object_tracker",
-                OBJECT_TRACKER_OUTPUT_PATH,
-                "object_tracker_output.json",
-            )
+            try:
+                upload_to_gcs(
+                    "object_tracker",
+                    OBJECT_TRACKER_OUTPUT_PATH,
+                    "object_tracker_output.json",
+                )
+            except:
+                print("GCP Error!")
             # Save the user counter data to user_counter_output.json.
             with open(USER_COUNTER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(
@@ -163,9 +178,12 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
-            upload_to_gcs(
-                "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
-            )
+            try:
+                upload_to_gcs(
+                    "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
+                )
+            except:
+                print("GCP Error!")
         # print(
         #     f"{object_class[detection.ClassID]} (Tracking ID: {detection.TrackID}) "
         #     + "at ({detection.Center}) has been tracked "
@@ -194,25 +212,27 @@ def update_user_counter(
             # Save the object tracking data to object_tracker_output.json.
             with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
                 json.dump(object_tracker, outfile, indent=2)
-            upload_to_gcs(
-                "object_tracker",
-                OBJECT_TRACKER_OUTPUT_PATH,
-                "object_tracker_output.json",
-            )
-
+            try:
+                upload_to_gcs(
+                    "object_tracker",
+                    OBJECT_TRACKER_OUTPUT_PATH,
+                    "object_tracker_output.json",
+                )
+            except:
+                print("GCP Error!")
     return total_user_counted, total_bike_counted, total_dog_counted
 
 
-def update_object_speed():
+def update_object_speed(warning_speed, speed_limit_speed):
 
     while True:
         speed = get_serial_port_data()
         print(f"Object movement detected! Speed: {speed} mph.")
-        if WARNING_SPEED <= speed < SPEED_LIMIM_SPEED:
+        if warning_speed <= speed < speed_limit_speed:
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
                 change_led_screen_mode(led_screen_enabled, playback_mode=1)
-        elif speed >= SPEED_LIMIM_SPEED:
+        elif speed >= speed_limit_speed:
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
                 change_led_screen_mode(led_screen_enabled, playback_mode=2)
