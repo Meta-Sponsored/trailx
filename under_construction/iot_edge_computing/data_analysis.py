@@ -25,7 +25,7 @@ def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
     # The ID to give your GCS object
 
     storage_client = storage.Client.from_service_account_json(
-        "/home/trailx/2024_TrailX/key/gix-trailx-fc62772be22d.json"
+        "/home/trailx/Desktop/key/gix-trailx-736ea562d73b.json"
     )
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
@@ -232,8 +232,12 @@ def update_object_speed(warning_speed, speed_limit_speed):
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
                 change_led_screen_mode(led_screen_enabled, playback_mode=1)
+                time.sleep(5)
+                change_led_screen_mode(led_screen_enabled, playback_mode=0)
         elif speed >= speed_limit_speed:
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
                 change_led_screen_mode(led_screen_enabled, playback_mode=2)
+                time.sleep(5)
+                change_led_screen_mode(led_screen_enabled, playback_mode=0)
         time.sleep(5)
