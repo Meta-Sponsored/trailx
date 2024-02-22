@@ -14,8 +14,17 @@ import requests
 import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
-from data_analysis import update_user_counter
-from led_screen_controller import change_led_screen_mode, run_led_screen
+from data_analysis import update_user_counter, update_object_speed
+from led_screen_controller import (
+    get_current_mode,
+    change_led_screen_mode,
+    run_led_screen,
+)
+
+WARNING_SPEED = 5  # Unit: Miles Per Hour
+SPEED_LIMIM_SPEED = 10  # Unit: Miles Per Hour
+FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
+LIMITED_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 
 
 # Function to get weather data including cloud coverage, sunrise, and sunset times, and city name
@@ -97,12 +106,18 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             if (
                 current_time >= sunrise_time
                 and current_time <= sunset_time
-                and cloud_coverage <= 100
+                and cloud_coverage <= LIMITED_FUNCTIONAL_CLOUD_COVERAGE
             ):
-                if cloud_coverage <= 100:
-                    change_led_screen_mode(led_screen_enabled=True, playback_mode=0)
+                if cloud_coverage <= FULLY_FUNCTIONAL_CLOUD_COVERAGE:
+                    _, playback_mode = get_current_mode()
+                    change_led_screen_mode(
+                        led_screen_enabled=True, playback_mode=playback_mode
+                    )
                 else:
-                    change_led_screen_mode(led_screen_enabled=False, playback_mode=0)
+                    _, playback_mode = get_current_mode()
+                    change_led_screen_mode(
+                        led_screen_enabled=False, playback_mode=playback_mode
+                    )
                 state_change_event.clear()  # Clear the event flag to continue running
                 time.sleep(900)
             else:
@@ -186,12 +201,18 @@ def main(api_key, city_name, time_zone):
     """Main function to control device states."""
 
     state_change_event = threading.Event()  # Event flag to signal state change
-    weather_checking_threading = threading.Thread(
+    weather_checking_thread = threading.Thread(
         target=check_idle_state,
         args=(api_key, city_name, state_change_event, time_zone),
     )
-    weather_checking_threading.start()
+    weather_checking_thread.start()
     time.sleep(20)
+    lidar_speed_update_thread = threading.Thread(
+        target=update_object_speed,
+        args=(WARNING_SPEED, SPEED_LIMIM_SPEED),
+    )
+    lidar_speed_update_thread.start()
+    time.sleep(5)
 
     total_user_counted, total_bike_counted, total_dog_counted = 0, 0, 0
 
