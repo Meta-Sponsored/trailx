@@ -84,7 +84,6 @@ const NewsMap = () => {
 
   return (
     <div style={styles.newsMapContainer}>
-      <Trailx_NavHeader />
       <div style={styles.newsUpdatesSection}>
         <div style={styles.newsUpdates} id="NEWS_UPDATES">
           <img style={styles.vector} alt="Vector" src="vector 17.svg" />
