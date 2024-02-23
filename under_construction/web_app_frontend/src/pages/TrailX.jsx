@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { storage } from '../firebase-config';
+import { db, storage } from '../firebase-config';
 import { ref, getDownloadURL } from 'firebase/storage';
+import { collection, getDocs } from 'firebase/firestore';
 
 // Import icons.
 import { BsFillCircleFill } from "react-icons/bs";
@@ -13,11 +14,16 @@ import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 
 // Import the data for the main page.
 import { medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
-import { realtimeData } from '../data/real-time-analysis'
 import { weeklySparklineAreaData } from '../data/weekly-analysis'
 
 // Import the current states.
 import { useStateContext } from '../contexts/ContextProvider';
+
+const fetchIssues = async () => {
+    const issuesCollectionRef = collection(db, 'feedbacks'); // 'issues' is the name of the Firestore collection
+    const data = await getDocs(issuesCollectionRef);
+    return data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+};
 
 const DropDown = ({ currentMode }) => (
     <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -26,6 +32,17 @@ const DropDown = ({ currentMode }) => (
 );
 
 const TrailX = () => {
+    const [issues, setIssues] = useState([]);
+
+    useEffect(() => {
+        const getIssues = async () => {
+            const issuesData = await fetchIssues();
+            setIssues(issuesData);
+        };
+
+        getIssues();
+    }, []);
+
     const { currentColor, currentMode } = useStateContext();
     const [gcsData, setGcsData] = useState(null);
 
@@ -53,19 +70,15 @@ const TrailX = () => {
 
     return (
         <div className='mt-12'>
-            <div className="dashboard">
-                <h2>TrailX User Summary</h2>
-                {gcsData ? (
-                    <div className="stats">
-                        <p><strong>Total User Count:</strong> {gcsData["Total User Count"]}</p>
-                        <p><strong>Pedestrians:</strong> {gcsData["Pedestrians"]}</p>
-                        <p><strong>Cyclists:</strong> {gcsData["Cyclists"]}</p>
-                        <p><strong>Dog Walkers:</strong> {gcsData["Dog Walkers"]}</p>
-                    </div>
-                ) : (
-                    <p>Loading data...</p>
-                )}
+            <div className="w-full flex items-center justify-between px-2 h-12">
+                <img className="max-w-xs" alt="Vector" src="vector 17.svg" style={{ flexShrink: 0 }} />
+                <div className="text-center text-black font-semibold text-2xl flex-1">
+                    DASHBOARD
+                </div>
+                <img className="max-w-xs" alt="Vector" src="vector 18.svg" style={{ flexShrink: 0 }} />
             </div>
+
+
             {/* To render the general layout for the hero and the card layouts. */}
             <div className='flex flex-wrap lg:flex-nowrap justify-center'>
                 {/* To render the hero layout of the main page. */}
@@ -215,38 +228,40 @@ const TrailX = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* other components */}
-                <div>
-                    <div
-                        className=" rounded-2xl md:w-400 p-4 m-3"
-                        style={{ backgroundColor: currentColor }}
-                    >
-                        <div className="flex justify-between items-center ">
-                            <p className="font-semibold text-white text-2xl">Earnings</p>
-
-                            <div>
-                                <p className="text-2xl text-white font-semibold mt-8">$63,448.78</p>
-                                <p className="text-gray-200">Monthly revenue</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-4">
-                            <SparkLine currentColor={currentColor} id="column-sparkLine" height="100px" type="Column" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
-                        </div>
-                    </div>
-
-                    <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
-                        <div>
-                            <p className="text-2xl font-semibold ">$43,246</p>
-                            <p className="text-gray-400">Yearly sales</p>
-                        </div>
-
-                        <div className="w-40">
-                            <Pie id="pie-chart" data={ecomPieChartData} legendVisiblity={false} height="160px" />
-                        </div>
-                    </div>
+                <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="py-3 px-6">
+                                    Created At
+                                </th>
+                                <th scope="col" className="py-3 px-6">
+                                    Email
+                                </th>
+                                <th scope="col" className="py-3 px-6">
+                                    Issue Description
+                                </th>
+                                <th scope="col" className="py-3 px-6">
+                                    Location
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {issues.map((issue) => (
+                                <tr key={issue.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td className="py-4 px-6">
+                                        {issue.createdAt.toDate().toLocaleString()} {/* Adjust formatting as needed */}
+                                    </td>
+                                    <td className="py-4 px-6">{issue.email}</td>
+                                    <td className="py-4 px-6">{issue.issueDescription}</td>
+                                    <td className="py-4 px-6">{issue.location}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
+
+                
             </div>
 
             <div className="flex gap-10 m-4 flex-wrap justify-center">
@@ -336,92 +351,6 @@ const TrailX = () => {
                         </div>
                     </div>
 
-                </div>
-                <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-                    <div className="flex justify-between">
-                        <p className="text-xl font-semibold">MedicalPro Branding</p>
-                        <button type="button" className="text-xl font-semibold text-gray-400">
-                            <IoIosMore />
-                        </button>
-                    </div>
-                    <p className="text-xs cursor-pointer hover:drop-shadow-xl font-semibold rounded-lg w-24 bg-orange-400 py-0.5 px-2 text-gray-200 mt-10">
-                        16 APR, 2021
-                    </p>
-
-                    <div className="flex gap-4 border-b-1 border-color mt-6">
-                        {medicalproBranding.data.map((item) => (
-                            <div key={item.title} className="border-r-1 border-color pr-4 pb-2">
-                                <p className="text-xs text-gray-400">{item.title}</p>
-                                <p className="text-sm">{item.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="border-b-1 border-color pb-4 mt-2">
-                        <p className="text-md font-semibold mb-2">Teams</p>
-
-                        <div className="flex gap-4">
-                            {medicalproBranding.teams.map((item) => (
-                                <p
-                                    key={item.name}
-                                    style={{ background: item.color }}
-                                    className="cursor-pointer hover:drop-shadow-xl text-white py-0.5 px-3 rounded-lg text-xs"
-                                >
-                                    {item.name}
-                                </p>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="mt-2">
-                        <p className="text-md font-semibold mb-2">Leaders</p>
-                        <div className="flex gap-4">
-                            {medicalproBranding.leaders.map((item, index) => (
-                                <img key={index} className="rounded-full w-8 h-8" src={item.image} alt="" />
-                            ))}
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-                        <div className="mt-3">
-                            <Button
-                                color="white"
-                                bgColor={currentColor}
-                                text="Add"
-                                borderRadius="10px"
-                            />
-                        </div>
-
-                        <p className="text-gray-400 text-sm">36 Recent Transactions</p>
-                    </div>
-                </div>
-                <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-                    <div className="flex justify-between">
-                        <p className="text-xl font-semibold">Daily Activities</p>
-                        <button type="button" className="text-xl font-semibold text-gray-500">
-                            <IoIosMore />
-                        </button>
-                    </div>
-                    <div className="mt-10">
-                        <img
-                            className="md:w-96 h-50 "
-                            src={product9}
-                            alt=""
-                        />
-                        <div className="mt-8">
-                            <p className="font-semibold text-lg">React 18 coming soon!</p>
-                            <p className="text-gray-400 ">By Johnathan Doe</p>
-                            <p className="mt-8 text-sm text-gray-400">
-                                This will be the small description for the news you have shown
-                                here. There could be some great info.
-                            </p>
-                            <div className="mt-3">
-                                <Button
-                                    color="white"
-                                    bgColor={currentColor}
-                                    text="Read More"
-                                    borderRadius="10px"
-                                />
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
