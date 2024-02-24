@@ -8,6 +8,10 @@ from object_class import object_class
 from google.cloud import storage
 from led_screen_controller import get_current_mode, change_led_screen_mode
 from serial_port_communication import get_serial_port_data
+from firebase_admin_config import initialize_firebase_admin
+from datetime import datetime
+
+db = initialize_firebase_admin()
 
 OBJECT_TRACKER_OUTPUT_PATH = "output_files/object_tracker_output.json"
 USER_COUNTER_OUTPUT_PATH = "output_files/user_counter_output.json"
@@ -17,6 +21,15 @@ SPEED_OUTPUT_PATH = "output_files/speed_output.json"
 # Define a counter dictionary to keep track of different users.
 object_tracker = {}
 
+def upload_daily_data_to_firestore(data):
+    """
+    Uploads daily data to a Firestore document named with today's date in a specified collection.
+    """
+    collection_name = 'daily_user_counts'  # Example collection name
+    today_date_str = datetime.now().strftime('%Y-%m-%d')
+    doc_ref = db.collection(collection_name).document(today_date_str)
+    doc_ref.set(data)
+    print(f"Data for {today_date_str} uploaded to Firestore collection '{collection_name}'.")
 
 def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
@@ -78,6 +91,16 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
+            
+            daily_data = {
+            "Total User Count": total_user_counted,
+            "Pedestrians": total_user_counted - total_bike_counted - total_dog_counted,
+            "Cyclists": total_bike_counted,
+            "Dog Walkers": total_dog_counted,
+            }
+            if detection.TrackStatus >= 0:
+            # Call the function to upload the updated counts to Firestore
+                upload_daily_data_to_firestore(daily_data)
             try:
                 upload_to_gcs(
                     "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
@@ -128,6 +151,15 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
+            daily_data = {
+            "Total User Count": total_user_counted,
+            "Pedestrians": total_user_counted - total_bike_counted - total_dog_counted,
+            "Cyclists": total_bike_counted,
+            "Dog Walkers": total_dog_counted,
+            }
+            if detection.TrackStatus >= 0:
+            # Call the function to upload the updated counts to Firestore
+                upload_daily_data_to_firestore(daily_data)            
             try:
                 upload_to_gcs(
                     "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
@@ -178,6 +210,15 @@ def update_user_counter(
                     outfile,
                     indent=2,
                 )
+            daily_data = {
+            "Total User Count": total_user_counted,
+            "Pedestrians": total_user_counted - total_bike_counted - total_dog_counted,
+            "Cyclists": total_bike_counted,
+            "Dog Walkers": total_dog_counted,
+            }
+            if detection.TrackStatus >= 0:
+            # Call the function to upload the updated counts to Firestore
+                upload_daily_data_to_firestore(daily_data)            
             try:
                 upload_to_gcs(
                     "user_counter", USER_COUNTER_OUTPUT_PATH, "user_counter_output.json"
