@@ -152,82 +152,84 @@ const TrailX = () => {
             </div>
             {/* To render a big card layout for the syncfusion data visualization component. */}
             <div className='flex gap-3 flex-wrap justify-center'>
-                <div className='m-3 p-4 md:w-780 
-                    rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'>
+                <div className='m-3 p-4 md:w-780 rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'>
                     {/* Title & Dots */}
                     <div className='flex justify-between'>
                         {/* Title */}
                         <p className='text-xl font-semibold'>Trend Summary</p>
-                        {/* Dots */}
+                        {/* Dots for visual representation */}
                         <div className='flex gap-4 items-center'>
-                            <p className='flex gap-2 
-                                items-center text-gray-600 hover:drop-shadow-xl'>
+                            <p className='flex gap-2 items-center text-gray-600 hover:drop-shadow-xl'>
                                 <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
                                 <span>Pedestrians</span>
                             </p>
-                            <p className='flex gap-2 
-                                items-center text-[#01BDAE] hover:drop-shadow-xl'>
+                            <p className='flex gap-2 items-center text-[#01BDAE] hover:drop-shadow-xl'>
                                 <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
                                 <span>Cyclists</span>
+                            </p>
+                            {/* Dog Walkers Dot */}
+                            <p className='flex gap-2 items-center text-green-500 hover:drop-shadow-xl'>
+                                <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
+                                <span>Dog Walkers</span>
                             </p>
                         </div>
                     </div>
                     <div className='flex mt-10 gap-10 flex-wrap justify-center'>
-                        {/* Key Figures & Sparkline Component */}
-                        <div className='m-4 pr-10 border-r-1
-                            border-color'>
+                        {/* Dynamic data for Total Users, Pedestrians, Cyclists */}
+                        <div className='m-4 pr-10 border-r-1 border-color'>
                             <div>
                                 <p>
-                                    <span className='text-3xl font-semibold'>5946</span>
-                                    <span className='p-1.5 ml-3
-                                        hover:drop-shadow-xl cursor-pointer rounded-full
-                                        text-white bg-[#01BDAE] text-xs'>66%
+                                    <span className='text-3xl font-semibold'>
+                                        {gcsData ? gcsData["Total User Count"] : "Loading..."}
+                                    </span>
+                                    <span className='p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-[#01BDAE] text-xs'>
+                                        {/* Example or calculated value */}
+                                        66%
                                     </span>
                                 </p>
                                 <p className='mt-1 text-gray-500'>
-                                    Past 4 Weeks
+                                    Total Users
                                 </p>
                             </div>
+                            {/* Dog Walkers section */}
                             <div className='mt-8'>
                                 <p>
-                                    <span className='text-3xl font-semibold'>2501</span>
-                                    <span className='p-1.5 ml-3
-                                        hover:drop-shadow-xl cursor-pointer rounded-full
-                                        text-white bg-[#01BDAE] text-xs'>75%
+                                    <span className='text-3xl font-semibold'>
+                                        {gcsData ? gcsData["Dog Walkers"] : "Loading..."}
+                                    </span>
+                                    <span className='p-1.5 ml-3 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-500 text-xs'>
+                                        {/* Example or calculated value */}
+                                        75%
                                     </span>
                                 </p>
                                 <p className='mt-1 text-gray-500'>
-                                    This Week
+                                    Dog Walkers This Week
                                 </p>
                             </div>
-                            {/* Sparkline Component */}
-                            <div className='mt-5'>
-                                <SparkLine
-                                    currentColor={currentColor}
-                                    id='line-sparkline'
-                                    type='Line'
-                                    height='80px'
-                                    width='250px'
-                                    data={weeklySparklineAreaData}
-                                    color={currentColor}
-                                />
-                            </div>
-                            {/* Button */}
-                            <div className='mt-10'>
-                                <Button
-                                    color='white'
-                                    bgColor={currentColor}
-                                    text='Download Analysis'
-                                    borderRadius='10px'
-                                />
-                            </div>
                         </div>
-                        {/* Stacked Component */}
-                        <div>
-                            <Stacked width='320px' height='360px' />
+                        {/* Sparkline Component and Download Button remain unchanged */}
+                        <div className='mt-5'>
+                            <SparkLine
+                                currentColor={currentColor}
+                                id='line-sparkline'
+                                type='Line'
+                                height='80px'
+                                width='250px'
+                                data={weeklySparklineAreaData} // Adjust or replace data source as necessary
+                                color={currentColor}
+                            />
+                        </div>
+                        <div className='mt-10'>
+                            <Button
+                                color='white'
+                                bgColor={currentColor}
+                                text='Download Analysis'
+                                borderRadius='10px'
+                            />
                         </div>
                     </div>
                 </div>
+
                 <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -261,7 +263,7 @@ const TrailX = () => {
                     </table>
                 </div>
 
-                
+
             </div>
 
             <div className="flex gap-10 m-4 flex-wrap justify-center">
@@ -353,7 +355,7 @@ const TrailX = () => {
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
