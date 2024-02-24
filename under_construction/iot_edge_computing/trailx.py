@@ -1,8 +1,6 @@
 """This file is the main program of Trailx, allowing Jetson Nano to 
 detect and track objects."""
 
-# Developer(s): Chia-Wei Chang
-
 # References:
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-example-2.md
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-tracking.md

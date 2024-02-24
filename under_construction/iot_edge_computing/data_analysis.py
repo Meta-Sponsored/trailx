@@ -1,7 +1,5 @@
 """This module handles data analysis and calculations for detected objects."""
 
-# Developer(s): Chia-Wei Chang
-
 import json
 import time
 from datetime import datetime
