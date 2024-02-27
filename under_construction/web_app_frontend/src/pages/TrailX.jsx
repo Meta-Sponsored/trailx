@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { db, storage } from '../firebase-config';
 import { ref, getDownloadURL } from 'firebase/storage';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, doc, getDocs, getDoc } from "firebase/firestore";
 
 // Import icons.
 import { BsFillCircleFill } from "react-icons/bs";
 import { IoIosMore } from 'react-icons/io';
-import product9 from '../data/product9.jpg';
 
 // Import components.
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
@@ -33,6 +32,8 @@ const DropDown = ({ currentMode }) => (
 
 const TrailX = () => {
     const [issues, setIssues] = useState([]);
+    const { currentColor, currentMode } = useStateContext();
+    const [dailyData, setDailyData] = useState(null);
 
     useEffect(() => {
         const getIssues = async () => {
@@ -42,8 +43,34 @@ const TrailX = () => {
 
         getIssues();
     }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            const now = new Date();
+            // Calculate UTC-8 time by subtracting 8 hours in milliseconds
+            const utc8Time = new Date(now.getTime() - (8 * 60 * 60 * 1000));
 
-    const { currentColor, currentMode } = useStateContext();
+            // Format date as YYYY-MM-DD manually to ensure it reflects UTC-8 date
+            const year = utc8Time.getUTCFullYear();
+            const month = utc8Time.getUTCMonth() + 1;
+            const day = utc8Time.getUTCDate();
+            const todayString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            console.log(todayString);
+
+            const docRef = doc(db, "daily_user_counts", todayString); // Adjust with your actual Firestore collection name and today's date as the document ID
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                setDailyData(data);
+            } else {
+                console.log("No such document!");
+                // Handle the case where the document does not exist
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const [gcsData, setGcsData] = useState(null);
 
     const fetchDataFromFirebaseStorage = async () => {
@@ -66,6 +93,7 @@ const TrailX = () => {
 
         return () => clearInterval(intervalId); // Clean up the interval on component unmount
     }, []);
+
 
 
     return (
@@ -92,19 +120,13 @@ const TrailX = () => {
                                 Today
                             </p>
                             <p className='text-2xl'>
-                                {gcsData ? gcsData["Total User Count"] : "Loading..."} users
+                                {dailyData ? dailyData["Total User Count"] : "Loading..."} users
                             </p>
+                            <span className='p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-[#01BDAE] text-xs'>
+                                {/* Example or calculated value */}
+                                66%
+                            </span>
                         </div>
-                    </div>
-                    {/* To render a button in the hero section. */}
-                    <div className='mt-6'>
-                        <Button
-                            color='white'
-                            bgColor={currentColor}
-                            text='Download'
-                            borderRadius='10px'
-                            size='md'
-                        />
                     </div>
                 </div>
                 {/* To render the card layout of the main page. */}
@@ -118,7 +140,7 @@ const TrailX = () => {
                                     🚶‍♂️ Pedestrians
                                 </p>
                                 <p className='mt-3 text-lg font-semibold'>
-                                    {gcsData["Pedestrians"]}
+                                    {dailyData ? dailyData["Pedestrians"] : "Loading..."}
                                 </p>
                             </div>
 
@@ -129,7 +151,7 @@ const TrailX = () => {
                                     🚴 Cyclists
                                 </p>
                                 <p className='mt-3 text-lg font-semibold'>
-                                    {gcsData["Cyclists"]}
+                                    {dailyData ? dailyData["Cyclists"] : "Loading..."}
                                 </p>
                             </div>
 
@@ -140,7 +162,7 @@ const TrailX = () => {
                                     🐕 Dog Walkers
                                 </p>
                                 <p className='mt-3 text-lg font-semibold'>
-                                    {gcsData["Dog Walkers"]}
+                                    {dailyData ? dailyData["Dog Walkers"] : "Loading..."}
                                 </p>
                             </div>
                         </>
@@ -148,77 +170,16 @@ const TrailX = () => {
                         <p>Loading data...</p>
                     )}
                 </div>
-
             </div>
             {/* To render a big card layout for the syncfusion data visualization component. */}
+
             <div className='flex gap-3 flex-wrap justify-center'>
-                <div className='m-3 p-4 md:w-780 rounded-2xl bg-white dark:text-gray-200 dark:bg-secondary-dark-bg'>
-                    {/* Title & Dots */}
-                    <div className='flex justify-between'>
-                        {/* Title */}
+                <div className="flex gap-10 m-4 flex-wrap justify-center bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
+                    <div className='flex justify-between p-4'>
                         <p className='text-xl font-semibold'>Trend Summary</p>
-                        {/* Dots for visual representation */}
-                        <div className='flex gap-4 items-center'>
-                            <p className='flex gap-2 items-center text-gray-600 hover:drop-shadow-xl'>
-                                <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
-                                <span>Pedestrians</span>
-                            </p>
-                            <p className='flex gap-2 items-center text-[#01BDAE] hover:drop-shadow-xl'>
-                                <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
-                                <span>Cyclists</span>
-                            </p>
-                            {/* Dog Walkers Dot */}
-                            <p className='flex gap-2 items-center text-green-500 hover:drop-shadow-xl'>
-                                <span className='flex h-1.5 w-1.5 pb-3.5'><BsFillCircleFill /></span>
-                                <span>Dog Walkers</span>
-                            </p>
-                        </div>
                     </div>
-                    <div className='flex mt-10 gap-10 flex-wrap justify-center'>
-                        {/* Dynamic data for Total Users, Pedestrians, Cyclists */}
-                        <div className='m-4 pr-10 border-r-1 border-color'>
-                            <div>
-                                <p>
-                                    <span className='text-3xl font-semibold'>
-                                        {gcsData ? gcsData["Total User Count"] : "Loading..."}
-                                    </span>
-                                    <span className='p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-[#01BDAE] text-xs'>
-                                        {/* Example or calculated value */}
-                                        66%
-                                    </span>
-                                </p>
-                                <p className='mt-1 text-gray-500'>
-                                    Total Users
-                                </p>
-                            </div>
-                            {/* Dog Walkers section */}
-                            <div className='mt-8'>
-                                <p>
-                                    <span className='text-3xl font-semibold'>
-                                        {gcsData ? gcsData["Dog Walkers"] : "Loading..."}
-                                    </span>
-                                    <span className='p-1.5 ml-3 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-500 text-xs'>
-                                        {/* Example or calculated value */}
-                                        75%
-                                    </span>
-                                </p>
-                                <p className='mt-1 text-gray-500'>
-                                    Dog Walkers This Week
-                                </p>
-                            </div>
-                        </div>
-                        {/* Sparkline Component and Download Button remain unchanged */}
-                        <div className='mt-5'>
-                            <LineChart
-                                currentColor={currentColor}
-                                id='line-sparkline'
-                                type='Line'
-                                height='80px'
-                                width='250px'
-                                data={weeklySparklineAreaData} // Adjust or replace data source as necessary
-                                color={currentColor}
-                            />
-                        </div>
+                    <div className="md:w-full overflow-auto">
+                        <LineChart />
                     </div>
                 </div>
 
@@ -253,98 +214,6 @@ const TrailX = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
-
-
-            </div>
-
-            <div className="flex gap-10 m-4 flex-wrap justify-center">
-                <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
-                    <div className="flex justify-between items-center gap-2">
-                        <p className="text-xl font-semibold">Recent Transactions</p>
-                        <DropDown currentMode={currentMode} />
-                    </div>
-                    <div className="mt-10 w-72 md:w-400">
-                        {recentTransactions.map((item) => (
-                            <div key={item.title} className="flex justify-between mt-4">
-                                <div className="flex gap-4">
-                                    <button
-                                        type="button"
-                                        style={{
-                                            color: item.iconColor,
-                                            backgroundColor: item.iconBg,
-                                        }}
-                                        className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                                    >
-                                        {item.icon}
-                                    </button>
-                                    <div>
-                                        <p className="text-md font-semibold">{item.title}</p>
-                                        <p className="text-sm text-gray-400">{item.desc}</p>
-                                    </div>
-                                </div>
-                                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-                        <div className="mt-3">
-                            <Button
-                                color="white"
-                                bgColor={currentColor}
-                                text="Add"
-                                borderRadius="10px"
-                            />
-                        </div>
-
-                        <p className="text-gray-400 text-sm">36 Recent Transactions</p>
-                    </div>
-                </div>
-                <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
-                    <div className="flex justify-between items-center gap-2 mb-10">
-                        <p className="text-xl font-semibold">Sales Overview</p>
-                        <DropDown currentMode={currentMode} />
-                    </div>
-                    <div className="md:w-full overflow-auto">
-                        <LineChart />
-                    </div>
-                </div>
-            </div>
-
-            <div className="flex flex-wrap justify-center">
-                <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-                    <div className="flex justify-between">
-                        <p className="text-xl font-semibold">Weekly Stats</p>
-                        <button type="button" className="text-xl font-semibold text-gray-500">
-                            <IoIosMore />
-                        </button>
-                    </div>
-
-                    <div className="mt-10 ">
-                        {weeklyStats.map((item) => (
-                            <div key={item.title} className="flex justify-between mt-4 w-full">
-                                <div className="flex gap-4">
-                                    <button
-                                        type="button"
-                                        style={{ background: item.iconBg }}
-                                        className="text-2xl hover:drop-shadow-xl text-white rounded-full p-3"
-                                    >
-                                        {item.icon}
-                                    </button>
-                                    <div>
-                                        <p className="text-md font-semibold">{item.title}</p>
-                                        <p className="text-sm text-gray-400">{item.desc}</p>
-                                    </div>
-                                </div>
-
-                                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-                            </div>
-                        ))}
-                        <div className="mt-4">
-                            <SparkLine currentColor={currentColor} id="area-sparkLine" height="160px" type="Area" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div >
