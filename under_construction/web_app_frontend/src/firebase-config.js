@@ -24,4 +24,4 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 // Export the Firebase services for use in your app
-export { db, storage, analytics };
+export { db, storage, analytics, app };

@@ -68,6 +68,8 @@ def save_and_upload(tracking_types, total_user_counted):
     with open(OBJECT_TRACKER_OUTPUT_PATH, "w", encoding="utf-8") as outfile:
         json.dump(object_tracker, outfile, indent=2)
 
+    today_date = datetime.now().strftime("%Y-%m-%d")
+
     # Prepare the user counter data
     user_counter_data = {
         "Total User Count": total_user_counted,
@@ -76,6 +78,7 @@ def save_and_upload(tracking_types, total_user_counted):
         - tracking_types["dog"]["counter"],
         "Cyclists": tracking_types["bicycle"]["counter"],
         "Dog Walkers": tracking_types["dog"]["counter"],
+        "Date": today_date
     }
 
     # Save the user counter data

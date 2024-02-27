@@ -209,7 +209,7 @@ const TrailX = () => {
                         </div>
                         {/* Sparkline Component and Download Button remain unchanged */}
                         <div className='mt-5'>
-                            <SparkLine
+                            <LineChart
                                 currentColor={currentColor}
                                 id='line-sparkline'
                                 type='Line'
@@ -217,14 +217,6 @@ const TrailX = () => {
                                 width='250px'
                                 data={weeklySparklineAreaData} // Adjust or replace data source as necessary
                                 color={currentColor}
-                            />
-                        </div>
-                        <div className='mt-10'>
-                            <Button
-                                color='white'
-                                bgColor={currentColor}
-                                text='Download Analysis'
-                                borderRadius='10px'
                             />
                         </div>
                     </div>
