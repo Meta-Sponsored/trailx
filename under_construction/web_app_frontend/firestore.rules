@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow anyone to submit feedback
+    match /feedbacks/{document=**} {
+      allow read: if true;  // Adjust based on your read access needs
+      allow write: if true;
+    }
+    // Default rule for other collections: no access
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

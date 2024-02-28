@@ -9,7 +9,7 @@ import { IoIosMore } from 'react-icons/io';
 
 // Import components.
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
+import { LineChart } from '../components';
 
 // Import the data for the main page.
 import { medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';

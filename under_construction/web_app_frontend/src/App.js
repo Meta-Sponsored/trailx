@@ -11,7 +11,7 @@ import { Navbar, Sidebar, ThemeSettings } from './components';
 import {
     TrailX, Orders, Employees, Customers,
     Calendar, Kanban, Editor, ColorPicker,
-    Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid, NewsMap
+    Line, Stacked, Area, Bar, Pie, Financial, ColorMapping, Pyramid, NewsMap, AdminLoginPage
 } from './pages';
 
 // Import the current states.
@@ -90,6 +90,8 @@ const App = () => {
 
                                 {/* Trailx */}
                                 <Route path="/NewsMap" element={<NewsMap />} />
+
+                                <Route path="/AdminLoginPage" element={<AdminLoginPage />} />   
                             </Routes>
                         </div>
                     </div>

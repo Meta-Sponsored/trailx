@@ -15,3 +15,4 @@ export { default as Pie } from './Charts/Pie';
 export { default as Pyramid } from './Charts/Pyramid';
 export { default as Stacked } from './Charts/Stacked';
 export {default as NewsMap} from './NewsMap';
+export {default as AdminLoginPage} from './AdminLoginPage';
