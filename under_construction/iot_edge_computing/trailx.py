@@ -163,9 +163,7 @@ def run_object_detection(
                 led_screen_enabled, current_playback_mode = get_current_mode()
                 if current_playback_mode == 0:
                     change_led_screen_mode(led_screen_enabled, random.randrange(3, 9))
-                    timer = Timer(
-                        10, change_led_screen_mode(led_screen_enabled, 0)
-                    ) 
+                    timer = Timer(10, change_led_screen_mode, [led_screen_enabled, 0])
                     timer.start()
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
