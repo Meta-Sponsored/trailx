@@ -1,4 +1,4 @@
-"""This file is the main program of Trailx, allowing Jetson Nano to 
+"""This module is the main program of Trailx, allowing Jetson Nano to 
 detect and track objects."""
 
 # References:
@@ -12,7 +12,8 @@ import requests
 import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
-from data_analysis import update_user_counter, update_object_speed
+from data_analysis import update_user_counter
+from speed_tracker import SpeedTracker
 from led_screen_controller import (
     get_current_mode,
     change_led_screen_mode,
@@ -20,7 +21,7 @@ from led_screen_controller import (
 )
 
 WARNING_SPEED = 5  # Unit: Miles Per Hour
-SPEED_LIMIM_SPEED = 10  # Unit: Miles Per Hour
+SPEED_LIMIT_SPEED = 10  # Unit: Miles Per Hour
 FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 LIMITED_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 
@@ -205,9 +206,9 @@ def main(api_key, city_name, time_zone):
     )
     weather_checking_thread.start()
     time.sleep(20)
+    tracker = SpeedTracker(WARNING_SPEED, SPEED_LIMIT_SPEED)
     lidar_speed_update_thread = threading.Thread(
-        target=update_object_speed,
-        args=(WARNING_SPEED, SPEED_LIMIM_SPEED),
+        target=tracker.update_object_speed,
     )
     lidar_speed_update_thread.start()
     time.sleep(5)

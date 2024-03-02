@@ -1,12 +1,9 @@
 """This module handles data analysis and calculations for detected objects."""
 
 import json
-import time
 from datetime import datetime
 from google.cloud import storage
 from object_class import object_class
-from led_screen_controller import get_current_mode, change_led_screen_mode
-from serial_port_communication import get_serial_port_data
 from firebase_admin_config import initialize_firebase_admin
 
 OBJECT_TRACKER_OUTPUT_PATH = "output_files/object_tracker_output.json"
@@ -78,7 +75,7 @@ def save_and_upload(tracking_types, total_user_counted):
         - tracking_types["dog"]["counter"],
         "Cyclists": tracking_types["bicycle"]["counter"],
         "Dog Walkers": tracking_types["dog"]["counter"],
-        "Date": today_date
+        "Date": today_date,
     }
 
     # Save the user counter data
@@ -135,22 +132,3 @@ def gcs_uploader(bucket_name, source_file_name, destination_blob_name):
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(source_file_name)
     print(f"File {source_file_name} uploaded to {destination_blob_name}.")
-
-
-def update_object_speed(warning_speed, speed_limit_speed):
-    """This function gets the real-time object velocity from the lidar
-    (the lidar data sent from the Arduino board through the serial port) and
-    updates the display on the LED cube panel."""
-
-    while True:
-        speed = get_serial_port_data()
-        print(f"Object movement detected! Speed: {speed} mph.")
-        if warning_speed <= speed < speed_limit_speed:
-            led_screen_enabled, _ = get_current_mode()
-            if led_screen_enabled:
-                change_led_screen_mode(led_screen_enabled, playback_mode=1)
-        elif speed >= speed_limit_speed:
-            led_screen_enabled, _ = get_current_mode()
-            if led_screen_enabled:
-                change_led_screen_mode(led_screen_enabled, playback_mode=2)
-        time.sleep(5)

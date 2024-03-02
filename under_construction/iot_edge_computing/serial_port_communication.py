@@ -70,9 +70,9 @@ def test_function():
     example of how to use the get_serial_port_data function and to verify that
     the system is correctly receiving and processing serial data.
     """
-
-    speed = get_serial_port_data()
-    print(f"Received speed: {speed} mph")
+    while True:
+        speed = get_serial_port_data()
+        print(f"Received speed: {speed} mph")
 
 
 # Unit testing
