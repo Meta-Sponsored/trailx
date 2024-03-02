@@ -84,7 +84,7 @@ With this program, we use Nvidia Jetson as an edge device. It will identify user
 
 2. To execute the program, type the following script in the terminal.
 
-    `python3 trailx.py` or `sudo python3 trailx.py`
+    `sudo chmod a+rw /dev/ttyUSB0 && sudo python3 trailx.py`
 
 3. To enable USB ports, type the following script in the terminal.
 

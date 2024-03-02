@@ -39,7 +39,7 @@ byte deltaSpot = 0; // Keeps track of where we are within the deltas array
 
 // This controls how quickly the display updates
 // Too quickly and it gets twitchy. Too slow and it doesn't seem like it's responding.
-#define LOOPTIME 20
+#define LOOPTIME 10
 
 int maxMPH = 0;          // Keeps track of what the latest fastest speed is
 long maxMPH_timeout = 0; // Forget the max speed after some length of time
@@ -125,9 +125,9 @@ void loop()
 
     if (instantMPH > maxMPH and instantMPH > warningSpeed)
     {
-      Serial.print("Speed: ");
-      Serial.print(instantMPH);
-      Serial.println(" mph");
+      // Serial.print("Speed: ");
+      Serial.println(instantMPH);
+      //Serial.println(" mph");
 
       maxMPH = instantMPH;
       maxMPH_timeout = millis();
