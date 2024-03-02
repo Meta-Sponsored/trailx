@@ -6,12 +6,15 @@ detect and track objects."""
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-tracking.md
 
 import threading
+from threading import Timer
 import time
 from datetime import datetime
+import random
 import requests
 import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
+from object_class import object_class
 from data_analysis import update_user_counter
 from speed_tracker import SpeedTracker
 from led_screen_controller import (
@@ -154,6 +157,16 @@ def run_object_detection(
             ) = update_user_counter(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
+        
+        tracking_types = set(["bicycle", "dog", "person"])
+        if detection.TrackID >= 0 and detection.TrackStatus >= 0 and object_class[detection.ClassID] in tracking_types:
+            led_screen_enabled, current_playback_mode = get_current_mode()
+            if current_playback_mode == 0:
+                change_led_screen_mode(led_screen_enabled, random.randrange(3, 9))
+                timer = Timer(
+                    10, change_led_screen_mode(led_screen_enabled, 0)
+                ) 
+                timer.start()
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 

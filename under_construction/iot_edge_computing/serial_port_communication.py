@@ -53,7 +53,7 @@ def get_serial_port_data():
                     match.group(1)
                 )  # Return the floating number part of the data
             else:
-                time.sleep(0.1)
+                time.sleep(0.01)
                 continue  # If data does not match the format, continue waiting for new data
         except Exception as e:
             print(e)
