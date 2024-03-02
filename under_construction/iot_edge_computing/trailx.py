@@ -149,6 +149,7 @@ def run_object_detection(
 
         detections = net.Detect(img)
 
+        tracking_types = set(["bicycle", "dog", "person"])
         for detection in detections:
             (
                 total_user_counted,
@@ -158,15 +159,14 @@ def run_object_detection(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
         
-        tracking_types = set(["bicycle", "dog", "person"])
-        if detection.TrackID >= 0 and detection.TrackStatus >= 0 and object_class[detection.ClassID] in tracking_types:
-            led_screen_enabled, current_playback_mode = get_current_mode()
-            if current_playback_mode == 0:
-                change_led_screen_mode(led_screen_enabled, random.randrange(3, 9))
-                timer = Timer(
-                    10, change_led_screen_mode(led_screen_enabled, 0)
-                ) 
-                timer.start()
+            if detection.TrackID >= 0 and detection.TrackStatus >= 0 and object_class[detection.ClassID] in tracking_types:
+                led_screen_enabled, current_playback_mode = get_current_mode()
+                if current_playback_mode == 0:
+                    change_led_screen_mode(led_screen_enabled, random.randrange(3, 9))
+                    timer = Timer(
+                        10, change_led_screen_mode(led_screen_enabled, 0)
+                    ) 
+                    timer.start()
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 

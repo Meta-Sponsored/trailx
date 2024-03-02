@@ -39,7 +39,7 @@ byte deltaSpot = 0; // Keeps track of where we are within the deltas array
 
 // This controls how quickly the display updates
 // Too quickly and it gets twitchy. Too slow and it doesn't seem like it's responding.
-#define LOOPTIME 10
+#define LOOPTIME 15
 
 int maxMPH = 0;          // Keeps track of what the latest fastest speed is
 long maxMPH_timeout = 0; // Forget the max speed after some length of time
