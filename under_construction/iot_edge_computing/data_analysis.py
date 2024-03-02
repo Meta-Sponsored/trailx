@@ -6,8 +6,8 @@ from google.cloud import storage
 from object_class import object_class
 from firebase_admin_config import initialize_firebase_admin
 
-OBJECT_TRACKER_OUTPUT_PATH = "output_files/object_tracker_output.json"
-USER_COUNTER_OUTPUT_PATH = "output_files/user_counter_output.json"
+OBJECT_TRACKER_OUTPUT_PATH = "/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/output_files/object_tracker_output.json"
+USER_COUNTER_OUTPUT_PATH = "/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/output_files/user_counter_output.json"
 SPEED_OUTPUT_PATH = "output_files/speed_output.json"
 
 # initialize a firebase admin.

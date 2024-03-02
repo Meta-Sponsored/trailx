@@ -137,7 +137,7 @@ def run_object_detection(
     net.SetTrackingEnabled(True)
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
-    camera = videoSource("/dev/video0")
+    camera = videoSource("/dev/video0",  argv=['--input-flip=rotate-180'])
 
     while True:
         img = camera.Capture()
@@ -155,7 +155,7 @@ def run_object_detection(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
 
-        print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
+        # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
         if (
             state_change_event.is_set()
