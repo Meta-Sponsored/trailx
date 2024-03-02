@@ -5,7 +5,7 @@ net = detectNet("ssd-mobilenet-v2", threshold=0.6)
 net.SetTrackingEnabled(True)
 net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
-camera = videoSource("/dev/video0")
+camera = videoSource("/dev/video0",  argv=['--input-flip=rotate-180'])
 display = videoOutput("display://0")
 
 
