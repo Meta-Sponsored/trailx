@@ -7,7 +7,7 @@ import imageio
 import numpy as np
 
 # Specify the path where all GIF files are stored
-ANIMATIONS_PATH = "animations/"
+ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/animations"
 
 # Global variables for LED screen control
 LED_SCREEN_ENABLED = False

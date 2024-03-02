@@ -32,6 +32,8 @@ class SpeedTracker:
         """Resets the highest recorded speed to 0 after a specified interval,
         indicating no higher speeds were detected."""
         self.lastest_max_speed = 0
+        led_screen_enabled, _ = get_current_mode()
+        change_led_screen_mode(led_screen_enabled, playback_mode=0)
         print("Resetting lastest_max_speed to 0.")
 
     def update_object_speed(self):
