@@ -31,7 +31,7 @@ def update_user_counter(
     }
 
     # Generalized tracking logic
-    if detection.TrackStatus >= 0:
+    if detection.TrackID >= 0 and detection.TrackStatus >= 0:
         detected_type = object_class[detection.ClassID]
         if detected_type in tracking_types:
             track_label = f"{detected_type} (Tracking ID: {detection.TrackID})"
@@ -50,10 +50,13 @@ def update_user_counter(
                 elif detected_type == "dog":
                     total_dog_counted += 1
 
-    elif detection.TrackID >= 0 and detected_type in ["bicycle", "dog", "person"]:
-        print(f"{detected_type} (Tracking ID: {detection.TrackID}) has lost tracking.")
-        object_tracker[track_label] = "has lost tracking"
-        save_object_tracker_data()
+    elif detection.TrackID >= 0:
+        detected_type = object_class[detection.ClassID]
+        if detected_type in ["bicycle", "dog", "person"]:
+            print(f"{detected_type} (Tracking ID: {detection.TrackID}) has lost tracking.")
+            track_label = f"{detected_type} (Tracking ID: {detection.TrackID})"
+            object_tracker[track_label] = "has lost tracking"
+            save_object_tracker_data()
 
     return total_user_counted, total_bike_counted, total_dog_counted
 

@@ -138,7 +138,6 @@ def run_object_detection(
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
     camera = videoSource("/dev/video0")
-    # display = videoOutput("display://0")
 
     while True:
         img = camera.Capture()
@@ -164,34 +163,6 @@ def run_object_detection(
             print("Exiting main program...")
             break
 
-    # For debugging purposes:
-    #
-    # display = videoOutput("display://0")
-    #
-    # while display.IsStreaming():
-    #     img = camera.Capture()
-    #     if img is None:
-    #         continue
-    #
-    #     detections = net.Detect(img)
-    #
-    #     for detection in detections:
-    #         (
-    #             total_user_counted,
-    #             total_bike_counted,
-    #             total_dog_counted,
-    #         ) = update_user_counter(
-    #             detection, total_user_counted, total_bike_counted, total_dog_counted
-    #         )
-    #
-    #     display.Render(img)
-    #     display.SetStatus(f"Object Detection | Network {net.GetNetworkFPS():.0f} FPS")
-    #
-    #     if (
-    #         state_change_event.is_set()
-    #     ):  # Check if the event flag is set (indicating a state change)
-    #         print("Exiting main program...")
-    #         break
     return total_user_counted, total_bike_counted, total_dog_counted
 
 

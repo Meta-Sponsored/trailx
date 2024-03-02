@@ -4,6 +4,7 @@ import os
 import firebase_admin
 from firebase_admin import credentials, firestore
 
+FIREBASE_ADMIN_SDK_PATH="/home/trailx/Desktop/key/gix-trailx-736ea562d73b.json"
 
 def initialize_firebase_admin():
     """
@@ -25,8 +26,9 @@ def initialize_firebase_admin():
         firestore.Client: A Firestore client instance that
         can be used to interact with the Firestore database.
     """
+    
     # Load the Firebase Admin SDK credentials from the environment variable
-    cred = credentials.Certificate(os.environ.get("FIREBASE_ADMIN_SDK_PATH"))
+    cred = credentials.Certificate(FIREBASE_ADMIN_SDK_PATH)
 
     # Initialize the Firebase Admin SDK with the loaded credentials
     firebase_admin.initialize_app(cred)
