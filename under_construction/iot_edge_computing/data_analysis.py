@@ -149,12 +149,8 @@ def update_object_speed(warning_speed, speed_limit_speed):
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
                 change_led_screen_mode(led_screen_enabled, playback_mode=1)
-                time.sleep(5)
-                change_led_screen_mode(led_screen_enabled, playback_mode=0)
         elif speed >= speed_limit_speed:
             led_screen_enabled, _ = get_current_mode()
             if led_screen_enabled:
                 change_led_screen_mode(led_screen_enabled, playback_mode=2)
-                time.sleep(5)
-                change_led_screen_mode(led_screen_enabled, playback_mode=0)
         time.sleep(5)
