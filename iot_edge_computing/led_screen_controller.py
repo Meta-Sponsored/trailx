@@ -8,8 +8,7 @@ import imageio
 import numpy as np
 
 # Specify the path where all GIF files are stored
-# ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
-ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
+ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
 # Global variables for LED screen control
 LED_SCREEN_ENABLED = False
@@ -150,6 +149,15 @@ def run_led_screen():
                 EXIT_EVENT.set()  # Signal exit
 
     pygame.quit()
+    print(
+        "-------------------------------------------\n"
+        + "Wait for other execution threads to end. "
+        + "If not, force close the terminal. \n"
+        + "Or, optimize the code in the future so that "
+        + "each thread terminates when EXIT_EVENT.is_set() is triggered \n"
+        + "(this makes memory usage more reliable.) \n"
+        + "-------------------------------------------\n"
+    )
     sys.exit()
 
 
@@ -161,6 +169,8 @@ def test_function():
     It uses a sleep to delay between mode changes. This is useful for testing
     the LED screen functionality without user interaction.
     """
+    global ANIMATIONS_PATH
+    ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
     for i in range(1, 2):
         change_led_screen_mode(True, i)
