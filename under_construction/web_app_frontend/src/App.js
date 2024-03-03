@@ -64,7 +64,9 @@ const App = () => {
 
                             <Routes>
                                 {/* Main Dashboard */}
-                                <Route path="/" element={<TrailX />} />
+                                <Route path="/" element={<NewsMap />} />
+                                <Route path="/NewsMap" element={<NewsMap />} />
+
                                 <Route path="/trailx" element={<TrailX />} />
 
                                 {/* Pages */}
@@ -87,9 +89,6 @@ const App = () => {
                                 <Route path="/color-mapping" element={<ColorMapping />} />
                                 <Route path="/pyramid" element={<Pyramid />} />
                                 <Route path="/stacked" element={<Stacked />} />
-
-                                {/* Trailx */}
-                                <Route path="/NewsMap" element={<NewsMap />} />
 
                                 <Route path="/AdminLoginPage" element={<AdminLoginPage />} />   
                             </Routes>

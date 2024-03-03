@@ -4,20 +4,38 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import avatar from '../data/chiawei.png';
 import { UserProfile } from '.';
 import { useStateContext } from '../contexts/ContextProvider';
+import { getAuth, onAuthStateChanged } from 'firebase/auth'; // Import Firebase auth functions
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const { activeMenu, setActiveMenu,
-        isClicked, setIsClicked, handleClick,
-        screenSize, setScreenSize, currentColor
-    } = useStateContext();
-
-    // State to manage login status
+    const navigate = useNavigate(); 
+    const { activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, screenSize, setScreenSize, currentColor } = useStateContext();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null); // State to store the logged-in user's information
 
-    // Dummy function to simulate login - This should be replaced with your actual login logic
-    const login = () => {
-        // Redirect to AdminLoginPage
-        window.location.href = '/AdminLoginPage'; // Adjust the URL based on your routing setup
+    useEffect(() => {
+        const auth = getAuth();
+        // Listen for authentication state changes
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                setIsLoggedIn(true);
+                setUser(user); // Store user information
+            } else {
+                // User is signed out
+                setIsLoggedIn(false);
+                setUser(null);
+            }
+        });
+
+        return () => unsubscribe(); // Cleanup subscription
+    }, []);
+
+    // Handle logout function
+    const logout = async () => {
+        const auth = getAuth();
+        await auth.signOut();
+        // Additional logout logic if needed
     };
 
     // To handle if the screen size changes.
@@ -55,11 +73,11 @@ const Navbar = () => {
                     </div>
                 </TooltipComponent>
             ) : (
-                <button onClick={login} className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700'>
+                <button onClick={() => navigate('/AdminLoginPage')} className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700'>
                     Admin
                 </button>
             )}
-            {isClicked.userProfile && <UserProfile />}
+            {isClicked.userProfile && <UserProfile user={user} logout={logout} />}
         </div>
     );
 };

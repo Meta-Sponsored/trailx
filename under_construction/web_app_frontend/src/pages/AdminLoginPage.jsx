@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const AdminLoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     const auth = getAuth();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('Login successful');
-      // Redirect to dashboard or other admin page
+      navigate('/trailx'); // Navigate to dashboard after successful login
     } catch (error) {
-      setError(error.message);
       console.error('Failed to log in', error);
     }
   };
@@ -54,4 +53,5 @@ const AdminLoginPage = () => {
 };
 
 export default AdminLoginPage;
+
 
