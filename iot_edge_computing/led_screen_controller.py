@@ -7,7 +7,7 @@ import imageio
 import numpy as np
 
 # Specify the path where all GIF files are stored
-ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/animations/"
+ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
 # Global variables for LED screen control
 LED_SCREEN_ENABLED = False
@@ -161,7 +161,7 @@ def test_function():
     the LED screen functionality without user interaction.
     """
 
-    for i in range(1, 9):
+    for i in range(1, 4):
         change_led_screen_mode(True, i)
         time.sleep(5)  # Display 0.gif for 5 seconds
 

@@ -6,9 +6,8 @@ from google.cloud import storage
 from object_class import object_class
 from firebase_admin_config import initialize_firebase_admin
 
-OBJECT_TRACKER_OUTPUT_PATH = "/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/output_files/object_tracker_output.json"
-USER_COUNTER_OUTPUT_PATH = "/home/trailx/Desktop/2024_TrailX/under_construction/iot_edge_computing/output_files/user_counter_output.json"
-SPEED_OUTPUT_PATH = "output_files/speed_output.json"
+OBJECT_TRACKER_OUTPUT_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/output_files/object_tracker_output.json"
+USER_COUNTER_OUTPUT_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/output_files/user_counter_output.json"
 
 # initialize a firebase admin.
 db = initialize_firebase_admin()
@@ -53,7 +52,9 @@ def update_user_counter(
     elif detection.TrackID >= 0:
         detected_type = object_class[detection.ClassID]
         if detected_type in ["bicycle", "dog", "person"]:
-            print(f"{detected_type} (Tracking ID: {detection.TrackID}) has lost tracking.")
+            print(
+                f"{detected_type} (Tracking ID: {detection.TrackID}) has lost tracking."
+            )
             track_label = f"{detected_type} (Tracking ID: {detection.TrackID})"
             object_tracker[track_label] = "has lost tracking"
             save_object_tracker_data()

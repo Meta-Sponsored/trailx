@@ -5,6 +5,7 @@ detect and track objects."""
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-example-2.md
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-tracking.md
 
+import os
 import threading
 from threading import Timer
 import time
@@ -13,7 +14,7 @@ import random
 import requests
 import pytz
 from jetson_inference import detectNet
-from jetson_utils import videoSource, videoOutput
+from jetson_utils import videoSource
 from object_class import object_class
 from data_analysis import update_user_counter
 from speed_tracker import SpeedTracker
@@ -21,6 +22,7 @@ from led_screen_controller import (
     get_current_mode,
     change_led_screen_mode,
     run_led_screen,
+    ANIMATIONS_PATH,
 )
 
 WARNING_SPEED = 5  # Unit: Miles Per Hour
@@ -140,7 +142,7 @@ def run_object_detection(
     net.SetTrackingEnabled(True)
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
-    camera = videoSource("/dev/video0",  argv=['--input-flip=rotate-180'])
+    camera = videoSource("/dev/video0", argv=["--input-flip=rotate-180"])
 
     while True:
         img = camera.Capture()
@@ -158,13 +160,31 @@ def run_object_detection(
             ) = update_user_counter(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
-        
-            if detection.TrackID >= 0 and detection.TrackStatus >= 0 and object_class[detection.ClassID] in tracking_types:
+
+            # When a user is detected, we start randomly playing a pre-made animation.
+            if (
+                detection.TrackID >= 0
+                and detection.TrackStatus >= 0
+                and object_class[detection.ClassID] in tracking_types
+            ):
                 led_screen_enabled, current_playback_mode = get_current_mode()
                 if current_playback_mode == 0:
-                    change_led_screen_mode(led_screen_enabled, random.randrange(3, 9))
-                    timer = Timer(10, change_led_screen_mode, [led_screen_enabled, 0])
-                    timer.start()
+                    num_of_files = len(
+                        [
+                            name
+                            for name in os.listdir(ANIMATIONS_PATH)
+                            if os.path.isfile(os.path.join(ANIMATIONS_PATH, name))
+                        ]
+                    )
+                    # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
+                    if num_of_files >= 3:
+                        change_led_screen_mode(
+                            led_screen_enabled, random.randrange(3, num_of_files + 1)
+                        )
+                        timer = Timer(
+                            60, change_led_screen_mode, [led_screen_enabled, 0]
+                        )
+                        timer.start()
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
