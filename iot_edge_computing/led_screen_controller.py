@@ -1,5 +1,6 @@
 """This module handles the animation displayed on the LED screen."""
 
+import sys
 import threading
 import time
 import pygame
@@ -7,12 +8,14 @@ import imageio
 import numpy as np
 
 # Specify the path where all GIF files are stored
-ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
+# ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
+ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
 # Global variables for LED screen control
 LED_SCREEN_ENABLED = False
 PLAYBACK_MODE = 0
 SCREEN = None  # Global screen variable
+EXIT_EVENT = threading.Event()  # Global exit flag
 
 
 def initialize_pygame():
@@ -57,7 +60,7 @@ def display_gif_on_screen(filename):
             frame = frame[:, :, :3]
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or EXIT_EVENT.is_set():
                 return True  # Indicates a quit event
 
         if not LED_SCREEN_ENABLED:
@@ -71,7 +74,7 @@ def display_gif_on_screen(filename):
 
         SCREEN.blit(frame_surface, (0, 0))  # Display the resized surface
         pygame.display.flip()
-        pygame.time.delay(200)  # Delay between frames
+        pygame.time.delay(150)  # Delay between frames
 
     return False  # Indicates no quit event
 
@@ -132,24 +135,22 @@ def run_led_screen():
     """
 
     initialize_pygame()
-    try:
-        while True:
-            if LED_SCREEN_ENABLED:
-                quit_detected = play_gif(PLAYBACK_MODE)
-                if quit_detected:
-                    break  # Break the loop if a quit event is detected
-            else:
-                # Clear the screen when idle
-                SCREEN.fill((0, 0, 0))
-                pygame.display.flip()
-                time.sleep(1)
+    while not EXIT_EVENT.is_set():
+        if LED_SCREEN_ENABLED:
+            quit_detected = play_gif(PLAYBACK_MODE)
+            if quit_detected:
+                EXIT_EVENT.set()  # Signal exit
+        else:
+            SCREEN.fill((0, 0, 0))
+            pygame.display.flip()
+            time.sleep(1)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    raise SystemExit  # Exit the loop cleanly on quit
-    except SystemExit:
-        pygame.quit()
-        # sys.exit()  # Ensure clean exit including terminating all threads
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                EXIT_EVENT.set()  # Signal exit
+
+    pygame.quit()
+    sys.exit()
 
 
 def test_function():
@@ -161,9 +162,12 @@ def test_function():
     the LED screen functionality without user interaction.
     """
 
-    for i in range(1, 4):
+    for i in range(1, 2):
         change_led_screen_mode(True, i)
-        time.sleep(5)  # Display 0.gif for 5 seconds
+        time.sleep(30)  # Display 0.gif for 5 seconds
+        if EXIT_EVENT.is_set():
+            print("Exit thread!")
+            return
 
 
 # Unit testing
