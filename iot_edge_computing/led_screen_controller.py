@@ -158,7 +158,6 @@ def run_led_screen():
         + "(this makes memory usage more reliable.) \n"
         + "-------------------------------------------\n"
     )
-    sys.exit()
 
 
 def test_function():
@@ -185,3 +184,4 @@ if __name__ == "__main__":
     test_thread = threading.Thread(target=test_function)
     test_thread.start()
     run_led_screen()
+    sys.exit()
