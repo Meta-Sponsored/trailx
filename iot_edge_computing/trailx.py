@@ -1,20 +1,32 @@
-"""This file is the main program of Trailx, allowing Jetson Nano to 
+"""This module is the main program of Trailx, allowing Jetson Nano to 
 detect and track objects."""
-
-# Developer(s): Chia-Wei Chang
 
 # References:
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-example-2.md
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-tracking.md
 
 import threading
+from threading import Timer
 import time
 from datetime import datetime
+import random
 import requests
 import pytz
 from jetson_inference import detectNet
 from jetson_utils import videoSource, videoOutput
+from object_class import object_class
 from data_analysis import update_user_counter
+from speed_tracker import SpeedTracker
+from led_screen_controller import (
+    get_current_mode,
+    change_led_screen_mode,
+    run_led_screen,
+)
+
+WARNING_SPEED = 5  # Unit: Miles Per Hour
+SPEED_LIMIT_SPEED = 10  # Unit: Miles Per Hour
+FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
+LIMITED_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 
 
 # Function to get weather data including cloud coverage, sunrise, and sunset times, and city name
@@ -96,8 +108,18 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             if (
                 current_time >= sunrise_time
                 and current_time <= sunset_time
-                and cloud_coverage < 80
+                and cloud_coverage <= LIMITED_FUNCTIONAL_CLOUD_COVERAGE
             ):
+                if cloud_coverage <= FULLY_FUNCTIONAL_CLOUD_COVERAGE:
+                    _, playback_mode = get_current_mode()
+                    change_led_screen_mode(
+                        led_screen_enabled=True, playback_mode=playback_mode
+                    )
+                else:
+                    _, playback_mode = get_current_mode()
+                    change_led_screen_mode(
+                        led_screen_enabled=False, playback_mode=playback_mode
+                    )
                 state_change_event.clear()  # Clear the event flag to continue running
                 time.sleep(900)
             else:
@@ -109,7 +131,7 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
 
 
 # Function to run the main program
-def run_main_program(
+def run_object_detection(
     state_change_event, total_user_counted, total_bike_counted, total_dog_counted
 ):
     """Function to run the main program."""
@@ -118,7 +140,7 @@ def run_main_program(
     net.SetTrackingEnabled(True)
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
-    camera = videoSource("/dev/video0")
+    camera = videoSource("/dev/video0",  argv=['--input-flip=rotate-180'])
 
     while True:
         img = camera.Capture()
@@ -127,6 +149,7 @@ def run_main_program(
 
         detections = net.Detect(img)
 
+        tracking_types = set(["bicycle", "dog", "person"])
         for detection in detections:
             (
                 total_user_counted,
@@ -135,8 +158,15 @@ def run_main_program(
             ) = update_user_counter(
                 detection, total_user_counted, total_bike_counted, total_dog_counted
             )
+        
+            if detection.TrackID >= 0 and detection.TrackStatus >= 0 and object_class[detection.ClassID] in tracking_types:
+                led_screen_enabled, current_playback_mode = get_current_mode()
+                if current_playback_mode == 0:
+                    change_led_screen_mode(led_screen_enabled, random.randrange(3, 9))
+                    timer = Timer(10, change_led_screen_mode, [led_screen_enabled, 0])
+                    timer.start()
 
-        print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
+        # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
         if (
             state_change_event.is_set()
@@ -144,48 +174,26 @@ def run_main_program(
             print("Exiting main program...")
             break
 
-    # For debugging purposes:
-    #
-    # display = videoOutput("display://0")
-    #
-    # while display.IsStreaming():
-    #     img = camera.Capture()
-    #     if img is None:
-    #         continue
-    #
-    #     detections = net.Detect(img)
-    #
-    #     for detection in detections:
-    #         (
-    #             total_user_counted,
-    #             total_bike_counted,
-    #             total_dog_counted,
-    #         ) = update_user_counter(
-    #             detection, total_user_counted, total_bike_counted, total_dog_counted
-    #         )
-    #
-    #     display.Render(img)
-    #     display.SetStatus(f"Object Detection | Network {net.GetNetworkFPS():.0f} FPS")
-    #
-    #     if (
-    #         state_change_event.is_set()
-    #     ):  # Check if the event flag is set (indicating a state change)
-    #         print("Exiting main program...")
-    #         break
     return total_user_counted, total_bike_counted, total_dog_counted
 
 
-# Main function to control device states
+# Main function to control installation states
 def main(api_key, city_name, time_zone):
     """Main function to control device states."""
 
     state_change_event = threading.Event()  # Event flag to signal state change
-    weather_checking_threading = threading.Thread(
+    weather_checking_thread = threading.Thread(
         target=check_idle_state,
         args=(api_key, city_name, state_change_event, time_zone),
     )
-    weather_checking_threading.start()
+    weather_checking_thread.start()
     time.sleep(20)
+    tracker = SpeedTracker(WARNING_SPEED, SPEED_LIMIT_SPEED)
+    lidar_speed_update_thread = threading.Thread(
+        target=tracker.update_object_speed,
+    )
+    lidar_speed_update_thread.start()
+    time.sleep(5)
 
     total_user_counted, total_bike_counted, total_dog_counted = 0, 0, 0
 
@@ -203,22 +211,28 @@ def main(api_key, city_name, time_zone):
                 total_user_counted,
                 total_bike_counted,
                 total_dog_counted,
-            ) = run_main_program(
+            ) = run_object_detection(
                 state_change_event,
                 total_user_counted,
                 total_bike_counted,
                 total_dog_counted,
             )
             # Add a 60-second wait to prevent crashes caused by
-            # multiple rapid entries and exits into run_main_program.
+            # multiple rapid entries and exits into run_object_detection.
             time.sleep(60)
 
 
 if __name__ == "__main__":
     OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
-    CITY_NAME = "kirkland"
+    CITY_NAME = "tainan"
     TIME_ZONE = "America/Los_Angeles"
-    main(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
+
+    main_function_thread = threading.Thread(
+        target=main, args=(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
+    )
+    main_function_thread.start()
+    time.sleep(200)
+    run_led_screen()
 
     # Los Angeles, California, USA (Pacific Time Zone):
     # IANA Identifier: 'America/Los_Angeles'

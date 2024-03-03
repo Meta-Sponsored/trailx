@@ -1,8 +1,6 @@
 """This module provides a dictionary for converting the class of each detected object 
 (as returned from the Detect() of the DetectNet object)."""
 
-# Developer(s): Chia-Wei Chang
-
 # Object class of models "trafficcamnet" and "dashcamnet".
 # object_class = {
 #     0: "car",

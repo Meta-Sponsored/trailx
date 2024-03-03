@@ -18,7 +18,11 @@ With this program, we use Nvidia Jetson as an edge device. It will identify user
   
   - Watching this tutorial and implementing the code yourself will be helpful before diving into this project: [Real-Time Object Detection in 10 Lines of Python Code on Jetson Nano](https://www.youtube.com/watch?v=bcM5AQSAzUY)
 
-### 2. Other environment settings/helpful tips on Jetson
+### 2. Install the packages for the project.
+
+- pip3 install firebase_admin pygame imageio
+
+### 3. Other environment settings/helpful tips on Jetson
 
 - Install Visual Studio Code on Jetson Nano:
   - Download the file on the VSCode website.
@@ -84,7 +88,11 @@ With this program, we use Nvidia Jetson as an edge device. It will identify user
 
 2. To execute the program, type the following script in the terminal.
 
-    `python3 trailx.py` or `sudo python3 trailx.py`
+    `sudo chmod a+rw /dev/ttyUSB0 && sudo python3 trailx.py`
+
+3. To enable USB ports, type the following script in the terminal.
+
+    `sudo chmod a+rw /dev/ttyUSB0`
 
 ### 4. Screen recording on Jetson Nano
 
