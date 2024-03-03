@@ -150,9 +150,9 @@ def run_led_screen():
 
     pygame.quit()
     print(
-        "-------------------------------------------\n"
+        "\n-------------------------------------------\n"
         + "Wait for other execution threads to end. "
-        + "If not, force close the terminal. \n"
+        + "If the pygame window does not close for a long time, force close the terminal. \n"
         + "Or, optimize the code in the future so that "
         + "each thread terminates when EXIT_EVENT.is_set() is triggered \n"
         + "(this makes memory usage more reliable.) \n"
