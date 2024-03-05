@@ -6,6 +6,7 @@ detect and track objects."""
 # - https://github.com/dusty-nv/jetson-inference/blob/master/docs/detectnet-tracking.md
 
 import os
+import sys
 import threading
 from threading import Timer
 import time
@@ -253,6 +254,7 @@ if __name__ == "__main__":
     main_function_thread.start()
     time.sleep(200)
     run_led_screen()
+    sys.exit()
 
     # Los Angeles, California, USA (Pacific Time Zone):
     # IANA Identifier: 'America/Los_Angeles'
