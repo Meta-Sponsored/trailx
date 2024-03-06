@@ -15,6 +15,7 @@ LED_SCREEN_ENABLED = False
 PLAYBACK_MODE = 0
 SCREEN = None  # Global screen variable
 EXIT_EVENT = threading.Event()  # Global exit flag
+FRAME_RATE = 10  # 10 frames/second
 
 
 def initialize_pygame():
@@ -30,7 +31,7 @@ def initialize_pygame():
     SCREEN = pygame.display.set_mode((1920, 1080))  # Adjust to your preferred size
 
 
-def display_gif_on_screen(filename):
+def display_gif_on_screen(filename, playback_mode):
     """
     Loads and displays a GIF file frame by frame on the Pygame screen.
     Args:
@@ -62,7 +63,8 @@ def display_gif_on_screen(filename):
             if event.type == pygame.QUIT or EXIT_EVENT.is_set():
                 return True  # Indicates a quit event
 
-        if not LED_SCREEN_ENABLED:
+        led_screen_enabled, current_playback_mode = get_current_mode()
+        if not led_screen_enabled or current_playback_mode != playback_mode:
             break
 
         # Resize frame to fit the screen
@@ -73,7 +75,9 @@ def display_gif_on_screen(filename):
 
         SCREEN.blit(frame_surface, (0, 0))  # Display the resized surface
         pygame.display.flip()
-        pygame.time.delay(150)  # Delay between frames
+
+        # Dynamically adjust delay based on the current FRAME_RATE
+        pygame.time.delay(int(1000 / FRAME_RATE))
 
     return False  # Indicates no quit event
 
@@ -92,7 +96,7 @@ def play_gif(playback_mode):
     """
 
     filename = f"{ANIMATIONS_PATH}{playback_mode}.gif"
-    return display_gif_on_screen(filename)
+    return display_gif_on_screen(filename, playback_mode)
 
 
 def change_led_screen_mode(led_screen_enabled, playback_mode):
@@ -109,6 +113,16 @@ def change_led_screen_mode(led_screen_enabled, playback_mode):
     global LED_SCREEN_ENABLED, PLAYBACK_MODE
     LED_SCREEN_ENABLED = led_screen_enabled
     PLAYBACK_MODE = playback_mode
+
+
+def change_frame_rate(frame_rate):
+    """
+    Dynamically changes the global variable FRAME_RATE.
+    Args:
+        frame_rate (int): The new frame rate to be set, in frames per second.
+    """
+    global FRAME_RATE
+    FRAME_RATE = frame_rate
 
 
 def get_current_mode():
@@ -160,7 +174,7 @@ def run_led_screen():
     )
 
 
-def test_function():
+def unit_testing():
     """
     A test function to demonstrate changing LED screen modes.
     This function iterates through different playback modes, enabling the
@@ -169,12 +183,13 @@ def test_function():
     the LED screen functionality without user interaction.
     """
     global ANIMATIONS_PATH
-    # ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
-    ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
+    ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
+    # ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
-    for i in range(1, 6):
+    for i in range(3, 6):
+        change_frame_rate(i * 10)
         change_led_screen_mode(True, i)
-        time.sleep(5)  # Display 0.gif for 5 seconds
+        time.sleep(10)  # Display 0.gif for 5 seconds
         if EXIT_EVENT.is_set():
             print("Exit thread!")
             return
@@ -182,7 +197,7 @@ def test_function():
 
 # Unit testing
 if __name__ == "__main__":
-    test_thread = threading.Thread(target=test_function)
+    test_thread = threading.Thread(target=unit_testing)
     test_thread.start()
     run_led_screen()
     sys.exit()
