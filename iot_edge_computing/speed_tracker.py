@@ -4,7 +4,12 @@ It defines a SpeedTracker class that manages speed data, updates display modes,
 and resets speed records at intervals."""
 
 from threading import Timer
-from led_screen_controller import get_current_mode, change_led_screen_mode
+from led_screen_controller import (
+    change_frame_rate,
+    get_current_mode,
+    change_led_screen_mode,
+)
+from animations.gif_frame_rates import gif_frame_rates
 from serial_port_communication import get_serial_port_data
 
 
@@ -32,8 +37,10 @@ class SpeedTracker:
         """Resets the highest recorded speed to 0 after a specified interval,
         indicating no higher speeds were detected."""
         self.lastest_max_speed = 0
-        led_screen_enabled, _ = get_current_mode()
-        change_led_screen_mode(led_screen_enabled, playback_mode=0)
+        led_screen_enabled, playback_mode = get_current_mode()
+        playback_mode = 0
+        change_frame_rate(gif_frame_rates[playback_mode])
+        change_led_screen_mode(led_screen_enabled, playback_mode=playback_mode)
         print("Resetting lastest_max_speed to 0.")
 
     def update_object_speed(self):
@@ -63,14 +70,18 @@ class SpeedTracker:
             # Check the current highest speed against the thresholds and
             # update the LED screen mode accordingly.
             if self.warning_speed <= self.lastest_max_speed < self.speed_limit_speed:
-                led_screen_enabled, _ = get_current_mode()
+                led_screen_enabled, playback_mode = get_current_mode()
                 if led_screen_enabled:
+                    playback_mode = 1
+                    change_frame_rate(gif_frame_rates[playback_mode])
                     change_led_screen_mode(
-                        led_screen_enabled, playback_mode=1
+                        led_screen_enabled, playback_mode=playback_mode
                     )  # Set to warning mode.
             elif self.lastest_max_speed >= self.speed_limit_speed:
-                led_screen_enabled, _ = get_current_mode()
+                led_screen_enabled, playback_mode = get_current_mode()
                 if led_screen_enabled:
+                    playback_mode = 2
+                    change_frame_rate(gif_frame_rates[playback_mode])
                     change_led_screen_mode(
-                        led_screen_enabled, playback_mode=2
+                        led_screen_enabled, playback_mode=playback_mode
                     )  # Set to critical alert mode.

@@ -1,11 +1,15 @@
 """This module handles the animation displayed on the LED screen."""
 
+import os
+import random
 import sys
 import threading
+from threading import Timer
 import time
 import pygame
 import imageio
 import numpy as np
+from animations.gif_frame_rates import gif_frame_rates
 
 # Specify the path where all GIF files are stored
 ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
@@ -15,7 +19,7 @@ LED_SCREEN_ENABLED = False
 PLAYBACK_MODE = 0
 SCREEN = None  # Global screen variable
 EXIT_EVENT = threading.Event()  # Global exit flag
-FRAME_RATE = 10  # 10 frames/second
+FRAME_RATE = 1  # 1 frame/second
 
 
 def initialize_pygame():
@@ -186,10 +190,32 @@ def unit_testing():
     ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
     # ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
-    for i in range(3, 6):
-        change_frame_rate(i * 10)
-        change_led_screen_mode(True, i)
-        time.sleep(10)  # Display 0.gif for 5 seconds
+    while True:
+        led_screen_enabled, current_playback_mode = get_current_mode()
+        num_of_gif_files = len(
+            [
+                name
+                for name in os.listdir(ANIMATIONS_PATH)
+                if os.path.isfile(os.path.join(ANIMATIONS_PATH, name))
+                and name.endswith(".gif")
+            ]
+        )
+        # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
+        if num_of_gif_files >= 1 and current_playback_mode == 0:
+            gif_to_show = random.randrange(0, num_of_gif_files)
+
+            change_frame_rate(gif_frame_rates[gif_to_show])
+            change_led_screen_mode(
+                led_screen_enabled=True,
+                playback_mode=gif_to_show,
+            )
+
+            timer1 = Timer(5, change_frame_rate, [gif_frame_rates[0]])
+            timer1.start()
+            timer2 = Timer(5, change_led_screen_mode, [True, 0])
+            timer2.start()
+            time.sleep(5)
+
         if EXIT_EVENT.is_set():
             print("Exit thread!")
             return

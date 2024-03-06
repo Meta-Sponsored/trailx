@@ -20,11 +20,13 @@ from object_class import object_class
 from data_analysis import update_user_counter
 from speed_tracker import SpeedTracker
 from led_screen_controller import (
+    change_frame_rate,
     get_current_mode,
     change_led_screen_mode,
     run_led_screen,
     ANIMATIONS_PATH,
 )
+from animations.gif_frame_rates import gif_frame_rates
 
 WARNING_SPEED = 5  # Unit: Miles Per Hour
 SPEED_LIMIT_SPEED = 10  # Unit: Miles Per Hour
@@ -113,13 +115,12 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
                 and current_time <= sunset_time
                 and cloud_coverage <= LIMITED_FUNCTIONAL_CLOUD_COVERAGE
             ):
+                _, playback_mode = get_current_mode()
                 if cloud_coverage <= FULLY_FUNCTIONAL_CLOUD_COVERAGE:
-                    _, playback_mode = get_current_mode()
                     change_led_screen_mode(
                         led_screen_enabled=True, playback_mode=playback_mode
                     )
                 else:
-                    _, playback_mode = get_current_mode()
                     change_led_screen_mode(
                         led_screen_enabled=False, playback_mode=playback_mode
                     )
@@ -170,22 +171,27 @@ def run_object_detection(
             ):
                 led_screen_enabled, current_playback_mode = get_current_mode()
                 if current_playback_mode == 0:
-                    num_of_files = len(
+                    num_of_gif_files = len(
                         [
                             name
                             for name in os.listdir(ANIMATIONS_PATH)
                             if os.path.isfile(os.path.join(ANIMATIONS_PATH, name))
+                            and name.endswith(".gif")
                         ]
                     )
                     # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
-                    if num_of_files >= 3:
-                        change_led_screen_mode(
-                            led_screen_enabled, random.randrange(3, num_of_files + 1)
-                        )
-                        timer = Timer(
+                    if num_of_gif_files >= 3:
+                        gif_to_show = random.randrange(3, num_of_gif_files)
+                        change_frame_rate(gif_frame_rates[gif_to_show])
+                        change_led_screen_mode(led_screen_enabled, gif_to_show)
+
+                        # Return to the default gif image.
+                        timer1 = Timer(10, change_frame_rate, [gif_frame_rates[0]])
+                        timer1.start()
+                        timer2 = Timer(
                             10, change_led_screen_mode, [led_screen_enabled, 0]
                         )
-                        timer.start()
+                        timer2.start()
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
