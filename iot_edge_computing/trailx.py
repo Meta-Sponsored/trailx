@@ -183,7 +183,7 @@ def run_object_detection(
                             led_screen_enabled, random.randrange(3, num_of_files + 1)
                         )
                         timer = Timer(
-                            60, change_led_screen_mode, [led_screen_enabled, 0]
+                            10, change_led_screen_mode, [led_screen_enabled, 0]
                         )
                         timer.start()
 
