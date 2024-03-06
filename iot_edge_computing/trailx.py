@@ -129,6 +129,13 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             else:
                 state_change_event.set()  # Set the event flag to signal the main program
                 print("State changed to idle.")
+
+                # Disable the LED screen and set playback back to Default = 0,
+                # which will play 0.gif the next time the LED screen is enabled.
+                led_screen_enabled, playback_mode = get_current_mode()
+                if led_screen_enabled or playback_mode != 0:
+                    change_frame_rate(gif_frame_rates[0])
+                    change_led_screen_mode(led_screen_enabled=False, playback_mode=0)
                 time.sleep(1800)
         else:
             time.sleep(60)  # Retry after 1 minute if weather data is unavailable
