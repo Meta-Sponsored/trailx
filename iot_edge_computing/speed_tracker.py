@@ -40,7 +40,7 @@ class SpeedTracker:
         led_screen_enabled, playback_mode = get_current_mode()
         playback_mode = 0
         change_frame_rate(gif_frame_rates[playback_mode])
-        change_led_screen_mode(led_screen_enabled, playback_mode=playback_mode)
+        change_led_screen_mode(led_screen_enabled, playback_mode)
         print("Resetting lastest_max_speed to 0.")
 
     def update_object_speed(self):
@@ -75,7 +75,7 @@ class SpeedTracker:
                     playback_mode = 1
                     change_frame_rate(gif_frame_rates[playback_mode])
                     change_led_screen_mode(
-                        led_screen_enabled, playback_mode=playback_mode
+                        led_screen_enabled, playback_mode
                     )  # Set to warning mode.
             elif self.lastest_max_speed >= self.speed_limit_speed:
                 led_screen_enabled, playback_mode = get_current_mode()
@@ -83,5 +83,5 @@ class SpeedTracker:
                     playback_mode = 2
                     change_frame_rate(gif_frame_rates[playback_mode])
                     change_led_screen_mode(
-                        led_screen_enabled, playback_mode=playback_mode
+                        led_screen_enabled, playback_mode
                     )  # Set to critical alert mode.

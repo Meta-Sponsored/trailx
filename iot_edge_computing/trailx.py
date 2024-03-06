@@ -193,12 +193,10 @@ def run_object_detection(
                         change_led_screen_mode(led_screen_enabled, gif_to_show)
 
                         # Return to the default gif image.
-                        timer1 = Timer(10, change_frame_rate, [gif_frame_rates[0]])
-                        timer1.start()
-                        timer2 = Timer(
+                        timer = Timer(
                             10, change_led_screen_mode, [led_screen_enabled, 0]
                         )
-                        timer2.start()
+                        timer.start()
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 

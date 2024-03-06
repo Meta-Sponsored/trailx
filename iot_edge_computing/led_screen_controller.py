@@ -191,7 +191,7 @@ def unit_testing():
     # ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
     while True:
-        led_screen_enabled, current_playback_mode = get_current_mode()
+        _, current_playback_mode = get_current_mode()
         num_of_gif_files = len(
             [
                 name
@@ -202,7 +202,7 @@ def unit_testing():
         )
         # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
         if num_of_gif_files >= 1 and current_playback_mode == 0:
-            gif_to_show = random.randrange(0, num_of_gif_files)
+            gif_to_show = random.randrange(3, num_of_gif_files)
 
             change_frame_rate(gif_frame_rates[gif_to_show])
             change_led_screen_mode(
@@ -210,11 +210,9 @@ def unit_testing():
                 playback_mode=gif_to_show,
             )
 
-            timer1 = Timer(5, change_frame_rate, [gif_frame_rates[0]])
-            timer1.start()
-            timer2 = Timer(5, change_led_screen_mode, [True, 0])
-            timer2.start()
-            time.sleep(5)
+            timer = Timer(10, change_led_screen_mode, [True, 0])
+            timer.start()
+            time.sleep(10)
 
         if EXIT_EVENT.is_set():
             print("Exit thread!")
