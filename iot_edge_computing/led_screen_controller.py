@@ -169,11 +169,12 @@ def test_function():
     the LED screen functionality without user interaction.
     """
     global ANIMATIONS_PATH
-    ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
+    # ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
+    ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
-    for i in range(1, 2):
+    for i in range(1, 6):
         change_led_screen_mode(True, i)
-        time.sleep(30)  # Display 0.gif for 5 seconds
+        time.sleep(5)  # Display 0.gif for 5 seconds
         if EXIT_EVENT.is_set():
             print("Exit thread!")
             return
