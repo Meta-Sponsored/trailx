@@ -33,7 +33,13 @@ const DropDown = ({ currentMode }) => (
 const TrailX = () => {
     const [issues, setIssues] = useState([]);
     const { currentColor, currentMode } = useStateContext();
-    const [dailyData, setDailyData] = useState(null);
+    const [dailyData, setDailyData] = useState({
+        "Total User Count": "Loading...",
+        "Pedestrians": "Loading...",
+        "Cyclists": "Loading...",
+        "Dog Walkers": "Loading...",
+        "lastUpdated": "Loading..."
+    });
 
     useEffect(() => {
         const getIssues = async () => {
@@ -46,25 +52,33 @@ const TrailX = () => {
     useEffect(() => {
         const fetchData = async () => {
             const now = new Date();
-            // Calculate UTC-8 time by subtracting 8 hours in milliseconds
             const utc8Time = new Date(now.getTime() - (8 * 60 * 60 * 1000));
-
-            // Format date as YYYY-MM-DD manually to ensure it reflects UTC-8 date
             const year = utc8Time.getUTCFullYear();
             const month = utc8Time.getUTCMonth() + 1;
             const day = utc8Time.getUTCDate();
             const todayString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-            console.log(todayString);
 
-            const docRef = doc(db, "daily_user_counts", todayString); // Adjust with your actual Firestore collection name and today's date as the document ID
+            const docRef = doc(db, "daily_user_counts", todayString);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                setDailyData(data);
+                setDailyData({
+                    "Total User Count": data["Total User Count"] || "0",
+                    "Pedestrians": data["Pedestrians"] || "0",
+                    "Cyclists": data["Cyclists"] || "0",
+                    "Dog Walkers": data["Dog Walkers"] || "0",
+                    "lastUpdated": data["lastUpdated"] ? new Date(data["lastUpdated"].toDate()).toLocaleString() : "Not available"
+                });
             } else {
                 console.log("No such document!");
-                // Handle the case where the document does not exist
+                setDailyData({
+                    "Total User Count": "0",
+                    "Pedestrians": "0",
+                    "Cyclists": "0",
+                    "Dog Walkers": "0",
+                    "lastUpdated": "Not available"
+                });
             }
         };
 
@@ -99,11 +113,11 @@ const TrailX = () => {
     return (
         <div className='mt-12'>
             <div className="w-full flex items-center justify-between px-2 h-12">
-                <img className="max-w-xs" alt="Vector" src="vector 17.svg" style={{ flexShrink: 0 }} />
+                <img className="max-w-xs" alt="Vector" src="/vector 17.svg" style={{ flexShrink: 0 }} />
                 <div className="text-center text-black font-semibold text-2xl flex-1">
                     DASHBOARD
                 </div>
-                <img className="max-w-xs" alt="Vector" src="vector 18.svg" style={{ flexShrink: 0 }} />
+                <img className="max-w-xs" alt="Vector" src="/vector 18.svg" style={{ flexShrink: 0 }} />
             </div>
 
 
@@ -126,6 +140,7 @@ const TrailX = () => {
                                 {/* Example or calculated value */}
                                 66%
                             </span>
+                            <div>Last Updated: {dailyData.lastUpdated}</div>
                         </div>
                     </div>
                 </div>
