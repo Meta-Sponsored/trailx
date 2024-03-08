@@ -113,11 +113,11 @@ const TrailX = () => {
     return (
         <div className='mt-12'>
             <div className="w-full flex items-center justify-between px-2 h-12">
-                <img className="max-w-xs" alt="Vector" src="/vector 17.svg" style={{ flexShrink: 0 }} />
+                <img className="max-w-xs" alt="Vector" src="/vector17.svg" style={{ flexShrink: 0 }} />
                 <div className="text-center text-black font-semibold text-2xl flex-1">
                     DASHBOARD
                 </div>
-                <img className="max-w-xs" alt="Vector" src="/vector 18.svg" style={{ flexShrink: 0 }} />
+                <img className="max-w-xs" alt="Vector" src="/vector18.svg" style={{ flexShrink: 0 }} />
             </div>
 
 
