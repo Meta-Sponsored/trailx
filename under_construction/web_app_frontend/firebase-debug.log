@@ -1,0 +1,121 @@
+[debug] [2024-03-08T04:29:34.991Z] ----------------------------------------------------------------------
+[debug] [2024-03-08T04:29:34.992Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2024-03-08T04:29:34.992Z] CLI Version:   13.4.0
+[debug] [2024-03-08T04:29:34.992Z] Platform:      darwin
+[debug] [2024-03-08T04:29:34.993Z] Node Version:  v20.1.0
+[debug] [2024-03-08T04:29:34.993Z] Time:          Thu Mar 07 2024 20:29:34 GMT-0800 (Pacific Standard Time)
+[debug] [2024-03-08T04:29:34.993Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-03-08T04:29:34.994Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-03-08T04:29:35.050Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-08T04:29:35.050Z] > authorizing via signed-in user (leunghon@uw.edu)
+[debug] [2024-03-08T04:29:35.051Z] [iam] checking project gix-trailx for permissions ["cloudconfig.configs.get","cloudconfig.configs.update","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create",null]
+[debug] [2024-03-08T04:29:35.051Z] > refreshing access token with scopes: []
+[debug] [2024-03-08T04:29:35.051Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-03-08T04:29:35.051Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-03-08T04:29:35.138Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-03-08T04:29:35.138Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-03-08T04:29:35.152Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions [none]
+[debug] [2024-03-08T04:29:35.152Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions x-goog-quota-user=projects/gix-trailx
+[debug] [2024-03-08T04:29:35.152Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create",null]}
+[debug] [2024-03-08T04:29:35.214Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-03-08T04:29:35.214Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2024-03-08T04:29:35.232Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions 200
+[debug] [2024-03-08T04:29:35.232Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions {"permissions":["cloudconfig.configs.get","cloudconfig.configs.update","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasedatabase.instances.update","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-03-08T04:29:35.232Z] [iam] error while checking permissions, command may fail: FirebaseError: Authorization failed. This account is missing the following required permissions on project gix-trailx:
+
+  
+[debug] [2024-03-08T04:29:35.232Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx [none]
+[debug] [2024-03-08T04:29:35.798Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx 200
+[debug] [2024-03-08T04:29:35.798Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx {"projectId":"gix-trailx","projectNumber":"323140771813","displayName":"GIX-TrailX","name":"projects/gix-trailx","resources":{"hostingSite":"gix-trailx","realtimeDatabaseInstance":"gix-trailx-default-rtdb","storageBucket":"gix-trailx.appspot.com","locationId":"us-west1"},"state":"ACTIVE","etag":"1_55b5660d-b0e5-441c-bf07-ac00184f13e8"}
+[debug] [2024-03-08T04:29:35.799Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx [none]
+[debug] [2024-03-08T04:29:36.330Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx 200
+[debug] [2024-03-08T04:29:36.330Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx {"projectId":"gix-trailx","projectNumber":"323140771813","displayName":"GIX-TrailX","name":"projects/gix-trailx","resources":{"hostingSite":"gix-trailx","realtimeDatabaseInstance":"gix-trailx-default-rtdb","storageBucket":"gix-trailx.appspot.com","locationId":"us-west1"},"state":"ACTIVE","etag":"1_55b5660d-b0e5-441c-bf07-ac00184f13e8"}
+[info] 
+[info] === Deploying to 'gix-trailx'...
+[info] 
+[info] i  deploying database, storage, firestore, hosting, remoteconfig, extensions 
+[info] i  database: checking rules syntax... 
+[debug] [2024-03-08T04:29:36.333Z] >>> [apiv2][query] GET https://firebasedatabase.googleapis.com/v1beta/projects/gix-trailx/locations/-/instances/gix-trailx-default-rtdb [none]
+[debug] [2024-03-08T04:29:36.819Z] <<< [apiv2][status] GET https://firebasedatabase.googleapis.com/v1beta/projects/gix-trailx/locations/-/instances/gix-trailx-default-rtdb 200
+[debug] [2024-03-08T04:29:36.819Z] <<< [apiv2][body] GET https://firebasedatabase.googleapis.com/v1beta/projects/gix-trailx/locations/-/instances/gix-trailx-default-rtdb {"name":"projects/323140771813/locations/us-central1/instances/gix-trailx-default-rtdb","project":"projects/323140771813","databaseUrl":"https://gix-trailx-default-rtdb.firebaseio.com","type":"DEFAULT_DATABASE","state":"ACTIVE"}
+[debug] [2024-03-08T04:29:36.821Z] >>> [apiv2][query] PUT https://gix-trailx-default-rtdb.firebaseio.com/.settings/rules.json dryRun=true
+[debug] [2024-03-08T04:29:36.821Z] >>> [apiv2][body] PUT https://gix-trailx-default-rtdb.firebaseio.com/.settings/rules.json "{\n  \"rules\": {\n    \".read\": false,\n    \".write\": false\n  }\n}"
+[debug] [2024-03-08T04:29:37.066Z] <<< [apiv2][status] PUT https://gix-trailx-default-rtdb.firebaseio.com/.settings/rules.json 200
+[debug] [2024-03-08T04:29:37.067Z] <<< [apiv2][body] PUT https://gix-trailx-default-rtdb.firebaseio.com/.settings/rules.json {"status":"ok"}
+[info] ✔  database: rules syntax for database gix-trailx-default-rtdb is valid 
+[info] i  storage: ensuring required API firebasestorage.googleapis.com is enabled... 
+[debug] [2024-03-08T04:29:37.070Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebasestorage.googleapis.com [none]
+[debug] [2024-03-08T04:29:37.070Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebasestorage.googleapis.com x-goog-quota-user=projects/gix-trailx
+[debug] [2024-03-08T04:29:37.331Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebasestorage.googleapis.com 200
+[debug] [2024-03-08T04:29:37.331Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebasestorage.googleapis.com [omitted]
+[info] ✔  storage: required API firebasestorage.googleapis.com is enabled 
+[debug] [2024-03-08T04:29:37.332Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/gix-trailx/defaultBucket [none]
+[debug] [2024-03-08T04:29:37.834Z] <<< [apiv2][status] GET https://firebasestorage.googleapis.com/v1alpha/projects/gix-trailx/defaultBucket 200
+[debug] [2024-03-08T04:29:37.834Z] <<< [apiv2][body] GET https://firebasestorage.googleapis.com/v1alpha/projects/gix-trailx/defaultBucket {"name":"projects/gix-trailx/defaultBucket","location":"US-WEST1","bucket":{"name":"projects/gix-trailx/buckets/gix-trailx.appspot.com"}}
+[info] i  firebase.storage: checking storage.rules for compilation errors... 
+[debug] [2024-03-08T04:29:37.836Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test [none]
+[debug] [2024-03-08T04:29:37.836Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test [omitted]
+[debug] [2024-03-08T04:29:38.258Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test 200
+[debug] [2024-03-08T04:29:38.258Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test {}
+[info] ✔  firebase.storage: rules file storage.rules compiled successfully 
+[info] i  firestore: reading indexes from firestore.indexes.json... 
+[info] i  cloud.firestore: checking firestore.rules for compilation errors... 
+[debug] [2024-03-08T04:29:38.263Z] >>> [apiv2][query] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test [none]
+[debug] [2024-03-08T04:29:38.263Z] >>> [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test [omitted]
+[debug] [2024-03-08T04:29:38.357Z] <<< [apiv2][status] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test 200
+[debug] [2024-03-08T04:29:38.357Z] <<< [apiv2][body] POST https://firebaserules.googleapis.com/v1/projects/gix-trailx:test {}
+[info] ✔  cloud.firestore: rules file firestore.rules compiled successfully 
+[debug] [2024-03-08T04:29:38.362Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gix-trailx/versions [none]
+[debug] [2024-03-08T04:29:38.362Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gix-trailx/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-03-08T04:29:39.185Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gix-trailx/versions 200
+[debug] [2024-03-08T04:29:39.185Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/gix-trailx/versions {"name":"projects/323140771813/sites/gix-trailx/versions/47e9742a5b522991","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2024-03-08T04:29:39.188Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx [none]
+[debug] [2024-03-08T04:29:39.791Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx 200
+[debug] [2024-03-08T04:29:39.791Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx {"projectId":"gix-trailx","projectNumber":"323140771813","displayName":"GIX-TrailX","name":"projects/gix-trailx","resources":{"hostingSite":"gix-trailx","realtimeDatabaseInstance":"gix-trailx-default-rtdb","storageBucket":"gix-trailx.appspot.com","locationId":"us-west1"},"state":"ACTIVE","etag":"1_55b5660d-b0e5-441c-bf07-ac00184f13e8"}
+[debug] [2024-03-08T04:29:39.792Z] >>> [apiv2][query] GET https://firebaseremoteconfig.googleapis.com/v1/projects/323140771813/remoteConfig 
+[debug] [2024-03-08T04:29:40.033Z] <<< [apiv2][status] GET https://firebaseremoteconfig.googleapis.com/v1/projects/323140771813/remoteConfig 200
+[debug] [2024-03-08T04:29:40.033Z] <<< [apiv2][body] GET https://firebaseremoteconfig.googleapis.com/v1/projects/323140771813/remoteConfig {"version":{"versionNumber":"8","updateTime":"2024-03-05T05:11:02.335009Z","updateUser":{"email":"leunghon@uw.edu"},"updateOrigin":"REST_API","updateType":"INCREMENTAL_UPDATE"}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2024-03-08T04:29:40.035Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebaseextensions.googleapis.com [none]
+[debug] [2024-03-08T04:29:40.035Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebaseextensions.googleapis.com x-goog-quota-user=projects/gix-trailx
+[debug] [2024-03-08T04:29:40.494Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebaseextensions.googleapis.com 200
+[debug] [2024-03-08T04:29:40.495Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/firebaseextensions.googleapis.com [omitted]
+[info] ✔  extensions: required API firebaseextensions.googleapis.com is enabled 
+[debug] [2024-03-08T04:29:40.496Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-08T04:29:40.496Z] > authorizing via signed-in user (leunghon@uw.edu)
+[debug] [2024-03-08T04:29:40.496Z] [iam] checking project gix-trailx for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2024-03-08T04:29:40.497Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions [none]
+[debug] [2024-03-08T04:29:40.497Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions x-goog-quota-user=projects/gix-trailx
+[debug] [2024-03-08T04:29:40.497Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2024-03-08T04:29:40.607Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions 200
+[debug] [2024-03-08T04:29:40.608Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2024-03-08T04:29:40.609Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/gix-trailx/instances pageSize=100&pageToken=
+[debug] [2024-03-08T04:29:40.900Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/gix-trailx/instances 200
+[debug] [2024-03-08T04:29:40.900Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/gix-trailx/instances {}
+[info] i  extensions: ensuring required API compute.googleapis.com is enabled... 
+[debug] [2024-03-08T04:29:40.903Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/compute.googleapis.com [none]
+[debug] [2024-03-08T04:29:40.903Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/compute.googleapis.com x-goog-quota-user=projects/gix-trailx
+[debug] [2024-03-08T04:29:41.313Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/compute.googleapis.com 200
+[debug] [2024-03-08T04:29:41.313Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/gix-trailx/services/compute.googleapis.com [omitted]
+[info] ✔  extensions: required API compute.googleapis.com is enabled 
+[debug] [2024-03-08T04:29:41.314Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx [none]
+[debug] [2024-03-08T04:29:41.820Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx 200
+[debug] [2024-03-08T04:29:41.821Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gix-trailx {"projectId":"gix-trailx","projectNumber":"323140771813","displayName":"GIX-TrailX","name":"projects/gix-trailx","resources":{"hostingSite":"gix-trailx","realtimeDatabaseInstance":"gix-trailx-default-rtdb","storageBucket":"gix-trailx.appspot.com","locationId":"us-west1"},"state":"ACTIVE","etag":"1_55b5660d-b0e5-441c-bf07-ac00184f13e8"}
+[debug] [2024-03-08T04:29:41.821Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:getIamPolicy [none]
+[debug] [2024-03-08T04:29:42.040Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:getIamPolicy 200
+[debug] [2024-03-08T04:29:42.040Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:getIamPolicy {"version":1,"etag":"BwYSutDhA8g=","bindings":[{"role":"roles/cloudbuild.builds.builder","members":["serviceAccount:323140771813@cloudbuild.gserviceaccount.com"]},{"role":"roles/cloudbuild.serviceAgent","members":["serviceAccount:service-323140771813@gcp-sa-cloudbuild.iam.gserviceaccount.com"]},{"role":"roles/cloudfunctions.serviceAgent","members":["serviceAccount:service-323140771813@gcf-admin-robot.iam.gserviceaccount.com"]},{"role":"roles/compute.serviceAgent","members":["serviceAccount:service-323140771813@compute-system.iam.gserviceaccount.com"]},{"role":"roles/containerregistry.ServiceAgent","members":["serviceAccount:service-323140771813@containerregistry.iam.gserviceaccount.com"]},{"role":"roles/editor","members":["serviceAccount:323140771813-compute@developer.gserviceaccount.com","serviceAccount:323140771813@cloudservices.gserviceaccount.com","serviceAccount:gix-trailx@appspot.gserviceaccount.com"]},{"role":"roles/eventarc.eventReceiver","members":["serviceAccount:323140771813-compute@developer.gserviceaccount.com"]},{"role":"roles/firebase.managementServiceAgent","members":["serviceAccount:firebase-service-account@firebase-sa-management.iam.gserviceaccount.com","serviceAccount:service-323140771813@gcp-sa-firebase.iam.gserviceaccount.com"]},{"role":"roles/firebase.sdkAdminServiceAgent","members":["serviceAccount:firebase-adminsdk-z0gyx@gix-trailx.iam.gserviceaccount.com"]},{"role":"roles/firebaseauth.admin","members":["serviceAccount:firebase-adminsdk-z0gyx@gix-trailx.iam.gserviceaccount.com"]},{"role":"roles/firebasedatabase.admin","members":["serviceAccount:firebase-adminsdk-z0gyx@gix-trailx.iam.gserviceaccount.com"]},{"role":"roles/firebasemods.serviceAgent","members":["serviceAccount:service-323140771813@gcp-sa-firebasemods.iam.gserviceaccount.com"]},{"role":"roles/firebaserules.firestoreServiceAgent","members":["serviceAccount:service-323140771813@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firebaserules.system","members":["serviceAccount:service-323140771813@firebase-rules.iam.gserviceaccount.com"]},{"role":"roles/firebasestorage.serviceAgent","members":["serviceAccount:service-323140771813@gcp-sa-firebasestorage.iam.gserviceaccount.com"]},{"role":"roles/firestore.serviceAgent","members":["serviceAccount:service-323140771813@gcp-sa-firestore.iam.gserviceaccount.com"]},{"role":"roles/iam.serviceAccountTokenCreator","members":["serviceAccount:firebase-adminsdk-z0gyx@gix-trailx.iam.gserviceaccount.com"]},{"role":"roles/owner","members":["user:chiawei1@uw.edu","user:leunghon@uw.edu"]},{"role":"roles/storage.admin","members":["serviceAccount:firebase-adminsdk-z0gyx@gix-trailx.iam.gserviceaccount.com"]}]}
+[debug] [2024-03-08T04:29:42.041Z] Compute Service API Agent IAM policy OK
+[debug] [2024-03-08T04:29:42.041Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-08T04:29:42.041Z] > authorizing via signed-in user (leunghon@uw.edu)
+[debug] [2024-03-08T04:29:42.042Z] [iam] checking project gix-trailx for permissions ["firebase.projects.get"]
+[debug] [2024-03-08T04:29:42.042Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions [none]
+[debug] [2024-03-08T04:29:42.042Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions x-goog-quota-user=projects/gix-trailx
+[debug] [2024-03-08T04:29:42.042Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-03-08T04:29:42.103Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions 200
+[debug] [2024-03-08T04:29:42.103Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/gix-trailx:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-03-08T04:29:42.104Z] Checking if latest AppDeveloper TOS has been accepted by gix-trailx...
+[info] i  extensions: By installing an extension instance onto a Firebase project, you accept the Firebase Extensions User Terms of Service: https://firebase.google.com/terms/extensions/user 
+[debug] [2024-03-08T04:29:42.104Z] >>> [apiv2][query] GET https://firebaseextensionstos-pa.googleapis.com/v1/projects/gix-trailx/appdevtos [none]
+[debug] [2024-03-08T04:29:42.599Z] <<< [apiv2][status] GET https://firebaseextensionstos-pa.googleapis.com/v1/projects/gix-trailx/appdevtos 200
+[debug] [2024-03-08T04:29:42.600Z] <<< [apiv2][body] GET https://firebaseextensionstos-pa.googleapis.com/v1/projects/gix-trailx/appdevtos {"name":"projects/gix-trailx/appdevtos","latestTosVersion":"v1"}
