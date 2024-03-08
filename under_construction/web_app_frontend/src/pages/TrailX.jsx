@@ -87,25 +87,19 @@ const TrailX = () => {
 
     const [gcsData, setGcsData] = useState(null);
 
-    const fetchDataFromFirebaseStorage = async () => {
-        const storageRef = ref(storage, 'gs://user_counter/user_counter_output.json'); // Adjust the path as needed
-
+    const fetchDataFromFirestore = async () => {
         try {
-            const url = await getDownloadURL(storageRef);
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const data = await response.json();
-            setGcsData(data);
+            const querySnapshot = await getDocs(collection(db, "user_counter_output"));
+            const data = querySnapshot.docs.map(doc => doc.data());
+            setGcsData(data); // Assuming you have a state called gcsData to store the fetched data
         } catch (error) {
-            console.error("Could not fetch data from Firebase Storage:", error);
+            console.error("Could not fetch data from Firestore:", error);
         }
     };
-
+    
+    // Using useEffect to call fetchDataFromFirestore when the component mounts
     useEffect(() => {
-        fetchDataFromFirebaseStorage(); // Fetch data on component mount
-        const intervalId = setInterval(fetchDataFromFirebaseStorage, 5000); // Poll every 5 seconds
-
-        return () => clearInterval(intervalId); // Clean up the interval on component unmount
+        fetchDataFromFirestore();
     }, []);
 
 
@@ -113,11 +107,11 @@ const TrailX = () => {
     return (
         <div className='mt-12'>
             <div className="w-full flex items-center justify-between px-2 h-12">
-                <img className="max-w-xs" alt="Vector" src="/vector17.svg" style={{ flexShrink: 0 }} />
+                <img className="max-w-xs" alt="Vector" src="/Vector17.svg" style={{ flexShrink: 0 }} />
                 <div className="text-center text-black font-semibold text-2xl flex-1">
                     DASHBOARD
                 </div>
-                <img className="max-w-xs" alt="Vector" src="/vector18.svg" style={{ flexShrink: 0 }} />
+                <img className="max-w-xs" alt="Vector" src="/Vector18.svg" style={{ flexShrink: 0 }} />
             </div>
 
 

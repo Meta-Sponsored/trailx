@@ -86,9 +86,9 @@ const NewsMap = () => {
     <div style={styles.newsMapContainer}>
       <div style={styles.newsUpdatesSection}>
         <div style={styles.newsUpdates} id="NEWS_UPDATES">
-          <img style={styles.vector} alt="Vector" src="/vector17.svg" />
+          <img style={styles.vector} alt="Vector" src="/Vector17.svg" />
           <div style={styles.title}>NEWS & UPDATES</div>
-          <img style={styles.vector} alt="Vector" src="/vector18.svg" />
+          <img style={styles.vector} alt="Vector" src="/Vector18.svg" />
         </div>
       </div>
     <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
@@ -96,9 +96,9 @@ const NewsMap = () => {
     </div>
     <div style={styles.newsUpdatesSection}>
         <div style={styles.newsUpdates} id="NEWS_UPDATES">
-          <img style={styles.vector} alt="Vector" src="/vector17.svg" />
+          <img style={styles.vector} alt="Vector" src="/Vector17.svg" />
           <div style={styles.title}>INTERACTIVE MAP</div>
-          <img style={styles.vector} alt="Vector" src="/vector18.svg" />
+          <img style={styles.vector} alt="Vector" src="/Vector18.svg" />
         </div>
       </div>
       <div style={styles.trailMapContainer}>
