@@ -20,11 +20,13 @@ from object_class import object_class
 from data_analysis import update_user_counter
 from speed_tracker import SpeedTracker
 from led_screen_controller import (
+    change_frame_rate,
     get_current_mode,
     change_led_screen_mode,
     run_led_screen,
     ANIMATIONS_PATH,
 )
+from animations.gif_frame_rates import gif_frame_rates
 
 WARNING_SPEED = 5  # Unit: Miles Per Hour
 SPEED_LIMIT_SPEED = 10  # Unit: Miles Per Hour
@@ -113,13 +115,12 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
                 and current_time <= sunset_time
                 and cloud_coverage <= LIMITED_FUNCTIONAL_CLOUD_COVERAGE
             ):
+                _, playback_mode = get_current_mode()
                 if cloud_coverage <= FULLY_FUNCTIONAL_CLOUD_COVERAGE:
-                    _, playback_mode = get_current_mode()
                     change_led_screen_mode(
                         led_screen_enabled=True, playback_mode=playback_mode
                     )
                 else:
-                    _, playback_mode = get_current_mode()
                     change_led_screen_mode(
                         led_screen_enabled=False, playback_mode=playback_mode
                     )
@@ -128,6 +129,13 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             else:
                 state_change_event.set()  # Set the event flag to signal the main program
                 print("State changed to idle.")
+
+                # Disable the LED screen and set playback back to Default = 0,
+                # which will play 0.gif the next time the LED screen is enabled.
+                led_screen_enabled, playback_mode = get_current_mode()
+                if led_screen_enabled or playback_mode != 0:
+                    change_frame_rate(gif_frame_rates[0])
+                    change_led_screen_mode(led_screen_enabled=False, playback_mode=0)
                 time.sleep(1800)
         else:
             time.sleep(60)  # Retry after 1 minute if weather data is unavailable
@@ -170,20 +178,23 @@ def run_object_detection(
             ):
                 led_screen_enabled, current_playback_mode = get_current_mode()
                 if current_playback_mode == 0:
-                    num_of_files = len(
+                    num_of_gif_files = len(
                         [
                             name
                             for name in os.listdir(ANIMATIONS_PATH)
                             if os.path.isfile(os.path.join(ANIMATIONS_PATH, name))
+                            and name.endswith(".gif")
                         ]
                     )
                     # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
-                    if num_of_files >= 3:
-                        change_led_screen_mode(
-                            led_screen_enabled, random.randrange(3, num_of_files + 1)
-                        )
+                    if num_of_gif_files >= 3:
+                        gif_to_show = random.randrange(3, num_of_gif_files)
+                        change_frame_rate(gif_frame_rates[gif_to_show])
+                        change_led_screen_mode(led_screen_enabled, gif_to_show)
+
+                        # Return to the default gif image.
                         timer = Timer(
-                            60, change_led_screen_mode, [led_screen_enabled, 0]
+                            10, change_led_screen_mode, [led_screen_enabled, 0]
                         )
                         timer.start()
 
