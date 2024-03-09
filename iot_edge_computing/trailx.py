@@ -7,6 +7,7 @@ detect and track objects."""
 
 import os
 import sys
+from dotenv import load_dotenv
 import threading
 from threading import Timer
 import time
@@ -194,7 +195,7 @@ def run_object_detection(
 
                         # Return to the default gif image.
                         timer = Timer(
-                            10, change_led_screen_mode, [led_screen_enabled, 0]
+                            15, change_led_screen_mode, [led_screen_enabled, 0]
                         )
                         timer.start()
 
@@ -255,7 +256,9 @@ def main(api_key, city_name, time_zone):
 
 
 if __name__ == "__main__":
-    OPEN_WEATHER_API_KEY = "d5f6e96071109af97ee3b206fe8cb0cb"
+    dotenv_path = "/home/trailx/Desktop/keys/open_weather_api.env"
+    load_dotenv(dotenv_path=dotenv_path)
+    OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
     CITY_NAME = "tainan"
     TIME_ZONE = "America/Los_Angeles"
 
@@ -263,7 +266,7 @@ if __name__ == "__main__":
         target=main, args=(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
     )
     main_function_thread.start()
-    time.sleep(200)
+    time.sleep(60)
     run_led_screen()
     sys.exit()
 
