@@ -57,32 +57,37 @@ def display_gif_on_screen(filename, playback_mode):
     screen_size = SCREEN.get_size()  # Get the current screen size for resizing
 
     frame_rate = FRAME_RATE
-    for frame in gif_frames:
-        # Ensure frame is in RGB format
-        if frame.ndim == 2:  # Grayscale to RGB
-            frame = np.stack((frame,) * 3, axis=-1)
-        elif frame.ndim == 3 and frame.shape[2] == 4:  # RGBA to RGB
-            frame = frame[:, :, :3]
+    while True:
+        for frame in gif_frames:
+            # Ensure frame is in RGB format
+            if frame.ndim == 2:  # Grayscale to RGB
+                frame = np.stack((frame,) * 3, axis=-1)
+            elif frame.ndim == 3 and frame.shape[2] == 4:  # RGBA to RGB
+                frame = frame[:, :, :3]
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT or EXIT_EVENT.is_set():
-                return True  # Indicates a quit event
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or EXIT_EVENT.is_set():
+                    return True  # Indicates a quit event
+
+            led_screen_enabled, current_playback_mode = get_current_mode()
+            if not led_screen_enabled or current_playback_mode != playback_mode:
+                break
+
+            # Resize frame to fit the screen
+            frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+            frame_surface = pygame.transform.scale(
+                frame_surface, screen_size
+            )  # Resize the surface
+
+            SCREEN.blit(frame_surface, (0, 0))  # Display the resized surface
+            pygame.display.flip()
+
+            # Dynamically adjust delay based on the current FRAME_RATE
+            pygame.time.delay(int(1000 / frame_rate))
 
         led_screen_enabled, current_playback_mode = get_current_mode()
         if not led_screen_enabled or current_playback_mode != playback_mode:
             break
-
-        # Resize frame to fit the screen
-        frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-        frame_surface = pygame.transform.scale(
-            frame_surface, screen_size
-        )  # Resize the surface
-
-        SCREEN.blit(frame_surface, (0, 0))  # Display the resized surface
-        pygame.display.flip()
-
-        # Dynamically adjust delay based on the current FRAME_RATE
-        pygame.time.delay(int(1000 / frame_rate))
 
     return False  # Indicates no quit event
 
@@ -191,6 +196,8 @@ def unit_testing():
     ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
     # ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
+    speed_timer = Timer(15, change_led_screen_mode, [True, 1])
+    speed_timer.start()
     while True:
         _, current_playback_mode = get_current_mode()
         num_of_gif_files = len(
