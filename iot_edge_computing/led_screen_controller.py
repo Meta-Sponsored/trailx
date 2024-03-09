@@ -56,6 +56,7 @@ def display_gif_on_screen(filename, playback_mode):
 
     screen_size = SCREEN.get_size()  # Get the current screen size for resizing
 
+    frame_rate = FRAME_RATE
     for frame in gif_frames:
         # Ensure frame is in RGB format
         if frame.ndim == 2:  # Grayscale to RGB
@@ -81,7 +82,7 @@ def display_gif_on_screen(filename, playback_mode):
         pygame.display.flip()
 
         # Dynamically adjust delay based on the current FRAME_RATE
-        pygame.time.delay(int(1000 / FRAME_RATE))
+        pygame.time.delay(int(1000 / frame_rate))
 
     return False  # Indicates no quit event
 
