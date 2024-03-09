@@ -29,8 +29,8 @@ from led_screen_controller import (
 )
 from animations.gif_frame_rates import gif_frame_rates
 
-WARNING_SPEED = 5  # Unit: Miles Per Hour
-SPEED_LIMIT_SPEED = 10  # Unit: Miles Per Hour
+WARNING_SPEED = 10  # Unit: Miles Per Hour
+SPEED_LIMIT_SPEED = 15  # Unit: Miles Per Hour
 FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 LIMITED_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 
