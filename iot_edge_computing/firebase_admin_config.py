@@ -4,7 +4,7 @@ import os
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-FIREBASE_ADMIN_SDK_PATH="/home/trailx/Desktop/key/gix-trailx-736ea562d73b.json"
+FIREBASE_ADMIN_SDK_PATH="/home/trailx/Desktop/keys/gix-trailx-736ea562d73b.json"
 
 def initialize_firebase_admin():
     """

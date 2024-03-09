@@ -130,7 +130,7 @@ def gcs_uploader(bucket_name, source_file_name, destination_blob_name):
     # The ID to give your GCS object
 
     storage_client = storage.Client.from_service_account_json(
-        "/home/trailx/Desktop/key/gix-trailx-736ea562d73b.json"
+        "/home/trailx/Desktop/keys/gix-trailx-736ea562d73b.json"
     )
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
