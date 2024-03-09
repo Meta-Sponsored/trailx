@@ -1,25 +1,44 @@
 /*
- Displaying instantaneous speed from a LIDAR via serial monitor
- By: Nathan Seidle
- SparkFun Electronics
- Date: January 5th, 2015
- License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
+ Modifying Instantaneous Speed Display from LIDAR Data for TrailX Project
+ By: TrailX Team
+ Organization: Global Innovation Exchange, University of Washington
+ Date: Mar 9, 2024
 
- The new LIDAR-Lite from PulsedLight is pretty nice. It outputs readings very quickly. From multiple distance
- readings we can calculate speed (velocity is the derivative of position).
+ Acknowledgement: Based on the original work by Nathan Seidle,
+                  SparkFun Electronics, dated January 5th, 2015,
+                  this project adapts the method to display instantaneous speed readings
+                  from a LIDAR sensor for our TrailX application.
+                  Unlike the original implementation that visualized speed data
+                  on two large 7-segment displays, our version simplifies the output to serial prints,
+                  facilitating integration with other devices in our project
+                  for data collection and analysis.
+                  URL: https://github.com/sparkfun/Speed_Trap?tab=readme-ov-file
 
- You'll need to connect the LIDAR to the Arduino:
- Arduino 5V -> LIDAR 5V
- GND -> GND
- SCL -> SCL
- SDA -> SDA
- A0 -> Enable
+ License: This code is public domain but you buy Nathan a beer
+          if you use this and you meet them someday (Beerware license)."
 
+ The LIDAR-Lite from PulsedLight, noted for its rapid data output capabilities,
+ remains central to our setup. By analyzing multiple distance readings,
+ we can accurately calculate and monitor the speed
+ (where speed is understood as the rate of change of position over time).
+
+ Connections for LIDAR to the microcontroller (e.g., Arduino) are as follows:
+ - Microcontroller 5V -> LIDAR 5V
+ - GND -> GND
+ - SCL -> SCL
+ - SDA -> SDA
+ - A0 -> Enable (if required for your LIDAR model)
+
+ Modifications include the removal of the display components,
+ implementing serial communication to both receive LIDAR data and
+ transmit speed calculations to other devices within the TrailX project.
+ This adjustment allows for a more versatile application in trail monitoring systems,
+ emphasizing data accuracy and ease of integration.
 */
 
-#include <Wire.h> //Used for I2C
+#include <Wire.h> // Used for I2C
 
-#include <avr/wdt.h> //We need watch dog for this program
+#include <avr/wdt.h> // We need watch dog for this program
 
 #define LIDARLite_ADDRESS 0x62 // Default I2C Address of LIDAR-Lite.
 #define RegisterMeasure 0x00   // Register to write to initiate ranging.
@@ -43,7 +62,7 @@ byte deltaSpot = 0; // Keeps track of where we are within the deltas array
 
 int maxMPH = 0;          // Keeps track of what the latest fastest speed is
 long maxMPH_timeout = 0; // Forget the max speed after some length of time
-int warningSpeed = 5;    // Set the speed limit (mph). Once the speed is greater than the limit, we will print the speed
+int warningSpeed = 10;   // Set the speed limit (mph). Once the speed is greater than the limit, we will print the speed
 
 #define maxMPH_remember 3000 // After this number of ms the system will forget the max speed
 
@@ -127,7 +146,7 @@ void loop()
     {
       // Serial.print("Speed: ");
       Serial.println(instantMPH);
-      //Serial.println(" mph");
+      // Serial.println(" mph");
 
       maxMPH = instantMPH;
       maxMPH_timeout = millis();

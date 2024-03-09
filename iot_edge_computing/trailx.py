@@ -33,6 +33,8 @@ WARNING_SPEED = 10  # Unit: Miles Per Hour
 SPEED_LIMIT_SPEED = 15  # Unit: Miles Per Hour
 FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 LIMITED_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
+COOLDOWN_TIME_BETWEEN_ANIMATIONS = 45  # Unit: Seconds
+ANIMATION_PLAY_TIME = 10  # Unit: Seconds
 
 
 # Function to get weather data including cloud coverage, sunrise, and sunset times, and city name
@@ -142,6 +144,33 @@ def check_idle_state(api_key, city_name, state_change_event, time_zone):
             time.sleep(60)  # Retry after 1 minute if weather data is unavailable
 
 
+# Function to randomly select animations to play when a user is detected.
+def play_random_animation():
+    """Function to randomly select animations to play when a user is detected."""
+
+    led_screen_enabled, current_playback_mode = get_current_mode()
+    if current_playback_mode == 0:
+        num_of_gif_files = len(
+            [
+                name
+                for name in os.listdir(ANIMATIONS_PATH)
+                if os.path.isfile(os.path.join(ANIMATIONS_PATH, name))
+                and name.endswith(".gif")
+            ]
+        )
+        # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
+        if num_of_gif_files >= 3:
+            gif_to_show = random.randrange(3, num_of_gif_files)
+            change_frame_rate(gif_frame_rates[gif_to_show])
+            change_led_screen_mode(led_screen_enabled, gif_to_show)
+
+            # Return to the default gif image.
+            timer = Timer(
+                ANIMATION_PLAY_TIME, change_led_screen_mode, [led_screen_enabled, 0]
+            )
+            timer.start()
+
+
 # Function to run the main program
 def run_object_detection(
     state_change_event, total_user_counted, total_bike_counted, total_dog_counted
@@ -153,15 +182,15 @@ def run_object_detection(
     net.SetTrackingParams(minFrames=20, dropFrames=100, overlapThreshold=0.1)
 
     camera = videoSource("/dev/video0", argv=["--input-flip=rotate-180"])
+    last_animation_time = 0
 
     while True:
         img = camera.Capture()
         if img is None:
             continue
 
-        detections = net.Detect(img)
-
         tracking_types = set(["bicycle", "dog", "person"])
+        detections = net.Detect(img)
         for detection in detections:
             (
                 total_user_counted,
@@ -172,32 +201,20 @@ def run_object_detection(
             )
 
             # When a user is detected, we start randomly playing a pre-made animation.
+            # The cooldown is to avoid playing the next animation
+            # without going back to the preset static background.
             if (
                 detection.TrackID >= 0
                 and detection.TrackStatus >= 0
                 and object_class[detection.ClassID] in tracking_types
             ):
-                led_screen_enabled, current_playback_mode = get_current_mode()
-                if current_playback_mode == 0:
-                    num_of_gif_files = len(
-                        [
-                            name
-                            for name in os.listdir(ANIMATIONS_PATH)
-                            if os.path.isfile(os.path.join(ANIMATIONS_PATH, name))
-                            and name.endswith(".gif")
-                        ]
-                    )
-                    # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
-                    if num_of_gif_files >= 3:
-                        gif_to_show = random.randrange(3, num_of_gif_files)
-                        change_frame_rate(gif_frame_rates[gif_to_show])
-                        change_led_screen_mode(led_screen_enabled, gif_to_show)
-
-                        # Return to the default gif image.
-                        timer = Timer(
-                            15, change_led_screen_mode, [led_screen_enabled, 0]
-                        )
-                        timer.start()
+                current_time = time.time()
+                if (
+                    current_time - last_animation_time
+                    >= COOLDOWN_TIME_BETWEEN_ANIMATIONS
+                ):
+                    play_random_animation()
+                    last_animation_time = current_time
 
         # print(f"Detecting Object | Network: {net.GetNetworkFPS():.0f} FPS")
 
