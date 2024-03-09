@@ -204,6 +204,7 @@ def unit_testing():
         # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
         if num_of_gif_files >= 1 and current_playback_mode == 0:
             gif_to_show = random.randrange(3, num_of_gif_files)
+            print(gif_to_show)
 
             change_frame_rate(gif_frame_rates[gif_to_show])
             change_led_screen_mode(
