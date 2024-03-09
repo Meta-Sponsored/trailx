@@ -195,7 +195,7 @@ def run_object_detection(
 
                         # Return to the default gif image.
                         timer = Timer(
-                            10, change_led_screen_mode, [led_screen_enabled, 0]
+                            15, change_led_screen_mode, [led_screen_enabled, 0]
                         )
                         timer.start()
 
