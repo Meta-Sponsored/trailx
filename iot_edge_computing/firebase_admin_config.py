@@ -26,12 +26,21 @@ def initialize_firebase_admin():
         firestore.Client: A Firestore client instance that
         can be used to interact with the Firestore database.
     """
-    
-    # Load the Firebase Admin SDK credentials from the environment variable
-    cred = credentials.Certificate(FIREBASE_ADMIN_SDK_PATH)
+    try:
+        # Load the Firebase Admin SDK credentials from the environment variable
+        FIREBASE_ADMIN_SDK_PATH = os.environ.get('FIREBASE_ADMIN_SDK_PATH')
+        if not FIREBASE_ADMIN_SDK_PATH:
+            print("Environment variable 'FIREBASE_ADMIN_SDK_PATH' not found.")
+            return None
 
-    # Initialize the Firebase Admin SDK with the loaded credentials
-    firebase_admin.initialize_app(cred)
+        cred = credentials.Certificate(FIREBASE_ADMIN_SDK_PATH)
 
-    # Create and return a Firestore client instance
-    return firestore.client()
+        # Initialize the Firebase Admin SDK with the loaded credentials
+        if not firebase_admin._apps:
+            firebase_admin.initialize_app(cred)
+
+        # Create and return a Firestore client instance
+        return firestore.client()
+    except Exception as e:
+        print(f"Failed to initialize Firebase Admin SDK: {e}")
+        return None
