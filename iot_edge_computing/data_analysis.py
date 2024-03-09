@@ -91,11 +91,11 @@ def save_and_upload(tracking_types, total_user_counted):
         try:
             firestore_uploader(user_counter_data)
             # Optionally, upload daily data to GCS
-            gcs_uploader(
-                data_type, f"{data_type}_output_path", f"{data_type}_output.json"
-            )
+            #gcs_uploader(
+            #    data_type, f"{data_type}_output_path", f"{data_type}_output.json"
+            #)
         except Exception:
-            print("Unable to connect google cloud platform services.")
+            print("Unable to connect firebase services.")
 
 
 def save_object_tracker_data():
