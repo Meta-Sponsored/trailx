@@ -90,7 +90,7 @@ const App = () => {
                                 <Route path="/pyramid" element={<Pyramid />} />
                                 <Route path="/stacked" element={<Stacked />} />
 
-                                <Route path="/AdminLoginPage" element={<AdminLoginPage />} />   
+                                <Route path="/AdminLoginPage" element={<AdminLoginPage />} />
                             </Routes>
                         </div>
                     </div>
