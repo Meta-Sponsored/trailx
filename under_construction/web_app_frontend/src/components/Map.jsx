@@ -14,9 +14,11 @@ const TrailMap = ({ trailData }) => {
 
   // Coordinates for cities, simplified as [latitude, longitude]
   const cityLocations = {
-    Kirkland: { lat: 47.681487, lon: -122.208735, imagePath: "./kirkland.svg", position: { left: '104px', top: '409px' } },
-    Newcastle: { lat: 47.530101, lon: -122.163458, imagePath: "./newcastle.svg", position: { left: '81.99px', top: '703px' } },
-    Redmond: { lat: 47.673988, lon: -122.121512, imagePath: "./redmond.svg", position: { left: '176.5px', top: '429.5px' } },
+    Kirkland: { lat: 47.681487, lon: -122.208735, position: { left: '104px', top: '409px' } },
+    Newcastle: { lat: 47.530101, lon: -122.163458, position: { left: '81.99px', top: '703px' } },
+    Redmond: { lat: 47.673988, lon: -122.121512, position: { left: '176.5px', top: '429.5px' } },
+    //Seattle: { lat: 47.6062, lon: -122.3321, position: { left: '2px', top: '486px' } }, // Approximate position for demo
+    Bellevue: { lat: 47.6101, lon: -122.2015, position: { left: '132px', top: '583.5px' } },
   };
 
   const [userLocation, setUserLocation] = useState(null);
@@ -98,9 +100,14 @@ const TrailMap = ({ trailData }) => {
         <img
           src="./YouAreHere.svg"
           alt="You Are Here"
-          className={`absolute ${cityLocations[userLocation].position.left} ${cityLocations[userLocation].position.top}`}
+          style={{
+            position: 'absolute',
+            left: cityLocations[userLocation].position.left,
+            top: cityLocations[userLocation].position.top
+          }}
         />
       )}
+
     </div>
 
   );
