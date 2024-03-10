@@ -1,4 +1,4 @@
-import {Trailx_NavHeader, MyCarousel, TrailMap, UploadWindow} from '../components'; 
+import { Trailx_NavHeader, MyCarousel, TrailMap, UploadWindow } from '../components';
 import React, { useState } from 'react';
 
 const yourTrailData = {
@@ -49,6 +49,8 @@ const NewsMap = () => {
       height: '5.77px',
       objectFit: 'cover',
       position: 'relative',
+      marginLeft: '32px',
+      marginRight: '32px',
     },
     title: {
       color: '#000000',
@@ -76,6 +78,7 @@ const NewsMap = () => {
       display: 'flex',
       justifyContent: 'center',
       marginTop: '32px', // Spacing below the map
+      marginBottom: '32px',
     },
     addPhotoIcon: {
       cursor: 'pointer', // Change the cursor to pointer when hovering over the button
@@ -91,10 +94,10 @@ const NewsMap = () => {
           <img style={styles.vector} alt="Vector" src="/Vector18.svg" />
         </div>
       </div>
-    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-      <MyCarousel />
-    </div>
-    <div style={styles.newsUpdatesSection}>
+      <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <MyCarousel />
+      </div>
+      <div style={styles.newsUpdatesSection}>
         <div style={styles.newsUpdates} id="NEWS_UPDATES">
           <img style={styles.vector} alt="Vector" src="/Vector17.svg" />
           <div style={styles.title}>INTERACTIVE MAP</div>
@@ -102,7 +105,7 @@ const NewsMap = () => {
         </div>
       </div>
       <div style={styles.trailMapContainer}>
-        <TrailMap trailData={yourTrailData}/>
+        <TrailMap trailData={yourTrailData} />
       </div>
       <div style={styles.addPhotoButton}>
         <img src='Add Photos.svg' alt="Add Photos" style={styles.addPhotoIcon} onClick={() => setIsUploadWindowVisible(true)} />

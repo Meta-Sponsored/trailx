@@ -8,7 +8,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'; // Import Firebase 
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const { activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, screenSize, setScreenSize, currentColor } = useStateContext();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null); // State to store the logged-in user's information
@@ -73,7 +73,7 @@ const Navbar = () => {
                     </div>
                 </TooltipComponent>
             ) : (
-                <button onClick={() => navigate('/AdminLoginPage')} className='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700'>
+                <button onClick={() => navigate('/AdminLoginPage')} className='bg-[#141C14] text-white px-4 py-2 rounded hover:drop-shadow-xl'>
                     Admin
                 </button>
             )}

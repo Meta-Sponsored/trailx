@@ -198,6 +198,7 @@ def unit_testing():
 
     speed_timer = Timer(15, change_led_screen_mode, [True, 1])
     speed_timer.start()
+    prev_shown_gif = 2
     while True:
         _, current_playback_mode = get_current_mode()
         num_of_gif_files = len(
@@ -208,9 +209,13 @@ def unit_testing():
                 and name.endswith(".gif")
             ]
         )
+
         # If a pre-made animation exists. Check the files in the ANIMATIONS_PATH.
-        if num_of_gif_files >= 1 and current_playback_mode == 0:
-            gif_to_show = random.randrange(3, num_of_gif_files)
+        if num_of_gif_files > 2 and current_playback_mode == 0:
+            gif_to_show = prev_shown_gif + 1
+            prev_shown_gif = gif_to_show
+            if gif_to_show >= num_of_gif_files:
+                gif_to_show = 3
             print(gif_to_show)
 
             change_frame_rate(gif_frame_rates[gif_to_show])
