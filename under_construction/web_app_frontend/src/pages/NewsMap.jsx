@@ -76,7 +76,7 @@ const NewsMap = () => {
       display: 'flex',
       justifyContent: 'center',
       marginTop: '32px', // Spacing below the map
-      marginBottom: '20px',
+      marginBottom: '32px',
     },
     addPhotoIcon: {
       cursor: 'pointer', // Change the cursor to pointer when hovering over the button
