@@ -49,6 +49,8 @@ const NewsMap = () => {
       height: '5.77px',
       objectFit: 'cover',
       position: 'relative',
+      marginLeft: '32px',
+      marginRight: '32px',
     },
     title: {
       color: '#000000',
