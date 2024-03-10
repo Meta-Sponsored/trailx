@@ -10,7 +10,7 @@ const TrailMap = ({ trailData }) => {
   const newcastleImagePath = "./newcastle.svg";
   const futureRedmondImagePath = "./futureredmond.svg";
   const redmondImagePath = "./redmond.svg";
-  const futureLightRailPath = "./futurelightrail.svg";
+  const futureLightRailPath = "./FutureLightRail.svg";
 
   // Coordinates for cities, simplified as [latitude, longitude]
   const cityLocations = {
