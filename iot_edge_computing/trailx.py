@@ -283,7 +283,7 @@ if __name__ == "__main__":
         target=main, args=(OPEN_WEATHER_API_KEY, CITY_NAME, TIME_ZONE)
     )
     main_function_thread.start()
-    time.sleep(60)
+    time.sleep(70)
     run_led_screen()
     sys.exit()
 
