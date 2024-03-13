@@ -276,7 +276,7 @@ if __name__ == "__main__":
     dotenv_path = "/home/trailx/Desktop/keys/open_weather_api.env"
     load_dotenv(dotenv_path=dotenv_path)
     OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
-    CITY_NAME = "tainan"
+    CITY_NAME = "kikrland"
     TIME_ZONE = "America/Los_Angeles"
 
     main_function_thread = threading.Thread(

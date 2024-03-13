@@ -15,7 +15,7 @@ from animations.gif_frame_rates import gif_frame_rates
 ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
 # Global variables for LED screen control
-LED_SCREEN_ENABLED = False
+LED_SCREEN_ENABLED = True
 PLAYBACK_MODE = 0
 SCREEN = None  # Global screen variable
 EXIT_EVENT = threading.Event()  # Global exit flag
@@ -193,8 +193,8 @@ def unit_testing():
     the LED screen functionality without user interaction.
     """
     global ANIMATIONS_PATH
-    ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
-    # ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
+    # ANIMATIONS_PATH = "/Users/wei/Desktop/2024_TrailX/iot_edge_computing/animations/"
+    ANIMATIONS_PATH = "/home/trailx/Desktop/2024_TrailX/iot_edge_computing/animations/"
 
     speed_timer = Timer(15, change_led_screen_mode, [True, 1])
     speed_timer.start()
