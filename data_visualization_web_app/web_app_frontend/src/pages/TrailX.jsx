@@ -96,11 +96,18 @@ const TrailX = () => {
             console.error("Could not fetch data from Firestore:", error);
         }
     };
-    
+
     // Using useEffect to call fetchDataFromFirestore when the component mounts
     useEffect(() => {
         fetchDataFromFirestore();
     }, []);
+    const sortedIssues = issues.sort((a, b) => {
+        // Assuming createdAt is a Firebase Timestamp, convert to Date objects
+        const dateA = a.createdAt.toDate();
+        const dateB = b.createdAt.toDate();
+    
+        return dateB - dateA; // For ascending order, swap dateA and dateB for descending
+      });
 
 
 
@@ -196,22 +203,14 @@ const TrailX = () => {
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" className="py-3 px-6">
-                                    Created At
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Email
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Issue Description
-                                </th>
-                                <th scope="col" className="py-3 px-6">
-                                    Location
-                                </th>
+                                <th scope="col" className="py-3 px-6">Created At</th>
+                                <th scope="col" className="py-3 px-6">Email</th>
+                                <th scope="col" className="py-3 px-6">Issue Description</th>
+                                <th scope="col" className="py-3 px-6">Location</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {issues.map((issue) => (
+                            {sortedIssues.map((issue) => (
                                 <tr key={issue.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td className="py-4 px-6">
                                         {issue.createdAt.toDate().toLocaleString()} {/* Adjust formatting as needed */}
