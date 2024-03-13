@@ -59,6 +59,8 @@ def get_serial_port_data():
             print(e)
             arduino.close()
             break
+    
+    return 0
 
 
 def test_function():

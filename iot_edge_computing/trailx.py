@@ -34,7 +34,7 @@ SPEED_LIMIT_SPEED = 15  # Unit: Miles Per Hour
 FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 LIMITED_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
 COOLDOWN_TIME_BETWEEN_ANIMATIONS = 45  # Unit: Seconds
-ANIMATION_PLAY_TIME = 10  # Unit: Seconds
+ANIMATION_PLAY_TIME = 15  # Unit: Seconds
 
 
 # Function to get weather data including cloud coverage, sunrise, and sunset times, and city name

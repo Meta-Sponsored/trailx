@@ -145,7 +145,11 @@ void loop()
     if (instantMPH > maxMPH and instantMPH > warningSpeed)
     {
       // Serial.print("Speed: ");
-      Serial.println(instantMPH);
+      for (int i = 0; i < 10; i++) {
+        Serial.println(instantMPH);
+        delay(3);
+      }
+      
       // Serial.println(" mph");
 
       maxMPH = instantMPH;
