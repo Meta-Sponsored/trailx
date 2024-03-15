@@ -71,7 +71,7 @@ const Sidebar = () => {
                             text-gray-400 dark:text-gray-400 uppercase'>
                                 {item.title}
                             </p>
-                            { /* Name: TrailX, Employees, Users, etc. */}
+                            { /* Name: TrailX, Employees, Customers, etc. */}
                             {item.links.map((link) => (
                                 <NavLink
                                     to={`/${link.name}`}

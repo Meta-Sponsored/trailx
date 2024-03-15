@@ -521,18 +521,18 @@ export const links = [
   {
     title: 'Pages',
     links: [
-      {
-        name: 'orders',
-        icon: <AiOutlineShoppingCart />,
-      },
+      // {
+      //   name: 'orders',
+      //   icon: <AiOutlineShoppingCart />,
+      // },
       {
         name: 'employees',
         icon: <IoMdContacts />,
       },
-      {
-        name: 'customers',
-        icon: <RiContactsLine />,
-      },
+      // {
+      //   name: 'users',
+      //   icon: <RiContactsLine />,
+      // },
     ],
   },
   {
@@ -556,44 +556,44 @@ export const links = [
       },
     ],
   },
-  {
-    title: 'Charts',
-    links: [
-      {
-        name: 'line',
-        icon: <AiOutlineStock />,
-      },
-      {
-        name: 'area',
-        icon: <AiOutlineAreaChart />,
-      },
+  // {
+  //   title: 'Charts',
+  //   links: [
+  //     {
+  //       name: 'line',
+  //       icon: <AiOutlineStock />,
+  //     },
+  //     {
+  //       name: 'area',
+  //       icon: <AiOutlineAreaChart />,
+  //     },
 
-      {
-        name: 'bar',
-        icon: <AiOutlineBarChart />,
-      },
-      {
-        name: 'pie',
-        icon: <FiPieChart />,
-      },
-      {
-        name: 'financial',
-        icon: <RiStockLine />,
-      },
-      {
-        name: 'color-mapping',
-        icon: <BsBarChart />,
-      },
-      {
-        name: 'pyramid',
-        icon: <GiLouvrePyramid />,
-      },
-      {
-        name: 'stacked',
-        icon: <AiOutlineBarChart />,
-      },
-    ],
-  },
+  //     {
+  //       name: 'bar',
+  //       icon: <AiOutlineBarChart />,
+  //     },
+  //     {
+  //       name: 'pie',
+  //       icon: <FiPieChart />,
+  //     },
+  //     {
+  //       name: 'financial',
+  //       icon: <RiStockLine />,
+  //     },
+  //     {
+  //       name: 'color-mapping',
+  //       icon: <BsBarChart />,
+  //     },
+  //     {
+  //       name: 'pyramid',
+  //       icon: <GiLouvrePyramid />,
+  //     },
+  //     {
+  //       name: 'stacked',
+  //       icon: <AiOutlineBarChart />,
+  //     },
+  //   ],
+  // },
 ];
 
 export const cartData = [
@@ -812,7 +812,7 @@ export const medicalproBranding = {
   data: [
     {
       title: 'Due Date',
-      desc: 'Oct 23, 2021',
+      desc: 'Dec 23, 2023',
     },
     {
       title: 'Budget',
@@ -825,11 +825,11 @@ export const medicalproBranding = {
   ],
   teams: [
     {
-      name: 'Bootstrap',
+      name: 'Construction',
       color: 'orange',
     },
     {
-      name: 'Angular',
+      name: 'Marketing',
       color: '#FB9678',
     },
   ],
