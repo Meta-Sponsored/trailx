@@ -1,4 +1,4 @@
-# TrailX — Meta-Sponsored & Mentored Capstone Project | Web Dashboard, IoT Automation (Trail Installation), Computer Vision
+# TrailX — Aesthetic IoT & Web App Solution for Trail System | Object Detection-Based Interactive Displays, Python, React, GCP
 
 <kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65b7a3f0739008eff756858b_Dashboard%20Front-End%20Design%20(compressed).png"/></kbd>
 
@@ -6,7 +6,19 @@
 
 TrailX is a meta-sponsored and mentored capstone project designed to optimize the management and experience of a 42-mile trail system near Lake Washington. This page displays the web application front-end portion of the current project. We use React as the front-end core for the dashboard, paired with the Tailwind CSS framework and Syncfusion UI components.
 
-Coming Soon: Build a MERN (MongoDB, Express, React, Node.js) Full-Stack web application with complete CRUD (Create, Read, Update, Delete) functions.
+## Acknowledgments
+
+This project, TrailX, has been developed by modifying and extending open-source code, and we extend our gratitude to the original authors and contributors. We respect and adhere to the licensing terms of the original work, and hereby acknowledge that our application TrailX is developed under the corresponding open-source license.
+
+Special thanks to the original author of [the **adrianhajdin/project_syncfusion_dashboard** repository, **Adrian Hajdin**](https://github.com/adrianhajdin/project_syncfusion_dashboard?tab=AGPL-3.0-1-ov-file#readme), whose foundational code has provided a solid base for our project. We also thank everyone who has supported and guided us, including our sponsors and mentors.
+
+The project utilizes the following key technologies and frameworks:
+
+- **React.js**: As the core of our front-end.
+- **Tailwind CSS**: For styling.
+- **Syncfusion UI components**: For rich UI elements.
+
+Finally, we thank every member of the community whose feedback and suggestions have helped us continually improve **TrailX**.
 
 # Getting Started
 

@@ -1,4 +1,29 @@
-# Getting Started
+# TrailX — Aesthetic IoT & Web App Solution for Trail System | Object Detection-Based Interactive Displays, Python, React, GCP
+
+<kbd><img src="https://uploads-ssl.webflow.com/63f32ff4aaac792cb769cedb/65f4ae5416ad011742436a19_trailx_full_stack_demo.png"/></kbd>
+
+## Description
+
+We use React as the front-end core of the dashboard, paired with the Tailwind CSS framework and Syncfusion UI elements. Additionally, we use Google Cloud Firebase as the backend. This web app can query data from Firebase uploaded by the IoT devices on the trail (for example, the number of pedestrians and cyclists) and display it on the website. To configure the IoT device and installation, check the `iot_edge_computing` folder.
+
+## Acknowledgments
+
+This project, TrailX, has been developed by modifying and extending open-source code, and we extend our gratitude to the original authors and contributors. We respect and adhere to the licensing terms of the original work, and hereby acknowledge that our application TrailX is developed under the corresponding open-source license.
+
+Special thanks to the original author of [the **adrianhajdin/project_syncfusion_dashboard** repository, **Adrian Hajdin**](https://github.com/adrianhajdin/project_syncfusion_dashboard?tab=AGPL-3.0-1-ov-file#readme), whose foundational code has provided a solid base for our project. We also thank everyone who has supported and guided us, including our sponsors and mentors.
+
+The project utilizes the following key technologies and frameworks:
+
+- **React.js**: As the core of our front-end.
+- **Tailwind CSS**: For styling.
+- **Syncfusion UI components**: For rich UI elements.
+- **Google Cloud Firebase**: For database.
+
+Finally, we thank every member of the community whose feedback and suggestions have helped us continually improve **TrailX**.
+
+## Getting Started
+
+To rebuild the application on your local device, follow these simple steps.
 
 1. Please watch the tutorial first to understand the file structure and how React and Tailwind.css work together.
 
@@ -10,70 +35,9 @@
    - `--strict-peer-deps`: fail and abort the install process for any conflicting peerDependencies when encountered. By default, npm will only crash for peerDependencies conflicts caused by the direct dependencies of the root project.
    - `--force`: will force npm to fetch remote resources even if a local copy exists on disk.
 
-3. Type `npm start` to run the web app.
+3. Setting up your Google Firebase admin API.
+
+4. Type `npm start` to run the web app.
 
    - Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
    - The page will reload when you make changes. You may also see any lint errors in the console.
-
-## Your Tasks
-
-1. Implement a new page called "News & Map" and put this page in "Pages" of the sidebar.
-2. In the "News and Maps" page, try to implement an image carousel and a map that displays the Eastrail route.
-3. In the file path "src/data/", how to implement the js code so that when the numbers in "user_counter_output.json" are updated, let "realtime-analysis.js", "monthly-analysis.js" and "monthly-analysis.js" can be changed simultaneously?
-
-## Available Scripts
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
