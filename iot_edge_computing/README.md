@@ -86,11 +86,14 @@ With this program, we use Nvidia Jetson as an edge device. It will identify user
 
 1. Don’t forget to plug in the USB camera before executing the procedure.
 
-2. To execute the program, type the following script in the terminal.
+2. Although it will not affect the operation of the main program, you must first set up the lidar on the Arduino to receive the speed detection results. Please refer to the [open-source software and tutorials developed by SparkFun](https://github.com/sparkfun/Speed_Trap?tab=readme-ov-file) to set the circuit configuration. Then, install the firmware (the C++ file) in the lidar_speed_trap_arduino_firmware folder onto the Arduino board through the Arduino IDE.
 
-    `sudo chmod a+rw /dev/ttyUSB0 && sudo python3 trailx.py`
+3. To execute the program, type the following script in the terminal.
 
-3. To enable USB ports, type the following script in the terminal.
+    1. Enable the Jetson board's serial port connection to receive lidar data from the Arduino board: `sudo chmod a+rw /dev/ttyACM0`
+    2. Execute the main program: `sudo python3 trailx.py`
+
+4. To enable USB ports, type the following script in the terminal.
 
     `sudo chmod a+rw /dev/ttyUSB0`
 
