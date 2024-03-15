@@ -4,7 +4,7 @@
 
 TrailX is a meta-sponsored and mentored capstone project designed to optimize the management and experience of a 42-mile trail system near Lake Washington. This page shows the main code and all dependencies and provides instructions for executing the code on a Jetson Nano/Orni device.
 
-With this program, we use Nvidia Jetson as an edge device. It will identify user categories on a path (pedestrians, cyclists, dog walkers) via a low-cost USB external camera and then upload the anonymized data to the cloud as a data source for the web dashboard.
+With this program, we use Nvidia Jetson as an edge device. It will identify user categories on a path (pedestrians and cyclists) via a low-cost USB external camera and then upload the anonymized data to the cloud as a data source for the web dashboard.
 
 ## Getting Started
 
@@ -84,18 +84,19 @@ With this program, we use Nvidia Jetson as an edge device. It will identify user
 
 ### 3. Executing program
 
-1. Don’t forget to plug in the USB camera before executing the procedure.
+1. (Necessary) Don’t forget to plug in the USB camera before executing the procedure.
 
-2. Although it will not affect the operation of the main program, you must first set up the lidar on the Arduino to receive the speed detection results. Please refer to the [open-source software and tutorials developed by SparkFun](https://github.com/sparkfun/Speed_Trap?tab=readme-ov-file) to set the circuit configuration. Then, install the firmware (the C++ file) in the lidar_speed_trap_arduino_firmware folder onto the Arduino board through the Arduino IDE.
+2. (Necessary) The TrailX device will use local time and cloud coverage to determine whether the device is fully enabled (interactive LED lights), partially enabled (camera object detection only), or fully on standby. Therefore, you must configure [OpenWeather's free API](https://openweathermap.org/api). Then put the API key into an open_weather_api.env file. Finally, you need to change OPEN_WEATHER_API_PATH in the main program trailx.py to the open_weather_api.env file path you just created.
 
 3. To execute the program, type the following script in the terminal.
 
     1. Enable the Jetson board's serial port connection to receive lidar data from the Arduino board: `sudo chmod a+rw /dev/ttyACM0`
     2. Execute the main program: `sudo python3 trailx.py`
+    3. To enable USB ports, type the following script in the terminal: `sudo chmod a+rw /dev/ttyUSB0`
 
-4. To enable USB ports, type the following script in the terminal.
+4. Although it will not affect the operation of the main program, you need to first set up the lidar on the Arduino to receive the speed detection results. Please refer to the [open-source software and tutorials developed by SparkFun](https://github.com/sparkfun/Speed_Trap?tab=readme-ov-file) to set the circuit configuration. Then, install the firmware (the C++ file) in the lidar_speed_trap_arduino_firmware folder onto the Arduino board through the Arduino IDE.
 
-    `sudo chmod a+rw /dev/ttyUSB0`
+5. Although it will not affect the running of the main program, to enable the IoT function of the program (transmit data to the Firestore database and display it on the web application), you should set up the Firebase admin key through the [tutorial provided by Google](https://firebase.google.com/docs/admin/setup) and update the path to the key in `firebase_admin_config.py` where you can change `FIREBASE_ADMIN_SDK_PATH` to your favorite.
 
 ### 4. Screen recording on Jetson Nano
 

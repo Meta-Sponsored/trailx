@@ -29,6 +29,7 @@ from led_screen_controller import (
 )
 from animations.gif_frame_rates import gif_frame_rates
 
+OPEN_WEATHER_API_PATH = "/home/trailx/Desktop/keys/open_weather_api.env"
 WARNING_SPEED = 10  # Unit: Miles Per Hour
 SPEED_LIMIT_SPEED = 15  # Unit: Miles Per Hour
 FULLY_FUNCTIONAL_CLOUD_COVERAGE = 100  # Range: 0-100%
@@ -273,7 +274,7 @@ def main(api_key, city_name, time_zone):
 
 
 if __name__ == "__main__":
-    dotenv_path = "/home/trailx/Desktop/keys/open_weather_api.env"
+    dotenv_path = OPEN_WEATHER_API_PATH
     load_dotenv(dotenv_path=dotenv_path)
     OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
     CITY_NAME = "kikrland"
