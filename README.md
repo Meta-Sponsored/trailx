@@ -14,7 +14,8 @@ It's with a deep sense of appreciation that I extend my heartfelt thanks to [Clo
 
 A special note of thanks goes to our sponsor, Meta, for their generous support, and to [Ori Gershony](https://www.linkedin.com/in/origershony/), the Engineering Manager at Meta, whose guidance has been as enlightening as it has been encouraging. Together, we've turned visions into tangible realities; I am eternally grateful for that.
 
-![MSTI_ PosterSession-54](https://github.com/Meta-Sponsored/2024_TrailX/assets/104844921/ba5653d0-8cd8-4454-9f68-3b8161393a5e)
-![MSTI_ PosterSession-31](https://github.com/Meta-Sponsored/2024_TrailX/assets/104844921/53c370ee-afd2-4aca-88c0-d452034de330)
+<kbd><img src="https://github.com/Meta-Sponsored/2024_TrailX/assets/104844921/ba5653d0-8cd8-4454-9f68-3b8161393a5e" alt="A photo of the Meta-sponsored project final pitch event"></kbd>
+
+<kbd><img src="https://github.com/Meta-Sponsored/2024_TrailX/assets/104844921/53c370ee-afd2-4aca-88c0-d452034de330" alt="A photo of the Meta-sponsored project final pitch event"></kbd>
 
 <kbd><img src="https://assets-global.website-files.com/63f32ff4aaac792cb769cedb/65e55f35b5ef17c52b0a2d38_TrailX%20Installation%20(2).jpg" alt="Thanks to my teammates and Meta Engineering Manager for their support."></kbd>
