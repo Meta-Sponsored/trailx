@@ -7,7 +7,7 @@ In a collaborative effort to enhance the [Eastrail](https://eastrail.org/) exper
 ## Project Timeline
 
 - Start Date: Sep 27, 2023
-- Completion Date: Mar 15, 2024
+- Completion Date: Mar 15, 2024 ⛳️
 
 ## 2. Final Project Poster
 
